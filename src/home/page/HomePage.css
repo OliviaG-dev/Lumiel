@@ -1,0 +1,146 @@
+/* Lumiel - Styles de la page d'accueil */
+
+.home-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.home-header {
+  padding: 2rem 1.5rem;
+  text-align: center;
+  background: linear-gradient(180deg, var(--lumiel-cream) 0%, transparent 100%);
+}
+
+.home-logo {
+  font-family: var(--lumiel-heading);
+  font-size: 2.5rem;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  color: var(--lumiel-gold);
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
+}
+
+.home-tagline {
+  font-size: 1rem;
+  color: var(--lumiel-text-soft);
+  margin: 0 0 2rem;
+  font-style: italic;
+}
+
+.home-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.home-nav a {
+  color: var(--lumiel-text);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+.home-nav a:hover {
+  color: var(--lumiel-gold);
+}
+
+.nav-cta {
+  background: var(--lumiel-gold);
+  color: var(--lumiel-dark) !important;
+  padding: 0.5rem 1.25rem;
+  border-radius: 2rem;
+}
+
+.nav-cta:hover {
+  background: var(--lumiel-gold-light);
+  color: var(--lumiel-dark) !important;
+}
+
+/* Sections communes */
+.home-page section {
+  padding: 4rem 1.5rem;
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.home-page section h2 {
+  font-family: var(--lumiel-heading);
+  font-size: 1.75rem;
+  font-weight: 400;
+  color: var(--lumiel-text);
+  margin: 0 0 1rem;
+}
+
+.home-page section p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--lumiel-text-soft);
+  margin: 0 0 1.5rem;
+}
+
+/* Hero */
+.hero-section {
+  padding-top: 3rem;
+  padding-bottom: 4rem;
+}
+
+.hero-content h2 {
+  font-size: 2rem;
+  margin-bottom: 1.25rem;
+}
+
+.hero-content p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+/* Boutons */
+.btn-primary,
+.btn-secondary {
+  display: inline-block;
+  padding: 0.75rem 1.75rem;
+  border-radius: 2rem;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--lumiel-gold);
+  color: var(--lumiel-dark);
+}
+
+.btn-primary:hover {
+  background: var(--lumiel-gold-light);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--lumiel-gold);
+  border: 2px solid var(--lumiel-gold);
+}
+
+.btn-secondary:hover {
+  background: var(--lumiel-gold);
+  color: var(--lumiel-dark);
+}
+
+/* Footer */
+.home-footer {
+  margin-top: auto;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  background: var(--lumiel-cream);
+  color: var(--lumiel-text-soft);
+  font-size: 0.9rem;
+}
+
+.home-footer p {
+  margin: 0;
+}
