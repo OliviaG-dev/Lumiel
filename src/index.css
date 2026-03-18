@@ -1,16 +1,16 @@
 :root {
-  /* Lumiel - palette bien-être & énergie */
-  --lumiel-cream: #faf8f5;
-  --lumiel-gold: #c9a227;
-  --lumiel-gold-light: #e0c55a;
-  --lumiel-dark: #2c2825;
-  --lumiel-text: #4a4542;
-  --lumiel-text-soft: #6b6560;
+  /* Lumiel - palette bleu ardoise zen */
+  --lumiel-cream: #f0f2f5;
+  --lumiel-gold: #7a8fd4;
+  --lumiel-gold-light: #9aabdf;
+  --lumiel-dark: #1a1d24;
+  --lumiel-text: #c8d0e0;
+  --lumiel-text-soft: #9ca3b5;
   --lumiel-heading: 'Cormorant Garamond', Georgia, serif;
 
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #faf8f5;
+  --text: #9ca3b5;
+  --text-h: #e4e8f0;
+  --bg: #15171e;
   --border: #e5e4e7;
   --code-bg: #f4f3ec;
   --accent: #aa3bff;

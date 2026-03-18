@@ -1,0 +1,119 @@
+/* Menu Lumiel - thème foncé zen */
+
+.menu {
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #15171e;
+  backdrop-filter: blur(8px);
+  overflow: visible;
+}
+
+.menu-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.menu-orb {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(107, 123, 158, 0.14) 0%, transparent 70%);
+  animation: menuOrbFloat 10s ease-in-out infinite;
+}
+
+.menu-orb--1 {
+  width: 100px;
+  height: 100px;
+  top: -30px;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.menu-orb--2 {
+  width: 60px;
+  height: 60px;
+  top: -10px;
+  right: 20%;
+  animation-delay: -3s;
+}
+
+.menu-orb--3 {
+  width: 80px;
+  height: 80px;
+  bottom: -20px;
+  left: 30%;
+  animation-delay: -5s;
+}
+
+.menu-orb--4 {
+  width: 50px;
+  height: 50px;
+  bottom: -15px;
+  right: 15%;
+  animation-delay: -7s;
+}
+
+@keyframes menuOrbFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+  50% { transform: translate(10px, -10px) scale(1.1); opacity: 0.7; }
+}
+
+.menu .menu-logo,
+.menu .menu-tagline,
+.menu .menu-nav {
+  position: relative;
+  z-index: 1;
+}
+
+.menu .menu-logo {
+  font-family: var(--lumiel-heading);
+  font-size: 2.25rem;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  color: rgba(220, 224, 232, 0.95);
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.menu .menu-logo:hover {
+  color: rgba(240, 242, 248, 1);
+}
+
+.menu .menu-tagline {
+  font-size: 0.95rem;
+  color: rgba(165, 172, 188, 0.8);
+  margin: 0 0 2rem;
+  font-style: italic;
+  letter-spacing: 0.02em;
+}
+
+.menu .menu-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.menu .menu-nav a {
+  color: rgba(195, 200, 212, 0.9);
+  text-decoration: none;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  transition: color 0.2s ease;
+}
+
+.menu .menu-nav a:hover {
+  color: rgba(240, 242, 248, 1);
+}
+
+@media (max-width: 768px) {
+  .menu-orb {
+    display: none;
+  }
+}
