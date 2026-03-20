@@ -1,0 +1,183 @@
+/* Calendrier - styles adaptés au thème Lumiel */
+
+.calendrier-tab .calendrier-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.calendrier-desc {
+  padding: 0 1.5rem 1rem;
+  font-size: 0.95rem;
+  color: var(--lumiel-text-soft);
+}
+
+.calendrier-wrapper {
+  height: 500px;
+  padding: 0 1.5rem 1.5rem;
+}
+
+/* Override react-big-calendar pour le thème Lumiel */
+.calendrier-wrapper .rbc-calendar {
+  font-family: var(--lumiel-heading), Georgia, serif;
+  color: var(--lumiel-text);
+}
+
+.calendrier-wrapper .rbc-toolbar {
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 1rem 0;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(107, 123, 158, 0.15);
+}
+
+.calendrier-wrapper .rbc-toolbar-label {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--lumiel-text);
+}
+
+.calendrier-wrapper .rbc-toolbar button {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  color: var(--lumiel-text-soft);
+  background: rgba(21, 23, 30, 0.6);
+  border: 1px solid rgba(107, 123, 158, 0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.calendrier-wrapper .rbc-toolbar button:hover {
+  color: var(--lumiel-text);
+  border-color: var(--lumiel-gold);
+  background: rgba(122, 143, 212, 0.1);
+}
+
+.calendrier-wrapper .rbc-toolbar button.rbc-active {
+  color: var(--lumiel-gold);
+  border-color: var(--lumiel-gold);
+  background: rgba(122, 143, 212, 0.15);
+}
+
+/* En-têtes des jours */
+.calendrier-wrapper .rbc-header {
+  padding: 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--lumiel-text-soft);
+  background: rgba(21, 23, 30, 0.5);
+  border-bottom: 1px solid rgba(107, 123, 158, 0.15);
+}
+
+.calendrier-wrapper .rbc-month-view {
+  border: 1px solid rgba(107, 123, 158, 0.15);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.calendrier-wrapper .rbc-month-row {
+  border-color: rgba(107, 123, 158, 0.1);
+}
+
+.calendrier-wrapper .rbc-day-bg {
+  background: rgba(21, 23, 30, 0.3);
+}
+
+.calendrier-wrapper .rbc-off-range-bg {
+  background: rgba(21, 23, 30, 0.15);
+}
+
+.calendrier-wrapper .rbc-today {
+  background: rgba(122, 143, 212, 0.12);
+}
+
+.calendrier-wrapper .rbc-date-cell {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.9rem;
+  color: var(--lumiel-text-soft);
+}
+
+.calendrier-wrapper .rbc-date-cell.rbc-now {
+  font-weight: 600;
+  color: var(--lumiel-gold);
+}
+
+/* Événements */
+.calendrier-wrapper .rbc-event {
+  background: rgba(122, 143, 212, 0.4);
+  border: 1px solid rgba(122, 143, 212, 0.6);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.8rem;
+}
+
+.calendrier-wrapper .rbc-event:hover {
+  background: rgba(122, 143, 212, 0.5);
+}
+
+/* Créneaux sélectionnables */
+.calendrier-wrapper .rbc-month-view .rbc-day-slot .rbc-timeslot-group,
+.calendrier-wrapper .rbc-time-view .rbc-day-slot .rbc-timeslot-group {
+  border-color: rgba(107, 123, 158, 0.1);
+}
+
+.calendrier-wrapper .rbc-time-slot {
+  border-color: rgba(107, 123, 158, 0.08);
+}
+
+.calendrier-wrapper .rbc-timeslot-group {
+  min-height: 60px;
+}
+
+.calendrier-wrapper .rbc-current-time-indicator {
+  background-color: var(--lumiel-gold);
+}
+
+.calendrier-wrapper .rbc-day-slot .rbc-time-slot {
+  border-top: 1px solid rgba(107, 123, 158, 0.08);
+}
+
+/* Vue semaine / jour */
+.calendrier-wrapper .rbc-time-view {
+  border: 1px solid rgba(107, 123, 158, 0.15);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.calendrier-wrapper .rbc-time-header-content {
+  border-left: 1px solid rgba(107, 123, 158, 0.15);
+}
+
+.calendrier-wrapper .rbc-time-content {
+  border-top: 1px solid rgba(107, 123, 158, 0.15);
+}
+
+.calendrier-wrapper .rbc-time-header-gutter {
+  background: rgba(21, 23, 30, 0.5);
+}
+
+.calendrier-wrapper .rbc-label {
+  font-size: 0.8rem;
+  color: var(--lumiel-text-soft);
+}
+
+/* Agenda */
+.calendrier-wrapper .rbc-agenda-view {
+  border: 1px solid rgba(107, 123, 158, 0.15);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.calendrier-wrapper .rbc-agenda-view table.rbc-agenda-table {
+  border-color: rgba(107, 123, 158, 0.15);
+}
+
+.calendrier-wrapper .rbc-agenda-date-cell,
+.calendrier-wrapper .rbc-agenda-time-cell {
+  color: var(--lumiel-text-soft);
+  font-size: 0.9rem;
+}
+
+.calendrier-wrapper .rbc-agenda-event-cell {
+  color: var(--lumiel-text);
+}

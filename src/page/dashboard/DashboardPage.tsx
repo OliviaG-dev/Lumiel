@@ -2,9 +2,15 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase, isAdmin } from '../../lib/supabase'
 import type { User } from '@supabase/supabase-js'
+import {
+  type TabId,
+  StatsTab,
+  BlogTab,
+  AvisTab,
+  CalendrierTab,
+  AutresTab,
+} from './tabs'
 import './DashboardPage.css'
-
-type TabId = 'stats' | 'autres'
 
 export default function DashboardPage() {
   const [user, setUser] = useState<User | null>(null)
@@ -62,10 +68,21 @@ export default function DashboardPage() {
 
   if (!user) return null
 
-  const tabs = [
-    { id: 'stats' as TabId, label: 'Statistiques' },
-    { id: 'autres' as TabId, label: 'Autres' },
+  const tabs: { id: TabId; label: string }[] = [
+    { id: 'stats', label: 'Statistiques' },
+    { id: 'blog', label: 'Blog' },
+    { id: 'avis', label: 'Avis' },
+    { id: 'calendrier', label: 'Calendrier' },
+    { id: 'autres', label: 'Autres' },
   ]
+
+  const tabContent: Record<TabId, React.ReactNode> = {
+    stats: <StatsTab />,
+    blog: <BlogTab />,
+    avis: <AvisTab />,
+    calendrier: <CalendrierTab />,
+    autres: <AutresTab />,
+  }
 
   return (
     <div className="dashboard-page">
@@ -92,43 +109,7 @@ export default function DashboardPage() {
       </aside>
 
       <main className="dashboard-main">
-        {activeTab === 'stats' && (
-          <div className="dashboard-tab-content">
-            <div className="dashboard-stats-grid">
-              <div className="dashboard-stat-card">
-                <span className="dashboard-stat-value">0</span>
-                <span className="dashboard-stat-label">Avis</span>
-              </div>
-              <div className="dashboard-stat-card">
-                <span className="dashboard-stat-value">0</span>
-                <span className="dashboard-stat-label">Prestations réalisées</span>
-              </div>
-            </div>
-
-            <div className="dashboard-card">
-              <h2>Prestations par type</h2>
-              <p className="dashboard-empty">
-                Aucune prestation enregistrée. Les données apparaîtront ici une fois connectées à Supabase.
-              </p>
-            </div>
-
-            <div className="dashboard-card">
-              <h2>Rendez-vous à venir</h2>
-              <p className="dashboard-empty">
-                Aucun rendez-vous à venir. Les rendez-vous apparaîtront ici une fois le calendrier connecté.
-              </p>
-            </div>
-          </div>
-        )}
-
-        {activeTab === 'autres' && (
-          <div className="dashboard-tab-content">
-            <div className="dashboard-card">
-              <h2>Autres</h2>
-              <p>Section à compléter selon vos besoins.</p>
-            </div>
-          </div>
-        )}
+        {tabContent[activeTab]}
       </main>
     </div>
   )
