@@ -4,9 +4,12 @@ import { supabase, isAdmin } from '../../lib/supabase'
 import type { User } from '@supabase/supabase-js'
 import './DashboardPage.css'
 
+type TabId = 'stats' | 'autres'
+
 export default function DashboardPage() {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
+  const [activeTab, setActiveTab] = useState<TabId>('stats')
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -59,26 +62,74 @@ export default function DashboardPage() {
 
   if (!user) return null
 
+  const tabs = [
+    { id: 'stats' as TabId, label: 'Statistiques' },
+    { id: 'autres' as TabId, label: 'Autres' },
+  ]
+
   return (
     <div className="dashboard-page">
-      <section className="dashboard-content">
-        <div className="dashboard-header">
+      <aside className="dashboard-sidebar">
+        <div className="dashboard-sidebar-header">
           <h1>Tableau de bord</h1>
+          <p className="dashboard-welcome">Administration</p>
           <button type="button" className="btn-secondary" onClick={handleSignOut}>
             Déconnexion
           </button>
         </div>
-        <p className="dashboard-welcome">
-          Bienvenue, <strong>{user.email}</strong>
-        </p>
-        <div className="dashboard-card">
-          <h2>Votre espace</h2>
-          <p>
-            Vous êtes connecté à votre espace personnel Lumiel.
-            Cette page pourra afficher vos rendez-vous, séances et informations.
-          </p>
-        </div>
-      </section>
+        <nav className="dashboard-tabs">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              className={`dashboard-tab ${activeTab === tab.id ? 'dashboard-tab--active' : ''}`}
+              onClick={() => setActiveTab(tab.id)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </nav>
+      </aside>
+
+      <main className="dashboard-main">
+        {activeTab === 'stats' && (
+          <div className="dashboard-tab-content">
+            <div className="dashboard-stats-grid">
+              <div className="dashboard-stat-card">
+                <span className="dashboard-stat-value">0</span>
+                <span className="dashboard-stat-label">Avis</span>
+              </div>
+              <div className="dashboard-stat-card">
+                <span className="dashboard-stat-value">0</span>
+                <span className="dashboard-stat-label">Prestations réalisées</span>
+              </div>
+            </div>
+
+            <div className="dashboard-card">
+              <h2>Prestations par type</h2>
+              <p className="dashboard-empty">
+                Aucune prestation enregistrée. Les données apparaîtront ici une fois connectées à Supabase.
+              </p>
+            </div>
+
+            <div className="dashboard-card">
+              <h2>Rendez-vous à venir</h2>
+              <p className="dashboard-empty">
+                Aucun rendez-vous à venir. Les rendez-vous apparaîtront ici une fois le calendrier connecté.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'autres' && (
+          <div className="dashboard-tab-content">
+            <div className="dashboard-card">
+              <h2>Autres</h2>
+              <p>Section à compléter selon vos besoins.</p>
+            </div>
+          </div>
+        )}
+      </main>
     </div>
   )
 }
