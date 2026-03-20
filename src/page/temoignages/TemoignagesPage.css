@@ -1,0 +1,33 @@
+/* Page Témoignages */
+
+.temoignages-page {
+  padding: 3rem 1.5rem 4rem;
+}
+
+@media (max-width: 768px) {
+  .temoignages-page {
+    padding: 2rem 1rem 2rem;
+  }
+}
+
+.temoignages-content {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.temoignages-content h1 {
+  font-family: var(--lumiel-heading);
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--lumiel-text);
+  margin: 0 0 1.5rem;
+  letter-spacing: 0.02em;
+}
+
+.temoignages-content p {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--lumiel-text-soft);
+  margin: 0 0 1.25rem;
+}

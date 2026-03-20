@@ -1,0 +1,70 @@
+/* Page Prestations */
+
+.prestations-page {
+  padding: 3rem 1.5rem 4rem;
+}
+
+@media (max-width: 768px) {
+  .prestations-page {
+    padding: 2rem 1rem 2rem;
+  }
+
+  .prestations-booking {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+  }
+}
+
+.prestations-content {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.prestations-content h1 {
+  font-family: var(--lumiel-heading);
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--lumiel-text);
+  margin: 0 0 1.5rem;
+  letter-spacing: 0.02em;
+}
+
+.prestations-content p {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--lumiel-text-soft);
+  margin: 0 0 1.25rem;
+}
+
+.prestations-booking {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(107, 123, 158, 0.25);
+}
+
+.prestations-booking h2 {
+  font-family: var(--lumiel-heading);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--lumiel-text);
+  margin: 0 0 1rem;
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 0.6rem 1.5rem;
+  border-radius: 2rem;
+  text-decoration: none;
+  font-size: 0.9rem;
+  letter-spacing: 0.03em;
+  background: var(--lumiel-gold);
+  color: #15171e;
+  transition: all 0.25s ease;
+}
+
+.btn-primary:hover {
+  background: var(--lumiel-gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(122, 143, 212, 0.35);
+}
