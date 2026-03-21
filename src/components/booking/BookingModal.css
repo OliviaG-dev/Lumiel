@@ -1,0 +1,304 @@
+/* BookingModal - Réservation client */
+
+.booking-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.booking-modal {
+  background: linear-gradient(165deg, rgba(26, 29, 38, 0.98) 0%, rgba(21, 24, 32, 0.99) 100%);
+  border: 1px solid rgba(107, 123, 158, 0.2);
+  border-radius: 20px;
+  max-width: 520px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+}
+
+.booking-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.75rem;
+  border-bottom: 1px solid rgba(107, 123, 158, 0.12);
+}
+
+.booking-modal-header h2 {
+  font-family: var(--lumiel-heading);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--lumiel-text);
+  margin: 0;
+}
+
+.booking-modal-close {
+  background: rgba(107, 123, 158, 0.1);
+  border: 1px solid rgba(107, 123, 158, 0.2);
+  color: var(--lumiel-text-soft);
+  font-size: 1.25rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.booking-modal-close:hover {
+  color: var(--lumiel-text);
+  background: rgba(107, 123, 158, 0.2);
+}
+
+.booking-modal-body {
+  padding: 1.75rem;
+}
+
+.booking-steps {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--lumiel-text-soft);
+}
+
+.booking-steps span.active {
+  color: var(--lumiel-gold);
+  font-weight: 500;
+}
+
+.booking-step-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.booking-step-label {
+  font-size: 0.95rem;
+  color: var(--lumiel-text);
+  margin: 0;
+}
+
+.booking-calendar-mini {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.booking-date-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.6rem 0.75rem;
+  min-width: 64px;
+  background: rgba(107, 123, 158, 0.08);
+  border: 1px solid rgba(107, 123, 158, 0.2);
+  border-radius: 10px;
+  color: var(--lumiel-text);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.booking-date-btn:hover {
+  border-color: var(--lumiel-gold);
+  background: rgba(122, 143, 212, 0.1);
+}
+
+.booking-date-btn.active {
+  background: rgba(122, 143, 212, 0.25);
+  border-color: var(--lumiel-gold);
+}
+
+.booking-date-day {
+  font-size: 0.75rem;
+  color: var(--lumiel-text-soft);
+}
+
+.booking-date-num {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.booking-date-month {
+  font-size: 0.75rem;
+  color: var(--lumiel-text-soft);
+}
+
+.btn-booking-link {
+  background: none;
+  border: none;
+  color: var(--lumiel-gold);
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+.btn-booking-link:hover {
+  text-decoration: underline;
+}
+
+.btn-booking-back {
+  background: none;
+  border: none;
+  color: var(--lumiel-text-soft);
+  font-size: 0.9rem;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.btn-booking-back:hover {
+  color: var(--lumiel-text);
+}
+
+.booking-slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.booking-slot-btn {
+  padding: 0.6rem 1rem;
+  background: rgba(107, 123, 158, 0.1);
+  border: 1px solid rgba(107, 123, 158, 0.25);
+  border-radius: 8px;
+  color: var(--lumiel-text);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.booking-slot-btn:hover {
+  background: rgba(122, 143, 212, 0.2);
+  border-color: var(--lumiel-gold);
+}
+
+.booking-empty {
+  color: var(--lumiel-text-soft);
+  font-style: italic;
+  margin: 0;
+}
+
+.booking-error {
+  padding: 0.75rem;
+  background: rgba(200, 80, 80, 0.15);
+  border: 1px solid rgba(200, 80, 80, 0.3);
+  border-radius: 8px;
+  color: #e8a0a0;
+  margin: 0 0 1rem;
+}
+
+/* ReservationForm dans le modal */
+.reservation-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.reservation-form-row label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--lumiel-text-soft);
+  margin-bottom: 0.4rem;
+}
+
+.reservation-form-row input,
+.reservation-form-row select,
+.reservation-form-row textarea {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(107, 123, 158, 0.25);
+  background: rgba(21, 23, 30, 0.6);
+  color: var(--lumiel-text);
+  font-size: 0.95rem;
+}
+
+.reservation-form-row textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.reservation-form-row input:focus,
+.reservation-form-row select:focus,
+.reservation-form-row textarea:focus {
+  outline: none;
+  border-color: var(--lumiel-gold);
+}
+
+.reservation-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.reservation-form-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.reservation-form-actions .btn-booking-secondary {
+  flex: 1;
+  padding: 0.7rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  background: rgba(107, 123, 158, 0.1);
+  color: var(--lumiel-text-soft);
+  border: 1px solid rgba(107, 123, 158, 0.25);
+  cursor: pointer;
+}
+
+.reservation-form-actions .btn-booking-secondary:hover {
+  color: var(--lumiel-text);
+}
+
+.reservation-form-actions .btn-booking-primary {
+  flex: 1;
+  padding: 0.7rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  background: var(--lumiel-gold);
+  color: #0f1116;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.reservation-form-actions .btn-booking-primary:hover {
+  background: var(--lumiel-gold-light);
+}
+
+.booking-success {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.booking-success-title {
+  font-family: var(--lumiel-heading);
+  font-size: 1.25rem;
+  color: var(--lumiel-gold);
+  margin: 0 0 1rem;
+}
+
+.booking-success p:last-of-type {
+  color: var(--lumiel-text-soft);
+  margin: 0 0 1.5rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 480px) {
+  .reservation-form-grid {
+    grid-template-columns: 1fr;
+  }
+}

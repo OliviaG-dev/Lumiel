@@ -60,6 +60,9 @@
   letter-spacing: 0.03em;
   background: var(--lumiel-gold);
   color: #15171e;
+  border: none;
+  cursor: pointer;
+  font: inherit;
   transition: all 0.25s ease;
 }
 

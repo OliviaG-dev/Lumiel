@@ -19,38 +19,41 @@ export default function DashboardPage() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    supabase.auth.getUser().then(async ({ data: { user } }) => {
-      if (!user) {
+    let mounted = true
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!mounted) return
+      if (!session?.user) {
+        setUser(null)
         setLoading(false)
         navigate('/login')
         return
       }
-      const admin = await isAdmin(user.email ?? '')
-      if (!admin) {
-        await supabase.auth.signOut()
-        navigate('/login')
-        return
-      }
-      setUser(user)
-      setLoading(false)
+      // Déporter les appels async hors du callback pour éviter les blocages Supabase Auth
+      const email = session.user.email ?? ''
+      setTimeout(async () => {
+        if (!mounted) return
+        try {
+          const admin = await isAdmin(email)
+          if (!mounted) return
+          if (!admin) {
+            await supabase.auth.signOut()
+            navigate('/login')
+            return
+          }
+          setUser(session.user)
+        } catch {
+          if (mounted) navigate('/login')
+        } finally {
+          if (mounted) setLoading(false)
+        }
+      }, 50)
     })
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      if (!session?.user) {
-        setUser(null)
-        navigate('/login')
-        return
-      }
-      const admin = await isAdmin(session.user.email ?? '')
-      if (!admin) {
-        await supabase.auth.signOut()
-        navigate('/login')
-        return
-      }
-      setUser(session.user)
-    })
-
-    return () => subscription.unsubscribe()
+    return () => {
+      mounted = false
+      subscription.unsubscribe()
+    }
   }, [navigate])
 
   const handleSignOut = async () => {
