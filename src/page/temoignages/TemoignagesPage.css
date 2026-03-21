@@ -29,5 +29,25 @@
   font-size: 1.05rem;
   line-height: 1.8;
   color: var(--lumiel-text-soft);
-  margin: 0 0 1.25rem;
+  margin: 0 0 1.5rem;
+}
+
+.btn-avis-temoignages {
+  display: inline-block;
+  padding: 0.6rem 1.5rem;
+  border-radius: 2rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.03em;
+  background: var(--lumiel-gold);
+  color: #15171e;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  transition: all 0.25s ease;
+}
+
+.btn-avis-temoignages:hover {
+  background: var(--lumiel-gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(122, 143, 212, 0.35);
 }

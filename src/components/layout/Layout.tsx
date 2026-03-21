@@ -11,7 +11,7 @@ export default function Layout() {
     <div className={`layout ${isLoginPage ? "layout--login" : ""} ${isDashboardPage ? "layout--dashboard" : ""}`}>
       <Menu />
 
-      <main className="layout-main">
+      <main id="layout-main" className="layout-main">
         <div className="layout-main-content">
           <Outlet />
         </div>
