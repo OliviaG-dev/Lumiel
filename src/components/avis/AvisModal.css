@@ -69,6 +69,12 @@
   overflow: hidden;
 }
 
+.avis-modal-error {
+  color: #e8a0a0;
+  font-size: 0.9rem;
+  margin: 0 0 0.75rem;
+}
+
 .avis-form-row {
   margin-bottom: 0.65rem;
 }

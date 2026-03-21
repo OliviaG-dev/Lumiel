@@ -7,26 +7,31 @@ const TYPES_SEANCE = ['Massage bien-être', 'Reiki', 'Soin énergétique', 'Cons
 interface AvisModalProps {
   isOpen: boolean
   onClose: () => void
-  onSubmit?: (data: { prenom: string; nom: string; note: number; typeSeance: string; avis: string }) => void
+  onSubmit?: (data: { prenom: string; nom: string; note: number; typeSeance: string; avis: string }) => void | Promise<void>
+  submitError?: string | null
 }
 
-export default function AvisModal({ isOpen, onClose, onSubmit }: AvisModalProps) {
+export default function AvisModal({ isOpen, onClose, onSubmit, submitError }: AvisModalProps) {
   const [prenom, setPrenom] = useState('')
   const [nom, setNom] = useState('')
   const [note, setNote] = useState(0)
   const [typeSeance, setTypeSeance] = useState(TYPES_SEANCE[0])
   const [avis, setAvis] = useState('')
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!avis.trim()) return
-    onSubmit?.({ prenom, nom, note: note || 0, typeSeance, avis: avis.trim() })
-    setPrenom('')
-    setNom('')
-    setNote(0)
-    setTypeSeance(TYPES_SEANCE[0])
-    setAvis('')
-    onClose()
+    try {
+      await onSubmit?.({ prenom, nom, note: note || 0, typeSeance, avis: avis.trim() })
+      setPrenom('')
+      setNom('')
+      setNote(0)
+      setTypeSeance(TYPES_SEANCE[0])
+      setAvis('')
+      onClose()
+    } catch {
+      // Erreur gérée par le parent (submitError)
+    }
   }
 
   const handleClose = () => {
@@ -50,7 +55,10 @@ export default function AvisModal({ isOpen, onClose, onSubmit }: AvisModalProps)
             ×
           </button>
         </div>
-        <form className="avis-modal-body" onSubmit={handleSubmit}>
+        <form className="avis-modal-body" onSubmit={handleSubmit} autoComplete="off">
+          {submitError && (
+            <p className="avis-modal-error">{submitError}</p>
+          )}
           <div className="avis-form-row">
             <label htmlFor="avis-prenom">Prénom</label>
             <input

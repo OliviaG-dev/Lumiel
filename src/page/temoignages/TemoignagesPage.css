@@ -51,3 +51,106 @@
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(122, 143, 212, 0.35);
 }
+
+.temoignages-error {
+  color: #e8a0a0;
+  font-size: 0.9rem;
+  margin: 1rem 0 0;
+}
+
+.temoignages-success {
+  position: relative;
+  margin: 1.5rem 0 0;
+  padding: 1.25rem 2.5rem 1.25rem 1.5rem;
+  background: rgba(107, 123, 158, 0.12);
+  border: 1px solid rgba(107, 123, 158, 0.25);
+  border-radius: 12px;
+}
+
+.temoignages-success p {
+  margin: 0;
+  color: var(--lumiel-text);
+  font-size: 0.95rem;
+}
+
+.temoignages-success p + p {
+  margin-top: 0.35rem;
+  color: var(--lumiel-text-soft);
+  font-size: 0.9rem;
+}
+
+.temoignages-success-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  color: var(--lumiel-text-soft);
+  font-size: 1.25rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+}
+
+.temoignages-success-close:hover {
+  color: var(--lumiel-text);
+}
+
+.temoignages-loading,
+.temoignages-empty {
+  color: var(--lumiel-text-soft);
+  font-style: italic;
+  margin: 2rem 0 0;
+}
+
+.temoignages-list {
+  list-style: none;
+  margin: 2rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.temoignages-item {
+  padding: 1.5rem 1.75rem;
+  background: rgba(21, 23, 30, 0.5);
+  border-radius: 16px;
+  border: 1px solid rgba(107, 123, 158, 0.15);
+}
+
+.temoignages-item-stars {
+  margin-bottom: 0.75rem;
+}
+
+.temoignages-item-stars .temoignages-star {
+  color: rgba(107, 123, 158, 0.35);
+  font-size: 1.25rem;
+}
+
+.temoignages-item-stars .temoignages-star--filled {
+  color: var(--lumiel-gold);
+}
+
+.temoignages-item-text {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--lumiel-text);
+  margin: 0 0 1rem;
+  font-style: italic;
+}
+
+.temoignages-item-author {
+  font-size: 0.95rem;
+  color: var(--lumiel-text-soft);
+  margin: 0;
+}
+
+.temoignages-item-type {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+  background: rgba(107, 123, 158, 0.15);
+  border-radius: 6px;
+}

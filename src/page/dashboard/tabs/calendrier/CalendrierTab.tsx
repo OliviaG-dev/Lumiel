@@ -29,6 +29,7 @@ import ReservationForm, {
   getFormDataFromReservation,
   type ReservationFormData,
 } from '../../../../components/booking/ReservationForm'
+import ConfirmModal from '../../../../components/confirm/ConfirmModal'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './CalendrierTab.css'
 
@@ -374,19 +375,27 @@ export default function CalendrierTab() {
     [refreshReservations]
   )
 
-  const handleDelete = useCallback(
-    async (id: string, type: 'disponibilité' | 'rendez-vous') => {
-      if (!window.confirm('Supprimer cet événement ?')) return
-      try {
-        await deleteReservation(id, type)
-        await refreshReservations()
-        setModalDate(null)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Erreur')
-      }
-    },
-    [refreshReservations]
-  )
+  const [pendingDelete, setPendingDelete] = useState<{
+    id: string
+    type: 'disponibilité' | 'rendez-vous'
+  } | null>(null)
+
+  const handleDeleteClick = useCallback((id: string, type: 'disponibilité' | 'rendez-vous') => {
+    setPendingDelete({ id, type })
+  }, [])
+
+  const handleConfirmDelete = useCallback(async () => {
+    if (!pendingDelete) return
+    try {
+      await deleteReservation(pendingDelete.id, pendingDelete.type)
+      await refreshReservations()
+      setModalDate(null)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erreur')
+    } finally {
+      setPendingDelete(null)
+    }
+  }, [pendingDelete, refreshReservations])
 
   const events = reservations.map(reservationToEvent)
   const reservationsForDay = modalDate ? reservations.filter((r) => isSameDay(r.start, modalDate)) : []
@@ -440,7 +449,18 @@ export default function CalendrierTab() {
             onAddDisponibilite={handleAddDisponibilite}
             onAddRendezVous={handleAddRendezVous}
             onUpdateRendezVous={handleUpdateRendezVous}
-            onDelete={handleDelete}
+            onDelete={handleDeleteClick}
+          />
+        )}
+        {pendingDelete && (
+          <ConfirmModal
+            isOpen
+            onClose={() => setPendingDelete(null)}
+            onConfirm={handleConfirmDelete}
+            title="Supprimer l'événement"
+            message="Supprimer cet événement ?"
+            confirmLabel="Supprimer"
+            variant="danger"
           />
         )}
         <div className="calendrier-open-days">

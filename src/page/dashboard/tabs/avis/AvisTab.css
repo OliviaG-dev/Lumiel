@@ -1,0 +1,271 @@
+/* AvisTab - Gestion des avis dashboard */
+
+.avis-loading {
+  color: var(--lumiel-text-soft);
+  padding: 1rem 0;
+}
+
+.avis-header {
+  margin-bottom: 1.5rem;
+}
+
+.avis-title {
+  font-family: var(--lumiel-heading);
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--lumiel-text);
+  margin: 0 0 0.35rem;
+}
+
+.avis-intro {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--lumiel-text-soft);
+}
+
+.avis-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: rgba(200, 80, 80, 0.15);
+  border: 1px solid rgba(200, 80, 80, 0.3);
+  border-radius: 10px;
+  color: #e8a0a0;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.avis-error button {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 0 0.25rem;
+}
+
+/* Sections */
+.avis-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.avis-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.avis-section-title {
+  font-family: var(--lumiel-heading);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--lumiel-text-soft);
+  margin: 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(107, 123, 158, 0.2);
+}
+
+/* Accordion */
+.avis-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.avis-accordion-item {
+  border: 1px solid rgba(107, 123, 158, 0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  border-left: 4px solid rgba(107, 123, 158, 0.4);
+  background: rgba(21, 23, 30, 0.5);
+}
+
+.avis-accordion-item--valide {
+  border-left-color: var(--lumiel-gold);
+  background: rgba(107, 123, 158, 0.05);
+}
+
+.avis-accordion-trigger {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.avis-accordion-trigger:hover {
+  background: rgba(107, 123, 158, 0.08);
+}
+
+.avis-accordion-trigger-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+.avis-accordion-author {
+  font-weight: 500;
+  color: var(--lumiel-text);
+}
+
+.avis-accordion-meta {
+  font-size: 0.85rem;
+  color: var(--lumiel-text-soft);
+}
+
+.avis-accordion-panel .avis-accordion-stars {
+  margin-bottom: 0.5rem;
+}
+
+.avis-accordion-stars .avis-star {
+  color: rgba(107, 123, 158, 0.35);
+  font-size: 1.1rem;
+}
+
+.avis-accordion-stars .avis-star--filled {
+  color: var(--lumiel-gold);
+}
+
+
+.avis-accordion-actions-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.avis-accordion-btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.avis-accordion-btn-icon--invalidate {
+  color: #c4a574;
+}
+
+.avis-accordion-btn-icon--invalidate:hover:not(:disabled) {
+  color: #d4b584;
+  background: rgba(196, 165, 116, 0.15);
+}
+
+.avis-accordion-btn-icon--approve {
+  color: var(--lumiel-gold);
+}
+
+.avis-accordion-btn-icon--approve:hover:not(:disabled) {
+  color: var(--lumiel-gold-light);
+  background: rgba(180, 160, 100, 0.2);
+}
+
+.avis-accordion-btn-icon--delete {
+  color: #d4a0a0;
+}
+
+.avis-accordion-btn-icon--delete:hover:not(:disabled) {
+  color: #e8b0b0;
+  background: rgba(200, 80, 80, 0.2);
+}
+
+.avis-accordion-btn-icon:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.avis-accordion-icon {
+  flex-shrink: 0;
+  margin-left: 0.25rem;
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: var(--lumiel-gold);
+  line-height: 1;
+}
+
+.avis-accordion-panel {
+  padding: 0 1.25rem 1rem;
+  border-top: 1px solid rgba(107, 123, 158, 0.15);
+}
+
+.avis-accordion-panel[hidden] {
+  display: none;
+}
+
+.avis-accordion-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--lumiel-text-soft);
+  margin: 0 0 0.75rem;
+  padding-top: 1rem;
+}
+
+.avis-accordion-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.btn-avis-validate,
+.btn-avis-invalidate,
+.btn-avis-delete {
+  padding: 0.4rem 0.85rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.btn-avis-validate {
+  background: var(--lumiel-gold);
+  color: #0f1116;
+}
+
+.btn-avis-validate:hover:not(:disabled) {
+  background: var(--lumiel-gold-light);
+}
+
+.btn-avis-invalidate {
+  background: rgba(107, 123, 158, 0.2);
+  color: var(--lumiel-text-soft);
+  border-color: rgba(107, 123, 158, 0.3);
+}
+
+.btn-avis-invalidate:hover:not(:disabled) {
+  color: var(--lumiel-text);
+  background: rgba(107, 123, 158, 0.3);
+}
+
+.btn-avis-delete {
+  background: transparent;
+  color: #c08080;
+  border-color: rgba(200, 80, 80, 0.4);
+}
+
+.btn-avis-delete:hover:not(:disabled) {
+  background: rgba(200, 80, 80, 0.15);
+}
