@@ -24,8 +24,9 @@ import {
   deleteReservation,
   addDisponibilitesBatch,
 } from '../../../../lib/reservations'
+import { loadPrestations } from '../../../../lib/prestations'
 import ReservationForm, {
-  defaultFormData,
+  getDefaultFormData,
   getFormDataFromReservation,
   type ReservationFormData,
 } from '../../../../components/booking/ReservationForm'
@@ -43,7 +44,7 @@ const localizer = dateFnsLocalizer({
   locales,
 })
 
-const PRESTATIONS = ['Massage bien-être', 'Reiki', 'Soin énergétique', 'Consultation', 'Autre']
+const PRESTATIONS_FALLBACK = ['Massage bien-être', 'Reiki', 'Soin énergétique', 'Consultation', 'Autre']
 
 const WEEKDAYS = [
   { day: 1, label: 'Lun' },
@@ -65,6 +66,7 @@ function reservationToEvent(r: Reservation) {
 interface DayModalProps {
   selectedDate: Date
   reservations: Reservation[]
+  prestations: string[]
   onClose: () => void
   onAddDisponibilite: (prestation: string, start: Date, end: Date) => void
   onAddRendezVous: (r: Reservation) => void
@@ -75,18 +77,20 @@ interface DayModalProps {
 function DayModal({
   selectedDate,
   reservations,
+  prestations,
   onClose,
   onAddDisponibilite,
   onAddRendezVous,
   onUpdateRendezVous,
   onDelete,
 }: DayModalProps) {
+  const prestationNames = prestations.length ? prestations : PRESTATIONS_FALLBACK
   const [showDispoForm, setShowDispoForm] = useState(false)
   const [showRdvForm, setShowRdvForm] = useState(false)
   const [editingRdv, setEditingRdv] = useState<Reservation | null>(null)
   const [rdvSlot, setRdvSlot] = useState<{ start: Date; end: Date } | null>(null)
-  const [formData, setFormData] = useState<ReservationFormData>(defaultFormData)
-  const [prestation, setPrestation] = useState(PRESTATIONS[0])
+  const [formData, setFormData] = useState<ReservationFormData>(getDefaultFormData(prestationNames))
+  const [prestation, setPrestation] = useState(prestationNames[0])
   const [heureDebut, setHeureDebut] = useState('09:00')
   const [heureFin, setHeureFin] = useState('10:00')
 
@@ -132,21 +136,21 @@ function DayModal({
     setShowRdvForm(false)
     setEditingRdv(null)
     setRdvSlot(null)
-    setFormData(defaultFormData)
+    setFormData(getDefaultFormData(prestationNames))
     onClose()
   }
 
   const startEdit = (r: Reservation) => {
     setEditingRdv(r)
     setRdvSlot({ start: r.start, end: r.end })
-    setFormData(getFormDataFromReservation(r))
+    setFormData(getFormDataFromReservation(r, prestationNames))
     setShowRdvForm(true)
   }
 
   const startAddRdv = () => {
     setEditingRdv(null)
     setRdvSlot(null)
-    setFormData(defaultFormData)
+    setFormData(getDefaultFormData(prestationNames))
     setShowRdvForm(true)
   }
 
@@ -219,7 +223,7 @@ function DayModal({
               <div className="calendrier-form-row">
                 <label>Prestation</label>
                 <select value={prestation} onChange={(e) => setPrestation(e.target.value)} required>
-                  {PRESTATIONS.map((p) => (
+                  {prestationNames.map((p) => (
                     <option key={p} value={p}>{p}</option>
                   ))}
                 </select>
@@ -267,6 +271,7 @@ function DayModal({
                   setShowRdvForm(false)
                   setEditingRdv(null)
                 }}
+                prestations={prestationNames}
               />
             </form>
           )}
@@ -278,6 +283,7 @@ function DayModal({
 
 export default function CalendrierTab() {
   const [reservations, setReservations] = useState<Reservation[]>([])
+  const [prestations, setPrestations] = useState<string[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [date, setDate] = useState(new Date())
@@ -301,6 +307,7 @@ export default function CalendrierTab() {
 
   useEffect(() => {
     refreshReservations()
+    loadPrestations().then((p) => setPrestations(p.map((x) => x.nom)))
   }, [refreshReservations])
 
   const toggleDay = useCallback((day: number) => {
@@ -445,6 +452,7 @@ export default function CalendrierTab() {
           <DayModal
             selectedDate={modalDate}
             reservations={reservationsForDay}
+            prestations={prestations}
             onClose={() => setModalDate(null)}
             onAddDisponibilite={handleAddDisponibilite}
             onAddRendezVous={handleAddRendezVous}

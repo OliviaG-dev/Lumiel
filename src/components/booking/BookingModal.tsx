@@ -2,6 +2,8 @@ import { useState, useCallback, useEffect } from 'react'
 import { format, addMinutes } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import { loadReservations, addRendezVous, getAvailableSlots, getDatesWithAvailability } from '../../lib/reservations'
+import { loadPrestations } from '../../lib/prestations'
+import type { Prestation } from '../../types/prestation'
 import type { Reservation } from '../../types/reservation'
 import ReservationForm, {
   defaultFormData,
@@ -22,17 +24,28 @@ export default function BookingModal({ isOpen, onClose, onSuccess }: BookingModa
   const [formData, setFormData] = useState<ReservationFormData>(defaultFormData)
   const [submitted, setSubmitted] = useState(false)
   const [reservations, setReservations] = useState<Reservation[]>([])
+  const [prestations, setPrestations] = useState<Prestation[]>([])
   const [loading, setLoading] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
 
   useEffect(() => {
     if (isOpen && !submitted) {
       loadReservations().then(setReservations)
+      loadPrestations().then((p) => {
+        setPrestations(p)
+        if (p.length) {
+          setFormData((prev) => (p.some((x) => x.nom === prev.prestation) ? prev : { ...prev, prestation: p[0].nom }))
+        }
+      })
     }
   }, [isOpen, submitted])
 
-  const availableDates = getDatesWithAvailability(reservations, new Date(), 60)
-  const slots = selectedDate ? getAvailableSlots(selectedDate, reservations) : []
+  const prestationDuree =
+    prestations.find((p) => p.nom === formData.prestation)?.duree ?? 60
+  const availableDates = getDatesWithAvailability(reservations, new Date(), prestationDuree, 60)
+  const slots = selectedDate
+    ? getAvailableSlots(selectedDate, reservations, prestationDuree)
+    : []
 
   const reset = useCallback(() => {
     setStep('date')
@@ -64,8 +77,8 @@ export default function BookingModal({ isOpen, onClose, onSuccess }: BookingModa
 
     setLoading(true)
     setSubmitError(null)
-    const slotDuration = (selectedSlot.end.getTime() - selectedSlot.start.getTime()) / 60000
-    const duree = Math.min(formData.duree, slotDuration)
+                    const slotDurationMin = (selectedSlot.end.getTime() - selectedSlot.start.getTime()) / 60000
+    const duree = Math.min(formData.duree, prestationDuree, slotDurationMin)
     const start = new Date(selectedSlot.start)
     const end = addMinutes(start, duree)
 
@@ -116,13 +129,65 @@ export default function BookingModal({ isOpen, onClose, onSuccess }: BookingModa
           ) : (
             <>
               <div className="booking-steps">
-                <span className={step === 'date' ? 'active' : ''}>1. Date</span>
-                <span className={step === 'slot' ? 'active' : ''}>2. Créneau</span>
-                <span className={step === 'form' ? 'active' : ''}>3. Informations</span>
+                <button
+                  type="button"
+                  className={`booking-step-item ${step === 'date' ? 'active' : step !== 'date' ? 'done' : ''}`}
+                  onClick={() => {
+                    setStep('date')
+                    setSelectedDate(null)
+                    setSelectedSlot(null)
+                  }}
+                  disabled={step === 'date'}
+                  aria-label="Étape 1 : Date"
+                  aria-current={step === 'date' ? 'step' : undefined}
+                >
+                  <span className="booking-step-num">1</span>
+                  <span className="booking-step-label-inline">Date</span>
+                </button>
+                <div className="booking-step-connector" />
+                <button
+                  type="button"
+                  className={`booking-step-item ${step === 'slot' ? 'active' : step === 'form' ? 'done' : ''}`}
+                  onClick={() => {
+                    if (step === 'form' && selectedDate) {
+                      setStep('slot')
+                      setSelectedSlot(null)
+                    }
+                  }}
+                  disabled={step === 'date' || !selectedDate}
+                  aria-label="Étape 2 : Créneau"
+                  aria-current={step === 'slot' ? 'step' : undefined}
+                >
+                  <span className="booking-step-num">2</span>
+                  <span className="booking-step-label-inline">Créneau</span>
+                </button>
+                <div className="booking-step-connector" />
+                <div
+                  className={`booking-step-item booking-step-item--static ${step === 'form' ? 'active' : ''}`}
+                  role="status"
+                  aria-label="Étape 3 : Informations"
+                >
+                  <span className="booking-step-num">3</span>
+                  <span className="booking-step-label-inline">Infos</span>
+                </div>
               </div>
 
               {step === 'date' && (
                 <div className="booking-step-content">
+                  <div className="booking-step-row">
+                    <label className="booking-step-label">Prestation</label>
+                    <select
+                      className="booking-prestation-select"
+                      value={formData.prestation}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, prestation: e.target.value }))}
+                    >
+                      {(prestations.length ? prestations.map((p) => p.nom) : ['Massage bien-être', 'Reiki', 'Soin énergétique', 'Consultation', 'Autre']).map((nom) => (
+                        <option key={nom} value={nom}>
+                          {nom}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                   <p className="booking-step-label">Choisissez une date parmi les disponibilités</p>
                   {availableDates.length === 0 ? (
                     <p className="booking-empty">
@@ -189,6 +254,7 @@ export default function BookingModal({ isOpen, onClose, onSuccess }: BookingModa
                     submitLabel="Réserver"
                     onCancel={() => setStep('slot')}
                     disabled={loading}
+                    hidePrestation
                   />
                 </form>
               )}

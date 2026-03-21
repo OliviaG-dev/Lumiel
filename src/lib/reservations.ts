@@ -1,4 +1,4 @@
-import { addDays, startOfDay } from 'date-fns'
+import { addDays, addMinutes, startOfDay } from 'date-fns'
 import { supabase } from './supabase'
 import type { Reservation } from '../types/reservation'
 
@@ -150,8 +150,36 @@ function overlaps(aStart: Date, aEnd: Date, bStart: Date, bEnd: Date) {
   return aStart < bEnd && aEnd > bStart
 }
 
-/** Créneaux disponibles = disponibilités non couverts par un rendez-vous */
-export function getAvailableSlots(date: Date, reservations: Reservation[]) {
+/** Découpe un créneau libre en sous-créneaux de durationMinutes */
+function splitSlotByDuration(
+  slotStart: Date,
+  slotEnd: Date,
+  durationMinutes: number
+): { start: Date; end: Date }[] {
+  const result: { start: Date; end: Date }[] = []
+  let current = new Date(slotStart)
+  const endTime = slotEnd.getTime()
+  const durationMs = durationMinutes * 60 * 1000
+
+  while (current.getTime() + durationMs <= endTime) {
+    result.push({
+      start: new Date(current),
+      end: addMinutes(current, durationMinutes),
+    })
+    current = addMinutes(current, durationMinutes)
+  }
+  return result
+}
+
+/**
+ * Créneaux disponibles = disponibilités moins les rendez-vous.
+ * Si durationMinutes est fourni, découpe les créneaux libres en tranches de cette durée.
+ */
+export function getAvailableSlots(
+  date: Date,
+  reservations: Reservation[],
+  durationMinutes: number = 60
+): { start: Date; end: Date }[] {
   const dayStart = new Date(date)
   dayStart.setHours(0, 0, 0, 0)
   const dayEnd = new Date(date)
@@ -165,7 +193,7 @@ export function getAvailableSlots(date: Date, reservations: Reservation[]) {
     (r) => r.type === 'rendez-vous' && overlaps(r.start, r.end, dayStart, dayEnd)
   )
 
-  const slots: { start: Date; end: Date }[] = []
+  const rawSlots: { start: Date; end: Date }[] = []
 
   for (const d of dispoDuJour) {
     const dStart = d.start > dayStart ? d.start : new Date(dayStart)
@@ -178,22 +206,31 @@ export function getAvailableSlots(date: Date, reservations: Reservation[]) {
 
     for (const r of rdvInDispo) {
       if (currentStart < r.start) {
-        slots.push({ start: new Date(currentStart), end: new Date(r.start) })
+        rawSlots.push({ start: new Date(currentStart), end: new Date(r.start) })
       }
       currentStart = new Date(Math.max(currentStart.getTime(), r.end.getTime()))
     }
     if (currentStart < dEnd) {
-      slots.push({ start: currentStart, end: new Date(dEnd) })
+      rawSlots.push({ start: currentStart, end: new Date(dEnd) })
     }
   }
 
-  return slots.sort((a, b) => a.start.getTime() - b.start.getTime())
+  const sorted = rawSlots.sort((a, b) => a.start.getTime() - b.start.getTime())
+
+  const slots: { start: Date; end: Date }[] = []
+  for (const slot of sorted) {
+    const subSlots = splitSlotByDuration(slot.start, slot.end, durationMinutes)
+    slots.push(...subSlots)
+  }
+
+  return slots
 }
 
-/** Dates ayant au moins un créneau disponible */
+/** Dates ayant au moins un créneau disponible pour la durée donnée */
 export function getDatesWithAvailability(
   reservations: Reservation[],
   fromDate: Date,
+  durationMinutes: number = 60,
   daysAhead: number = 60
 ): Date[] {
   const dates: Date[] = []
@@ -201,7 +238,7 @@ export function getDatesWithAvailability(
 
   for (let i = 0; i < daysAhead; i++) {
     const d = addDays(start, i)
-    const slotList = getAvailableSlots(d, reservations)
+    const slotList = getAvailableSlots(d, reservations, durationMinutes)
     if (slotList.length > 0) {
       dates.push(d)
     }
