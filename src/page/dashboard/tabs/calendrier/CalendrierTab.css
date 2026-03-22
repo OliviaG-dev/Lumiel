@@ -29,6 +29,34 @@
   padding: 0 0.5rem;
 }
 
+.calendrier-disponibilites-bar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 1rem 2rem 0.75rem;
+  border-bottom: 1px solid rgba(107, 123, 158, 0.1);
+}
+
+.calendrier-btn-disponibilites {
+  padding: 0.5rem 1.1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #0f1116;
+  background: var(--lumiel-gold);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.calendrier-btn-disponibilites:hover {
+  background: var(--lumiel-gold-light);
+}
+
+.calendrier-btn-disponibilites:active {
+  transform: translateY(1px);
+}
+
 .calendrier-tab .calendrier-card {
   padding: 0;
   overflow: hidden;
@@ -74,102 +102,6 @@
   line-height: 1.6;
 }
 
-/* Jours ouverts */
-.calendrier-open-days {
-  padding: 1.25rem 2rem;
-  border-bottom: 1px solid rgba(107, 123, 158, 0.12);
-  background: rgba(21, 23, 30, 0.3);
-}
-
-.calendrier-open-days-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 1rem;
-}
-
-.calendrier-open-days-label {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--lumiel-text-soft);
-}
-
-.calendrier-open-days-toggles {
-  display: flex;
-  gap: 0.35rem;
-}
-
-.calendrier-day-toggle {
-  width: 40px;
-  height: 36px;
-  padding: 0;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--lumiel-text-soft);
-  background: rgba(21, 23, 30, 0.5);
-  border: 1px solid rgba(107, 123, 158, 0.2);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.calendrier-day-toggle:hover {
-  color: var(--lumiel-text);
-  border-color: rgba(107, 123, 158, 0.4);
-}
-
-.calendrier-day-toggle--active {
-  color: #0f1116;
-  background: rgba(122, 143, 212, 0.4);
-  border-color: rgba(122, 143, 212, 0.5);
-}
-
-.calendrier-day-toggle--active:hover {
-  background: rgba(122, 143, 212, 0.5);
-}
-
-.calendrier-open-days-hours {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.calendrier-time-input {
-  padding: 0.4rem 0.6rem;
-  font-size: 0.9rem;
-  color: var(--lumiel-text);
-  background: rgba(21, 23, 30, 0.6);
-  border: 1px solid rgba(107, 123, 158, 0.25);
-  border-radius: 6px;
-}
-
-.calendrier-time-input:focus {
-  outline: none;
-  border-color: var(--lumiel-gold);
-}
-
-.calendrier-hours-sep {
-  color: var(--lumiel-text-soft);
-  font-size: 0.9rem;
-}
-
-.calendrier-apply-btn {
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #0f1116;
-  background: var(--lumiel-gold);
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.calendrier-apply-btn:hover {
-  background: var(--lumiel-gold-light);
-  transform: translateY(-1px);
-}
-
 .sr-only {
   position: absolute;
   width: 1px;
@@ -182,20 +114,12 @@
 }
 
 @media (max-width: 768px) {
-  .calendrier-open-days {
-    padding: 1rem;
+  .calendrier-disponibilites-bar {
+    padding: 0.85rem 1rem 0.65rem;
+    justify-content: stretch;
   }
 
-  .calendrier-open-days-row {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .calendrier-open-days-toggles {
-    justify-content: center;
-  }
-
-  .calendrier-apply-btn {
+  .calendrier-btn-disponibilites {
     width: 100%;
   }
 }
@@ -512,12 +436,25 @@
   justify-content: center;
   line-height: 0;
   flex-shrink: 0;
+  padding: 4px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(110, 255, 220, 0.35) 0%,
+    rgba(40, 180, 155, 0.28) 55%,
+    rgba(25, 120, 105, 0.35) 100%
+  );
+  box-shadow:
+    0 0 0 1px rgba(120, 255, 220, 0.55),
+    0 2px 10px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .calendrier-wrapper .calendrier-date-dispo-icon {
-  width: 13px;
-  height: 13px;
-  color: rgba(130, 175, 195, 0.95);
+  width: 15px;
+  height: 15px;
+  color: #7dffd9;
+  filter: drop-shadow(0 0 6px rgba(100, 255, 210, 0.65));
 }
 
 .calendrier-wrapper .rbc-date-cell .calendrier-date-label {
@@ -551,6 +488,50 @@
 .calendrier-wrapper .rbc-date-cell.rbc-now .calendrier-date-label--today .rbc-button-link {
   color: var(--lumiel-gold);
   font-weight: 700;
+}
+
+/* Numéro du jour cliquable — texte seul (sans pastille) */
+.calendrier-wrapper .rbc-button-link {
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  margin: 0;
+  padding: 0.12rem 0.25rem;
+  min-width: min(1.85rem, 100%);
+  min-height: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  color: inherit;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  box-sizing: border-box;
+  box-shadow: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.calendrier-wrapper .rbc-button-link:hover {
+  background: rgba(122, 143, 212, 0.14);
+}
+
+.calendrier-wrapper .rbc-button-link:active {
+  background: rgba(122, 143, 212, 0.22);
+}
+
+.calendrier-wrapper .rbc-button-link:focus-visible {
+  outline: 2px solid rgba(201, 168, 130, 0.65);
+  outline-offset: 2px;
 }
 
 /* Événements */
@@ -649,6 +630,83 @@
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
 }
 
+/* Ancrage des RDV inline : le bloc scroll, pas .rbc-row-content (évite de chevaucher l’en-tête des dates) */
+.calendrier-wrapper .rbc-month-view .rbc-row-content {
+  position: static;
+}
+
+/* Vue mois : scroll + calque pour RDV alignés en bandeaux (voir > 2 RDV / position absolute) */
+.calendrier-wrapper .rbc-month-view .rbc-row-content-scroll-container {
+  position: relative;
+  z-index: 4;
+  max-height: 7.25rem;
+  min-height: 1.5rem;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(122, 143, 212, 0.45) rgba(15, 17, 22, 0.4);
+}
+
+.calendrier-wrapper .rbc-month-view .rbc-row-segment {
+  padding: 0 2px 3px 2px;
+}
+
+/* Même hauteur de bandeau pour 1, 2 ou 3+ RDV — !important : RBC impose height/top en inline sur la vue mois */
+.calendrier-wrapper .rbc-month-view .rbc-event--rendezvous {
+  justify-content: center;
+  box-sizing: border-box !important;
+  min-height: 1.32rem !important;
+  height: 1.32rem !important;
+  max-height: 1.32rem !important;
+  padding: 1px 3px !important;
+  border-radius: 6px;
+}
+
+.calendrier-wrapper .rbc-month-view .rbc-event--rendezvous:hover {
+  transform: none;
+  filter: brightness(1.07);
+}
+
+.calendrier-wrapper .rbc-month-view .rbc-event--rendezvous .rbc-event-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  text-align: center;
+  padding: 0;
+}
+
+.calendrier-wrapper .calendrier-event-rdv-cube {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Plus de 2 RDV : rectangles côte à côte (position + taille via JS) */
+.calendrier-wrapper .rbc-month-view .rbc-event--rendezvous.calendrier-rdv--inline-row {
+  border-radius: 4px;
+  justify-content: center;
+}
+
+.calendrier-wrapper .rbc-month-view .rbc-event--rendezvous.calendrier-rdv--inline-row:hover {
+  filter: brightness(1.08);
+  z-index: 5;
+}
+
+.calendrier-wrapper .rbc-month-view .rbc-event--rendezvous.calendrier-rdv--inline-row .rbc-event-content {
+  font-size: 0.56rem;
+  line-height: 1.05;
+  font-weight: 800;
+}
+
+.calendrier-wrapper .rbc-month-view .rbc-row-segment:has(.calendrier-rdv--inline-row) {
+  min-height: 0;
+}
+
 /* Disponibilités : affichées en face de la date (icône dans l’en-tête) — pas de pastille dans la grille */
 .calendrier-wrapper .rbc-month-view .rbc-event--disponibilite {
   display: none !important;
@@ -697,7 +755,10 @@
 
 .calendrier-wrapper .calendrier-event-dispo-icon {
   flex-shrink: 0;
-  color: rgba(13, 16, 20, 0.88);
+  width: 15px;
+  height: 15px;
+  color: #5af0c8;
+  filter: drop-shadow(0 0 4px rgba(90, 240, 200, 0.5));
 }
 
 /* Fallback si eventPropGetter n'applique pas */
@@ -782,14 +843,115 @@
   color: var(--lumiel-text);
 }
 
-/* Show more link */
+/* « + N rendez-vous » — pastille alignée palette Lumiel (ardoise + accent) */
 .calendrier-wrapper .rbc-show-more {
-  color: var(--lumiel-gold);
-  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  margin: 0.35rem auto 0;
+  padding: 0.48rem 0.95rem;
+  font-family: var(--sans, system-ui, sans-serif);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.035em;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  color: var(--lumiel-gold-light);
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  background: linear-gradient(
+    165deg,
+    rgba(34, 38, 50, 0.95) 0%,
+    rgba(22, 25, 34, 0.97) 45%,
+    rgba(16, 18, 26, 0.99) 100%
+  );
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(122, 143, 212, 0.38);
+  border-radius: 999px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.09),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+    0 1px 0 rgba(122, 143, 212, 0.12),
+    0 4px 12px rgba(0, 0, 0, 0.22);
+  cursor: pointer;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    color 0.22s ease,
+    background 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    transform 0.18s ease;
 }
 
 .calendrier-wrapper .rbc-show-more:hover {
-  color: var(--lumiel-gold-light);
+  color: #e8ecfa;
+  border-color: rgba(154, 171, 223, 0.55);
+  background: linear-gradient(
+    165deg,
+    rgba(42, 48, 64, 0.98) 0%,
+    rgba(28, 32, 44, 0.99) 50%,
+    rgba(20, 22, 32, 1) 100%
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(122, 143, 212, 0.2),
+    0 6px 16px rgba(0, 0, 0, 0.28),
+    0 0 20px rgba(122, 143, 212, 0.14);
+  transform: translateY(-1px);
+}
+
+.calendrier-wrapper .rbc-show-more:active {
+  transform: translateY(0);
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.25),
+    0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.calendrier-wrapper .rbc-show-more:focus-visible {
+  outline: 2px solid rgba(154, 171, 223, 0.75);
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .calendrier-wrapper .rbc-date-cell {
+    padding: 0.4rem 0.45rem;
+    font-size: 0.85rem;
+  }
+
+  .calendrier-wrapper .rbc-button-link {
+    padding: 0.1rem 0.2rem;
+    min-height: 1.45rem;
+  }
+
+  .calendrier-wrapper .rbc-show-more {
+    padding: 0.42rem 0.75rem;
+    font-size: 0.71rem;
+    letter-spacing: 0.03em;
+  }
+}
+
+@media (max-width: 400px) {
+  .calendrier-wrapper .rbc-date-cell {
+    padding: 0.35rem 0.35rem;
+    font-size: 0.8rem;
+  }
+
+  .calendrier-wrapper .rbc-button-link {
+    padding: 0.08rem 0.18rem;
+    min-height: 1.4rem;
+  }
+
+  .calendrier-wrapper .rbc-show-more {
+    padding: 0.38rem 0.6rem;
+    font-size: 0.67rem;
+    letter-spacing: 0.028em;
+  }
 }
 
 /* Modal jour */
@@ -898,6 +1060,67 @@
   letter-spacing: 0.02em;
 }
 
+.calendrier-dispo-form-hint {
+  margin: -0.35rem 0 1rem;
+  font-size: 0.88rem;
+  color: var(--lumiel-text-soft);
+  line-height: 1.45;
+}
+
+.calendrier-dispo-form-error {
+  margin: -0.5rem 0 0.75rem;
+  font-size: 0.85rem;
+  color: #e8a0a0;
+}
+
+.calendrier-dispo-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.calendrier-dispo-slot-block {
+  padding: 0.65rem 0.65rem 0.75rem;
+  border-radius: 10px;
+  background: rgba(107, 123, 158, 0.06);
+  border: 1px solid rgba(107, 123, 158, 0.1);
+}
+
+.calendrier-dispo-slot-block .calendrier-form-row {
+  margin-bottom: 0;
+}
+
+.calendrier-dispo-slot-remove-inline {
+  margin-top: 0.5rem;
+  padding: 0.2rem 0;
+  font-size: 0.8rem;
+  color: #e09090;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.calendrier-dispo-slot-remove-inline:hover {
+  text-decoration: underline;
+}
+
+.calendrier-dispo-add-slot-inline {
+  align-self: flex-start;
+  padding: 0.4rem 0.65rem;
+  font-size: 0.85rem;
+  color: var(--lumiel-gold);
+  background: transparent;
+  border: 1px dashed rgba(201, 168, 130, 0.35);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.calendrier-dispo-add-slot-inline:hover {
+  border-color: var(--lumiel-gold);
+  background: rgba(201, 168, 130, 0.06);
+}
+
 .calendrier-modal-empty {
   font-size: 0.95rem;
   color: var(--lumiel-text-soft);
@@ -994,6 +1217,17 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+.calendrier-modal-past-hint {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--lumiel-text-soft);
+  background: rgba(107, 123, 158, 0.08);
+  border: 1px solid rgba(107, 123, 158, 0.15);
+  border-radius: 10px;
 }
 
 .btn-calendrier-add--rdv {

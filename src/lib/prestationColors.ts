@@ -47,3 +47,11 @@ export function rdvEventStylesFromCouleur(hex: string): CSSProperties {
     `,
   }
 }
+
+/** Liste « jour » (modal) : seul le filet gauche couleur prestation (fond = styles .calendrier-modal-item) */
+export function prestationModalItemStyles(hex: string | null | undefined): CSSProperties {
+  const c = normalizePrestationCouleur(hex)
+  return {
+    borderLeft: `4px solid ${c}`,
+  }
+}

@@ -1,19 +1,6 @@
-import { useState, useCallback, useEffect, useMemo } from 'react'
+import { useState, useCallback, useEffect, useMemo, type CSSProperties } from 'react'
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar'
-import {
-  format,
-  parse,
-  startOfWeek,
-  setHours,
-  setMinutes,
-  isSameDay,
-  eachDayOfInterval,
-  startOfMonth,
-  endOfMonth,
-  getDay,
-  addMinutes,
-  startOfDay,
-} from 'date-fns'
+import { format, parse, startOfWeek, setHours, setMinutes, isSameDay, addMinutes, startOfDay } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import type { Event, DateHeaderProps } from 'react-big-calendar'
 import type { Reservation } from '../../../../types/reservation'
@@ -23,10 +10,14 @@ import {
   addRendezVous,
   updateRendezVous,
   deleteReservation,
-  addDisponibilitesBatch,
 } from '../../../../lib/reservations'
+import CalendrierDisponibilitesModal from './CalendrierDisponibilitesModal'
 import { loadPrestations } from '../../../../lib/prestations'
-import { rdvEventStylesFromCouleur, DEFAULT_PRESTATION_COLOR } from '../../../../lib/prestationColors'
+import {
+  rdvEventStylesFromCouleur,
+  DEFAULT_PRESTATION_COLOR,
+  prestationModalItemStyles,
+} from '../../../../lib/prestationColors'
 import type { Prestation } from '../../../../types/prestation'
 import ReservationForm, {
   getDefaultFormData,
@@ -37,6 +28,15 @@ import ConfirmModal from '../../../../components/confirm/ConfirmModal'
 import CalendrierToolbar from './CalendrierToolbar'
 import CalendrierEvent from './CalendrierEvent'
 import CalendrierDispoIcon from './CalendrierDispoIcon'
+
+/** Bandeau RDV vue mois : même hauteur que les inline-row. RBC met une height inline (slot plein) si on ne la remplace pas. */
+const MONTH_VIEW_RDV_ROW_STYLE: CSSProperties = {
+  height: '1.32rem',
+  minHeight: '1.32rem',
+  maxHeight: '1.32rem',
+  padding: '1px 3px',
+  boxSizing: 'border-box',
+}
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './CalendrierTab.css'
 
@@ -67,12 +67,25 @@ function CalendrierDateHeaderView({
   drilldownView,
   onDrillDown,
   hasDisponibilite = false,
-}: DateHeaderProps & { hasDisponibilite?: boolean }) {
+  onOpenDay,
+}: DateHeaderProps & { hasDisponibilite?: boolean; onOpenDay?: (d: Date) => void }) {
   const kind = getCalendrierDayKind(date)
   const content = !drilldownView ? (
     <span>{label}</span>
   ) : (
-    <button type="button" className="rbc-button-link" onClick={onDrillDown}>
+    <button
+      type="button"
+      className="rbc-button-link"
+      onClick={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        if (onOpenDay) {
+          onOpenDay(startOfDay(date))
+        } else {
+          onDrillDown()
+        }
+      }}
+    >
       {label}
     </button>
   )
@@ -93,16 +106,6 @@ function CalendrierDateHeaderView({
   )
 }
 
-const WEEKDAYS = [
-  { day: 1, label: 'Lun' },
-  { day: 2, label: 'Mar' },
-  { day: 3, label: 'Mer' },
-  { day: 4, label: 'Jeu' },
-  { day: 5, label: 'Ven' },
-  { day: 6, label: 'Sam' },
-  { day: 0, label: 'Dim' },
-] as const
-
 function reservationToEvent(r: Reservation) {
   if (r.type === 'rendez-vous') {
     const timeStr = format(r.start, 'HH:mm', { locale: fr })
@@ -118,8 +121,9 @@ interface DayModalProps {
   selectedDate: Date
   reservations: Reservation[]
   prestations: string[]
+  prestationCouleurByNom: Map<string, string>
   onClose: () => void
-  onAddDisponibilite: (prestation: string, start: Date, end: Date) => void
+  onAddDisponibilite: (prestation: string, start: Date, end: Date) => void | Promise<void>
   onAddRendezVous: (r: Reservation) => void
   onUpdateRendezVous: (r: Reservation) => void
   onDelete: (id: string, type: 'disponibilité' | 'rendez-vous') => void
@@ -129,6 +133,7 @@ function DayModal({
   selectedDate,
   reservations,
   prestations,
+  prestationCouleurByNom,
   onClose,
   onAddDisponibilite,
   onAddRendezVous,
@@ -141,25 +146,45 @@ function DayModal({
   const [editingRdv, setEditingRdv] = useState<Reservation | null>(null)
   const [rdvSlot, setRdvSlot] = useState<{ start: Date; end: Date } | null>(null)
   const [formData, setFormData] = useState<ReservationFormData>(getDefaultFormData(prestationNames))
-  const [prestation, setPrestation] = useState(prestationNames[0])
-  const [heureDebut, setHeureDebut] = useState('09:00')
-  const [heureFin, setHeureFin] = useState('10:00')
+  const [dispoSlots, setDispoSlots] = useState<{ start: string; end: string }[]>([
+    { start: '09:00', end: '18:00' },
+  ])
+  const [dispoFormError, setDispoFormError] = useState<string | null>(null)
+
+  const canAddDisponibilite = getCalendrierDayKind(selectedDate) !== 'past'
+  /** Pas de formulaire dispo sur un jour passé (évite setState dans un effect) */
+  const showDispoFormUi = showDispoForm && canAddDisponibilite
 
   const items = reservations
     .filter((r) => isSameDay(r.start, selectedDate))
     .sort((a, b) => a.start.getTime() - b.start.getTime())
 
-  const handleDispoSubmit = (e: React.FormEvent) => {
+  const handleDispoSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const [hD, mD] = heureDebut.split(':').map(Number)
-    const [hF, mF] = heureFin.split(':').map(Number)
-    const start = setMinutes(setHours(selectedDate, hD), mD)
-    const end = setMinutes(setHours(selectedDate, hF), mF)
-    if (end > start) {
-      onAddDisponibilite(prestation, start, end)
-      setShowDispoForm(false)
-      onClose()
+    setDispoFormError(null)
+    if (!canAddDisponibilite) {
+      setDispoFormError('Impossible d’ajouter une disponibilité sur un jour passé.')
+      return
     }
+    const DISPO_PRESTATION = 'Toute prestation'
+    const toAdd: { start: Date; end: Date }[] = []
+    for (const slot of dispoSlots) {
+      const [hD, mD] = slot.start.split(':').map(Number)
+      const [hF, mF] = slot.end.split(':').map(Number)
+      if ([hD, mD, hF, mF].some((n) => Number.isNaN(n))) continue
+      const start = setMinutes(setHours(selectedDate, hD), mD)
+      const end = setMinutes(setHours(selectedDate, hF), mF)
+      if (end > start) toAdd.push({ start, end })
+    }
+    if (toAdd.length === 0) {
+      setDispoFormError('Indiquez au moins une plage valide : l’heure de fin doit être après le début.')
+      return
+    }
+    for (const { start, end } of toAdd) {
+      await Promise.resolve(onAddDisponibilite(DISPO_PRESTATION, start, end))
+    }
+    setShowDispoForm(false)
+    onClose()
   }
 
   const handleRdvSubmit = (e: React.FormEvent) => {
@@ -222,7 +247,19 @@ function DayModal({
             ) : (
               <div className="calendrier-modal-list">
                 {items.map((r) => (
-                  <div key={r.id} className="calendrier-modal-item">
+                  <div
+                    key={r.id}
+                    className="calendrier-modal-item"
+                    style={
+                      r.type === 'rendez-vous'
+                        ? prestationModalItemStyles(
+                            r.prestation?.trim()
+                              ? prestationCouleurByNom.get(r.prestation.trim())
+                              : undefined,
+                          )
+                        : undefined
+                    }
+                  >
                     <div className="calendrier-modal-item-main">
                       <span className="calendrier-modal-time">
                         {format(r.start, 'HH:mm', { locale: fr })} – {format(r.end, 'HH:mm', { locale: fr })}
@@ -259,39 +296,101 @@ function DayModal({
 
           {!showDispoForm && !showRdvForm && (
             <div className="calendrier-modal-buttons">
-              <button type="button" className="btn-calendrier-add" onClick={() => setShowDispoForm(true)}>
-                + Ajouter une disponibilité
-              </button>
+              {canAddDisponibilite ? (
+                <button
+                  type="button"
+                  className="btn-calendrier-add"
+                  onClick={() => {
+                    setDispoSlots([{ start: '09:00', end: '18:00' }])
+                    setDispoFormError(null)
+                    setShowDispoForm(true)
+                  }}
+                >
+                  + Ajouter une disponibilité
+                </button>
+              ) : (
+                <p className="calendrier-modal-past-hint" role="status">
+                  Les disponibilités ne peuvent pas être ajoutées sur un jour passé.
+                </p>
+              )}
               <button type="button" className="btn-calendrier-add btn-calendrier-add--rdv" onClick={startAddRdv}>
                 + Ajouter un rendez-vous
               </button>
             </div>
           )}
 
-          {showDispoForm && (
-            <form className="calendrier-modal-form" onSubmit={handleDispoSubmit}>
+          {showDispoFormUi && (
+            <form className="calendrier-modal-form" onSubmit={(e) => void handleDispoSubmit(e)}>
               <h4>Nouvelle disponibilité</h4>
-              <div className="calendrier-form-row">
-                <label>Prestation</label>
-                <select value={prestation} onChange={(e) => setPrestation(e.target.value)} required>
-                  {prestationNames.map((p) => (
-                    <option key={p} value={p}>{p}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="calendrier-form-row calendrier-form-grid-2">
-                <div>
-                  <label>Heure de début</label>
-                  <input type="time" value={heureDebut} onChange={(e) => setHeureDebut(e.target.value)} required />
-                </div>
-                <div>
-                  <label>Heure de fin</label>
-                  <input type="time" value={heureFin} onChange={(e) => setHeureFin(e.target.value)} required />
-                </div>
+              <p className="calendrier-dispo-form-hint">Une ou plusieurs plages pour ce jour (ex. matin et après-midi).</p>
+              {dispoFormError && <p className="calendrier-dispo-form-error">{dispoFormError}</p>}
+              <div className="calendrier-dispo-slots">
+                {dispoSlots.map((slot, index) => (
+                  <div key={index} className="calendrier-dispo-slot-block">
+                    <div className="calendrier-form-row calendrier-form-grid-2">
+                      <div>
+                        <label htmlFor={`dispo-start-${index}`}>Début</label>
+                        <input
+                          id={`dispo-start-${index}`}
+                          type="time"
+                          value={slot.start}
+                          onChange={(e) => {
+                            const next = [...dispoSlots]
+                            next[index] = { ...next[index], start: e.target.value }
+                            setDispoSlots(next)
+                          }}
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor={`dispo-end-${index}`}>Fin</label>
+                        <input
+                          id={`dispo-end-${index}`}
+                          type="time"
+                          value={slot.end}
+                          onChange={(e) => {
+                            const next = [...dispoSlots]
+                            next[index] = { ...next[index], end: e.target.value }
+                            setDispoSlots(next)
+                          }}
+                          required
+                        />
+                      </div>
+                    </div>
+                    {dispoSlots.length > 1 && (
+                      <button
+                        type="button"
+                        className="calendrier-dispo-slot-remove-inline"
+                        onClick={() => setDispoSlots(dispoSlots.filter((_, i) => i !== index))}
+                        aria-label="Retirer cette plage"
+                      >
+                        × Retirer la plage
+                      </button>
+                    )}
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  className="calendrier-dispo-add-slot-inline"
+                  onClick={() => setDispoSlots([...dispoSlots, { start: '14:00', end: '18:00' }])}
+                >
+                  + Plage horaire
+                </button>
               </div>
               <div className="calendrier-form-actions">
-                <button type="button" className="btn-secondary" onClick={() => setShowDispoForm(false)}>Annuler</button>
-                <button type="submit" className="btn-primary">Ajouter</button>
+                <button
+                  type="button"
+                  className="btn-secondary"
+                  onClick={() => {
+                    setDispoFormError(null)
+                    setShowDispoForm(false)
+                  }}
+                >
+                  Annuler
+                </button>
+                <button type="submit" className="btn-primary">
+                  Ajouter
+                </button>
               </div>
             </form>
           )}
@@ -339,9 +438,7 @@ export default function CalendrierTab() {
   const [error, setError] = useState<string | null>(null)
   const [date, setDate] = useState(new Date())
   const [modalDate, setModalDate] = useState<Date | null>(null)
-  const [openDays, setOpenDays] = useState<Set<number>>(new Set([1, 2, 3, 4, 5]))
-  const [heureOuverture, setHeureOuverture] = useState('09:00')
-  const [heureFermeture, setHeureFermeture] = useState('18:00')
+  const [dispoModalOpen, setDispoModalOpen] = useState(false)
 
   const refreshReservations = useCallback(async () => {
     setLoading(true)
@@ -361,6 +458,16 @@ export default function CalendrierTab() {
     loadPrestations().then(setPrestationsRows)
   }, [refreshReservations])
 
+  const reloadReservationsAfterDispo = useCallback(async () => {
+    try {
+      const data = await loadReservations()
+      setReservations(data)
+      setError(null)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Erreur')
+    }
+  }, [])
+
   const prestations = useMemo(
     () => (prestationsRows.length ? prestationsRows.map((x) => x.nom) : []),
     [prestationsRows],
@@ -374,14 +481,33 @@ export default function CalendrierTab() {
     return m
   }, [prestationsRows])
 
-  const toggleDay = useCallback((day: number) => {
-    setOpenDays((prev) => {
-      const next = new Set(prev)
-      if (next.has(day)) next.delete(day)
-      else next.add(day)
-      return next
-    })
-  }, [])
+  /** Nombre de RDV par jour (clé yyyy-MM-dd) — pour pastilles carrées si > 2 */
+  const rdvCountByDayKey = useMemo(() => {
+    const m = new Map<string, number>()
+    for (const r of reservations) {
+      if (r.type !== 'rendez-vous') continue
+      const key = format(startOfDay(r.start), 'yyyy-MM-dd')
+      m.set(key, (m.get(key) ?? 0) + 1)
+    }
+    return m
+  }, [reservations])
+
+  /** Ordre du RDV dans la journée (0..n-1), pour les aligner côte à côte */
+  const rdvIndexById = useMemo(() => {
+    const m = new Map<string, number>()
+    const byDay = new Map<string, Reservation[]>()
+    for (const r of reservations) {
+      if (r.type !== 'rendez-vous') continue
+      const key = format(startOfDay(r.start), 'yyyy-MM-dd')
+      if (!byDay.has(key)) byDay.set(key, [])
+      byDay.get(key)!.push(r)
+    }
+    for (const arr of byDay.values()) {
+      arr.sort((a, b) => a.start.getTime() - b.start.getTime())
+      arr.forEach((res, i) => m.set(res.id, i))
+    }
+    return m
+  }, [reservations])
 
   const monthDateHeader = useMemo(
     () =>
@@ -389,33 +515,20 @@ export default function CalendrierTab() {
         const hasDisponibilite = reservations.some(
           (r) => r.type === 'disponibilité' && isSameDay(r.start, props.date),
         )
-        return <CalendrierDateHeaderView {...props} hasDisponibilite={hasDisponibilite} />
+        return (
+          <CalendrierDateHeaderView
+            {...props}
+            hasDisponibilite={hasDisponibilite}
+            onOpenDay={setModalDate}
+          />
+        )
       },
     [reservations],
   )
 
-  const applyToMonth = useCallback(async () => {
-    const start = startOfMonth(date)
-    const end = endOfMonth(date)
-    const days = eachDayOfInterval({ start, end })
-    const [hO, mO] = heureOuverture.split(':').map(Number)
-    const [hF, mF] = heureFermeture.split(':').map(Number)
-    const items: { start: Date; end: Date; prestation?: string }[] = []
-    for (const d of days) {
-      if (!openDays.has(getDay(d))) continue
-      const startTime = setMinutes(setHours(d, hO), mO)
-      const endTime = setMinutes(setHours(d, hF), mF)
-      if (endTime <= startTime) continue
-      items.push({ start: startTime, end: endTime, prestation: 'Toute prestation' })
-    }
-    if (items.length === 0) return
-    try {
-      await addDisponibilitesBatch(items)
-      await refreshReservations()
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Erreur')
-    }
-  }, [date, openDays, heureOuverture, heureFermeture, refreshReservations])
+  const handleShowMore = useCallback((_events: Reservation[], day: Date) => {
+    setModalDate(startOfDay(day))
+  }, [])
 
   const handleSelectSlot = useCallback(({ start }: { start: Date; end: Date }) => {
     setModalDate(start)
@@ -479,7 +592,11 @@ export default function CalendrierTab() {
     }
   }, [pendingDelete, refreshReservations])
 
-  const events = reservations.map(reservationToEvent)
+  /** Uniquement les RDV : les dispos sont masquées en mois mais comptaient encore pour « + N » (bug +2 avec 1 RDV + 1 dispo). */
+  const calendarEvents = useMemo(
+    () => reservations.filter((r) => r.type === 'rendez-vous').map(reservationToEvent),
+    [reservations],
+  )
   const reservationsForDay = modalDate ? reservations.filter((r) => isSameDay(r.start, modalDate)) : []
 
   const handleSelectEvent = useCallback((event: Event) => {
@@ -489,20 +606,23 @@ export default function CalendrierTab() {
 
   const handleNavigate = useCallback((newDate: Date) => setDate(newDate), [])
 
-  const messages = {
-    today: "Aujourd'hui",
-    previous: 'Précédent',
-    next: 'Suivant',
-    month: 'Mois',
-    week: 'Semaine',
-    day: 'Jour',
-    agenda: 'Agenda',
-    date: 'Date',
-    time: 'Heure',
-    event: 'Événement',
-    noEventsInRange: 'Aucun rendez-vous sur cette période.',
-    showMore: (total: number) => `+ ${total} rendez-vous`,
-  }
+  const messages = useMemo(
+    () => ({
+      today: "Aujourd'hui",
+      previous: 'Précédent',
+      next: 'Suivant',
+      month: 'Mois',
+      week: 'Semaine',
+      day: 'Jour',
+      agenda: 'Agenda',
+      date: 'Date',
+      time: 'Heure',
+      event: 'Événement',
+      noEventsInRange: 'Aucun rendez-vous sur cette période.',
+      showMore: (total: number) => `+ ${total} rendez-vous`,
+    }),
+    [],
+  )
 
   if (loading) {
     return (
@@ -523,11 +643,28 @@ export default function CalendrierTab() {
             <button type="button" onClick={() => setError(null)}>×</button>
           </div>
         )}
+        <div className="calendrier-disponibilites-bar">
+          <button
+            type="button"
+            className="calendrier-btn-disponibilites"
+            onClick={() => setDispoModalOpen(true)}
+          >
+            Gestion des disponibilités
+          </button>
+        </div>
+        <CalendrierDisponibilitesModal
+          isOpen={dispoModalOpen}
+          onClose={() => setDispoModalOpen(false)}
+          calendarMonth={date}
+          reservations={reservations}
+          onApplied={reloadReservationsAfterDispo}
+        />
         {modalDate && (
           <DayModal
             selectedDate={modalDate}
             reservations={reservationsForDay}
             prestations={prestations}
+            prestationCouleurByNom={prestationCouleurByNom}
             onClose={() => setModalDate(null)}
             onAddDisponibilite={handleAddDisponibilite}
             onAddRendezVous={handleAddRendezVous}
@@ -546,53 +683,11 @@ export default function CalendrierTab() {
             variant="danger"
           />
         )}
-        <div className="calendrier-open-days">
-          <div className="calendrier-open-days-row">
-            <span className="calendrier-open-days-label">Jours ouverts</span>
-            <div className="calendrier-open-days-toggles">
-              {WEEKDAYS.map(({ day, label }) => (
-                <button
-                  key={day}
-                  type="button"
-                  className={`calendrier-day-toggle ${openDays.has(day) ? 'calendrier-day-toggle--active' : ''}`}
-                  onClick={() => toggleDay(day)}
-                  title={openDays.has(day) ? 'Fermé ce jour' : 'Ouvert ce jour'}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-            <div className="calendrier-open-days-hours">
-              <label>
-                <span className="sr-only">Heure d'ouverture</span>
-                <input
-                  type="time"
-                  value={heureOuverture}
-                  onChange={(e) => setHeureOuverture(e.target.value)}
-                  className="calendrier-time-input"
-                />
-              </label>
-              <span className="calendrier-hours-sep">–</span>
-              <label>
-                <span className="sr-only">Heure de fermeture</span>
-                <input
-                  type="time"
-                  value={heureFermeture}
-                  onChange={(e) => setHeureFermeture(e.target.value)}
-                  className="calendrier-time-input"
-                />
-              </label>
-            </div>
-            <button type="button" className="calendrier-apply-btn" onClick={applyToMonth}>
-              Appliquer au mois
-            </button>
-          </div>
-        </div>
         <div className="calendrier-wrapper">
-          <Calendar
+          <Calendar<Reservation>
             localizer={localizer}
             culture="fr"
-            events={events}
+            events={calendarEvents}
             startAccessor="start"
             endAccessor="end"
             views={['month']}
@@ -601,6 +696,9 @@ export default function CalendrierTab() {
             onNavigate={handleNavigate}
             onSelectSlot={handleSelectSlot}
             onSelectEvent={handleSelectEvent}
+            onShowMore={handleShowMore}
+            doShowMoreDrillDown={false}
+            showAllEvents
             selectable
             messages={messages}
             dayPropGetter={(d) => ({
@@ -623,9 +721,33 @@ export default function CalendrierTab() {
               }
               const nom = r.prestation?.trim()
               const hex = nom ? prestationCouleurByNom.get(nom) : undefined
+              const dayKey = format(startOfDay(r.start), 'yyyy-MM-dd')
+              const rdvCeJour = rdvCountByDayKey.get(dayKey) ?? 0
+              const baseStyle = rdvEventStylesFromCouleur(hex ?? DEFAULT_PRESTATION_COLOR)
+              /* Plus de 2 RDV : rectangles côte à côte (grille 7 jours, calque scroll) */
+              if (rdvCeJour > 2) {
+                const idx = rdvIndexById.get(r.id) ?? 0
+                const total = rdvCeJour
+                const col = (r.start.getDay() + 6) % 7
+                const inlineStyle: CSSProperties = {
+                  ...baseStyle,
+                  ...MONTH_VIEW_RDV_ROW_STYLE,
+                  position: 'absolute',
+                  left: `calc(${col} * (100% / 7) + (100% / 7) * ${idx} / ${total})`,
+                  width: `calc((100% / 7) / ${total} - 2px)`,
+                  maxWidth: `calc((100% / 7) / ${total} - 2px)`,
+                  top: '0rem',
+                  margin: 0,
+                  zIndex: 4,
+                }
+                return {
+                  className: 'rbc-event--rendezvous rbc-event--prestation-couleur calendrier-rdv--inline-row',
+                  style: inlineStyle,
+                }
+              }
               return {
                 className: 'rbc-event--rendezvous rbc-event--prestation-couleur',
-                style: rdvEventStylesFromCouleur(hex ?? DEFAULT_PRESTATION_COLOR),
+                style: { ...baseStyle, ...MONTH_VIEW_RDV_ROW_STYLE },
               }
             }}
           />

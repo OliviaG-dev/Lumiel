@@ -453,6 +453,52 @@
   line-height: 1.6;
 }
 
+/* CTA succès — même langage que les étapes / créneaux (Lumiel) */
+.booking-success-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+  padding: 0.85rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  border: none;
+  border-radius: 12px;
+  color: #0f1116;
+  background: linear-gradient(135deg, var(--lumiel-gold) 0%, var(--lumiel-gold-light) 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.22) inset,
+    0 4px 18px rgba(122, 143, 212, 0.35);
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.18s ease;
+}
+
+.booking-success-btn:hover {
+  background: var(--lumiel-gold-light);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.28) inset,
+    0 6px 22px rgba(122, 143, 212, 0.45);
+  transform: translateY(-1px);
+}
+
+.booking-success-btn:active {
+  transform: translateY(0);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.15) inset,
+    0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.booking-success-btn:focus-visible {
+  outline: 2px solid rgba(154, 171, 223, 0.85);
+  outline-offset: 3px;
+}
+
 @media (max-width: 480px) {
   .booking-modal-body {
     padding: 1.25rem;

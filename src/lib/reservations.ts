@@ -2,8 +2,24 @@ import { addDays, addMinutes, startOfDay } from 'date-fns'
 import { supabase } from './supabase'
 import type { Reservation } from '../types/reservation'
 
+/**
+ * Supprime les disponibilités dont le début est strictement avant aujourd’hui (minuit, heure locale).
+ * Appelée automatiquement au chargement des réservations.
+ */
+export async function deletePastDisponibilites(): Promise<void> {
+  const todayStart = startOfDay(new Date())
+  const { error } = await supabase
+    .from('disponibilites')
+    .delete()
+    .lt('start', todayStart.toISOString())
+
+  if (error) throw error
+}
+
 /** Charge les disponibilités et rendez-vous depuis Supabase et les fusionne */
 export async function loadReservations(): Promise<Reservation[]> {
+  await deletePastDisponibilites()
+
   const [dispoRes, rdvRes] = await Promise.all([
     supabase.from('disponibilites').select('*').order('start', { ascending: true }),
     supabase.from('rendez_vous').select('*').order('start', { ascending: true }),

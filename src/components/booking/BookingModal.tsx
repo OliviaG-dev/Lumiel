@@ -77,8 +77,9 @@ export default function BookingModal({ isOpen, onClose, onSuccess }: BookingModa
 
     setLoading(true)
     setSubmitError(null)
-                    const slotDurationMin = (selectedSlot.end.getTime() - selectedSlot.start.getTime()) / 60000
-    const duree = Math.min(formData.duree, prestationDuree, slotDurationMin)
+    const slotDurationMin = (selectedSlot.end.getTime() - selectedSlot.start.getTime()) / 60000
+    /* Durée imposée par la prestation (pas de choix client à l’étape Infos) */
+    const duree = Math.min(prestationDuree, slotDurationMin)
     const start = new Date(selectedSlot.start)
     const end = addMinutes(start, duree)
 
@@ -122,7 +123,7 @@ export default function BookingModal({ isOpen, onClose, onSuccess }: BookingModa
               <p>
                 Merci ! Votre demande a bien été envoyée. Le praticien vous recontactera pour confirmer le rendez-vous.
               </p>
-              <button type="button" className="btn-booking-primary" onClick={handleClose}>
+              <button type="button" className="booking-success-btn" onClick={handleClose}>
                 Fermer
               </button>
             </div>
@@ -255,6 +256,7 @@ export default function BookingModal({ isOpen, onClose, onSuccess }: BookingModa
                     onCancel={() => setStep('slot')}
                     disabled={loading}
                     hidePrestation
+                    hideDuree
                   />
                 </form>
               )}

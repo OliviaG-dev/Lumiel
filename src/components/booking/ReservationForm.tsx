@@ -29,6 +29,8 @@ interface ReservationFormProps {
   prestations?: string[];
   /** Masque le champ prestation (utilisé quand la prestation est choisie à une étape précédente) */
   hidePrestation?: boolean;
+  /** Masque le sélecteur de durée (réservation client : durée = celle de la prestation) */
+  hideDuree?: boolean;
 }
 
 export function getDefaultFormData(prestations?: string[]): ReservationFormData {
@@ -70,6 +72,7 @@ export default function ReservationForm({
   disabled = false,
   prestations = PRESTATIONS_FALLBACK,
   hidePrestation = false,
+  hideDuree = false,
 }: ReservationFormProps) {
   const update = (field: keyof ReservationFormData, value: string | number) => {
     onChange({ ...data, [field]: value });
@@ -134,19 +137,21 @@ export default function ReservationForm({
           placeholder="06 12 34 56 78"
         />
       </div>
-      <div className="reservation-form-row">
-        <label>Durée (minutes)</label>
-        <select
-          value={data.duree}
-          onChange={(e) => update("duree", Number(e.target.value))}
-        >
-          {DUREE_OPTIONS.map((d) => (
-            <option key={d} value={d}>
-              {d} min
-            </option>
-          ))}
-        </select>
-      </div>
+      {!hideDuree && (
+        <div className="reservation-form-row">
+          <label>Durée (minutes)</label>
+          <select
+            value={data.duree}
+            onChange={(e) => update("duree", Number(e.target.value))}
+          >
+            {DUREE_OPTIONS.map((d) => (
+              <option key={d} value={d}>
+                {d} min
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
       <div className="reservation-form-row">
         <label>Résumé / Commentaires du client</label>
         <textarea
