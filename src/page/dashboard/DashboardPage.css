@@ -28,6 +28,23 @@
   gap: 1.5rem;
 }
 
+.dashboard-home-btn {
+  margin-top: auto;
+  padding: 0.6rem 1rem;
+  font-size: 0.85rem;
+  color: var(--lumiel-text-soft);
+  text-decoration: none;
+  border: 1px solid rgba(107, 123, 158, 0.25);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.dashboard-home-btn:hover {
+  color: var(--lumiel-gold);
+  border-color: var(--lumiel-gold);
+}
+
 .dashboard-sidebar-header h1 {
   font-family: var(--lumiel-heading);
   font-size: 1.5rem;
@@ -200,6 +217,11 @@
   .dashboard-tab--active {
     border-left: none;
     border-bottom-color: var(--lumiel-gold);
+  }
+
+  .dashboard-home-btn {
+    margin-top: 0;
+    width: 100%;
   }
 
   .dashboard-main {

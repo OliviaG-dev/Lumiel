@@ -9,7 +9,7 @@ export default function Layout() {
 
   return (
     <div className={`layout ${isLoginPage ? "layout--login" : ""} ${isDashboardPage ? "layout--dashboard" : ""}`}>
-      <Menu />
+      {!isDashboardPage && <Menu />}
 
       <main id="layout-main" className="layout-main">
         <div className="layout-main-content">

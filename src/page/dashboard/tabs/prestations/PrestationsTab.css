@@ -79,8 +79,17 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  align-items: baseline;
+  align-items: center;
   margin-bottom: 0.35rem;
+}
+
+.prestations-item-color-dot {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
 }
 
 .prestations-item-nom {

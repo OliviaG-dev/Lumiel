@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { supabase, isAdmin } from "../../lib/supabase";
 import type { User } from "@supabase/supabase-js";
 import {
@@ -115,6 +115,9 @@ export default function DashboardPage() {
             </button>
           ))}
         </nav>
+        <Link to="/" className="dashboard-home-btn">
+          Retour à l'accueil
+        </Link>
       </aside>
 
       <main className="dashboard-main">{tabContent[activeTab]}</main>

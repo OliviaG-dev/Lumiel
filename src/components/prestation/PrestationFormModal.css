@@ -71,6 +71,42 @@
   margin-bottom: 0;
 }
 
+.prestation-form-row-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--lumiel-text-soft);
+  margin-bottom: 0.4rem;
+}
+
+.prestation-color-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.prestation-color-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  background: var(--swatch);
+  cursor: pointer;
+  padding: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.prestation-color-swatch:hover {
+  transform: scale(1.08);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+}
+
+.prestation-color-swatch--selected {
+  outline: 2px solid var(--lumiel-gold);
+  outline-offset: 2px;
+}
+
 .prestation-form-row label {
   display: block;
   font-size: 0.85rem;

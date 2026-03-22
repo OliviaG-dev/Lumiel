@@ -31,12 +31,24 @@ export default function PrestationsTab() {
     fetchPrestations()
   }, [])
 
-  const handleAdd = async (data: { nom: string; description: string; prix: number; duree: number }) => {
+  const handleAdd = async (data: {
+    nom: string
+    description: string
+    prix: number
+    duree: number
+    couleur: string
+  }) => {
     await addPrestation(data)
     await fetchPrestations()
   }
 
-  const handleUpdate = async (data: { nom: string; description: string; prix: number; duree: number }) => {
+  const handleUpdate = async (data: {
+    nom: string
+    description: string
+    prix: number
+    duree: number
+    couleur: string
+  }) => {
     if (!editingPrestation) return
     await updatePrestation(editingPrestation.id, data)
     setEditingPrestation(null)
@@ -75,7 +87,8 @@ export default function PrestationsTab() {
       <div className="dashboard-card">
         <h2>Prestations</h2>
         <p className="prestations-intro">
-          Gérez les prestations proposées aux clients : nom, description, prix et durée.
+          Gérez les prestations proposées aux clients : nom, description, prix, durée et couleur
+          (calendrier).
         </p>
 
         {error && (
@@ -99,6 +112,12 @@ export default function PrestationsTab() {
               <div key={p.id} className="prestations-item">
                 <div className="prestations-item-main">
                   <div className="prestations-item-header">
+                    <span
+                      className="prestations-item-color-dot"
+                      style={{ background: p.couleur }}
+                      title="Couleur calendrier"
+                      aria-hidden
+                    />
                     <span className="prestations-item-nom">{p.nom}</span>
                     <span className="prestations-item-meta">
                       {formatPrix(p.prix)} • {formatDuree(p.duree)}

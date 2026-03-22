@@ -41,7 +41,11 @@ export default function PrestationsPage() {
         ) : prestations.length > 0 ? (
           <div className="prestations-list-public">
             {prestations.map((p) => (
-              <div key={p.id} className="prestation-card">
+              <div
+                key={p.id}
+                className="prestation-card"
+                style={{ borderLeftColor: p.couleur }}
+              >
                 <h3 className="prestation-card-nom">{p.nom}</h3>
                 {p.description && <p className="prestation-card-desc">{p.description}</p>}
                 <div className="prestation-card-meta">

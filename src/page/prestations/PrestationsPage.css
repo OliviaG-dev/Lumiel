@@ -66,6 +66,7 @@
   background: rgba(21, 23, 30, 0.5);
   border-radius: 14px;
   border: 1px solid rgba(107, 123, 158, 0.15);
+  border-left: 3px solid var(--lumiel-gold);
 }
 
 .prestation-card-nom {

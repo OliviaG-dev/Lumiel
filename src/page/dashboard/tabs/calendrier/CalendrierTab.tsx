@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useMemo } from 'react'
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar'
 import {
   format,
@@ -12,9 +12,10 @@ import {
   endOfMonth,
   getDay,
   addMinutes,
+  startOfDay,
 } from 'date-fns'
 import { fr } from 'date-fns/locale'
-import type { Event } from 'react-big-calendar'
+import type { Event, DateHeaderProps } from 'react-big-calendar'
 import type { Reservation } from '../../../../types/reservation'
 import {
   loadReservations,
@@ -25,12 +26,17 @@ import {
   addDisponibilitesBatch,
 } from '../../../../lib/reservations'
 import { loadPrestations } from '../../../../lib/prestations'
+import { rdvEventStylesFromCouleur, DEFAULT_PRESTATION_COLOR } from '../../../../lib/prestationColors'
+import type { Prestation } from '../../../../types/prestation'
 import ReservationForm, {
   getDefaultFormData,
   getFormDataFromReservation,
   type ReservationFormData,
 } from '../../../../components/booking/ReservationForm'
 import ConfirmModal from '../../../../components/confirm/ConfirmModal'
+import CalendrierToolbar from './CalendrierToolbar'
+import CalendrierEvent from './CalendrierEvent'
+import CalendrierDispoIcon from './CalendrierDispoIcon'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './CalendrierTab.css'
 
@@ -46,6 +52,47 @@ const localizer = dateFnsLocalizer({
 
 const PRESTATIONS_FALLBACK = ['Massage bien-être', 'Reiki', 'Soin énergétique', 'Consultation', 'Autre']
 
+type CalendrierDayKind = 'past' | 'today' | 'future'
+
+function getCalendrierDayKind(date: Date): CalendrierDayKind {
+  const today = startOfDay(new Date())
+  if (isSameDay(date, new Date())) return 'today'
+  if (startOfDay(date) < today) return 'past'
+  return 'future'
+}
+
+function CalendrierDateHeaderView({
+  date,
+  label,
+  drilldownView,
+  onDrillDown,
+  hasDisponibilite = false,
+}: DateHeaderProps & { hasDisponibilite?: boolean }) {
+  const kind = getCalendrierDayKind(date)
+  const content = !drilldownView ? (
+    <span>{label}</span>
+  ) : (
+    <button type="button" className="rbc-button-link" onClick={onDrillDown}>
+      {label}
+    </button>
+  )
+  return (
+    <div
+      className="calendrier-date-header-row"
+      data-has-dispo={hasDisponibilite ? 'true' : 'false'}
+    >
+      {hasDisponibilite && (
+        <span className="calendrier-date-dispo-marker" title="Disponibilité" aria-label="Disponibilité">
+          <CalendrierDispoIcon className="calendrier-date-dispo-icon" />
+        </span>
+      )}
+      <span className={`calendrier-date-label calendrier-date-label--${kind}`}>
+        {content}
+      </span>
+    </div>
+  )
+}
+
 const WEEKDAYS = [
   { day: 1, label: 'Lun' },
   { day: 2, label: 'Mar' },
@@ -57,10 +104,14 @@ const WEEKDAYS = [
 ] as const
 
 function reservationToEvent(r: Reservation) {
-  const title = r.type === 'rendez-vous' && (r.prenom || r.nom)
-    ? `${r.prenom ?? ''} ${r.nom ?? ''}`.trim() || 'Rendez-vous'
-    : 'Disponible'
-  return { ...r, title }
+  if (r.type === 'rendez-vous') {
+    const timeStr = format(r.start, 'HH:mm', { locale: fr })
+    const name = (r.prenom || r.nom)
+      ? `${r.prenom ?? ''} ${r.nom ?? ''}`.trim()
+      : 'Rendez-vous'
+    return { ...r, title: `${timeStr} – ${name}` }
+  }
+  return { ...r, title: 'Disponible' }
 }
 
 interface DayModalProps {
@@ -283,7 +334,7 @@ function DayModal({
 
 export default function CalendrierTab() {
   const [reservations, setReservations] = useState<Reservation[]>([])
-  const [prestations, setPrestations] = useState<string[]>([])
+  const [prestationsRows, setPrestationsRows] = useState<Prestation[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [date, setDate] = useState(new Date())
@@ -307,8 +358,21 @@ export default function CalendrierTab() {
 
   useEffect(() => {
     refreshReservations()
-    loadPrestations().then((p) => setPrestations(p.map((x) => x.nom)))
+    loadPrestations().then(setPrestationsRows)
   }, [refreshReservations])
+
+  const prestations = useMemo(
+    () => (prestationsRows.length ? prestationsRows.map((x) => x.nom) : []),
+    [prestationsRows],
+  )
+
+  const prestationCouleurByNom = useMemo(() => {
+    const m = new Map<string, string>()
+    for (const p of prestationsRows) {
+      m.set(p.nom.trim(), p.couleur)
+    }
+    return m
+  }, [prestationsRows])
 
   const toggleDay = useCallback((day: number) => {
     setOpenDays((prev) => {
@@ -318,6 +382,17 @@ export default function CalendrierTab() {
       return next
     })
   }, [])
+
+  const monthDateHeader = useMemo(
+    () =>
+      function MonthDateHeader(props: DateHeaderProps) {
+        const hasDisponibilite = reservations.some(
+          (r) => r.type === 'disponibilité' && isSameDay(r.start, props.date),
+        )
+        return <CalendrierDateHeaderView {...props} hasDisponibilite={hasDisponibilite} />
+      },
+    [reservations],
+  )
 
   const applyToMonth = useCallback(async () => {
     const start = startOfMonth(date)
@@ -528,9 +603,30 @@ export default function CalendrierTab() {
             onSelectEvent={handleSelectEvent}
             selectable
             messages={messages}
+            dayPropGetter={(d) => ({
+              className: `calendrier-day-bg--${getCalendrierDayKind(d)}`,
+            })}
+            components={{
+              toolbar: CalendrierToolbar,
+              month: {
+                dateHeader: monthDateHeader,
+                event: CalendrierEvent,
+              },
+            }}
             eventPropGetter={(event) => {
               const r = event as Reservation
-              return { className: r.type === 'disponibilité' ? 'rbc-event--disponibilite' : 'rbc-event--rendezvous' }
+              if (r.type === 'disponibilité') {
+                return {
+                  className: 'rbc-event--disponibilite',
+                  style: { width: 'fit-content', maxWidth: '100%' },
+                }
+              }
+              const nom = r.prestation?.trim()
+              const hex = nom ? prestationCouleurByNom.get(nom) : undefined
+              return {
+                className: 'rbc-event--rendezvous rbc-event--prestation-couleur',
+                style: rdvEventStylesFromCouleur(hex ?? DEFAULT_PRESTATION_COLOR),
+              }
             }}
           />
         </div>

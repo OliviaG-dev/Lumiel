@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, type CSSProperties } from 'react'
 import { createPortal } from 'react-dom'
 import type { Prestation } from '../../types/prestation'
+import { PRESTATION_COLOR_OPTIONS, DEFAULT_PRESTATION_COLOR } from '../../lib/prestationColors'
 import './PrestationFormModal.css'
 
 interface PrestationFormModalProps {
@@ -8,7 +9,7 @@ interface PrestationFormModalProps {
   onClose: () => void
   onSave: () => void
   prestation?: Prestation | null
-  saveFn: (data: { nom: string; description: string; prix: number; duree: number }) => Promise<void>
+  saveFn: (data: { nom: string; description: string; prix: number; duree: number; couleur: string }) => Promise<void>
 }
 
 export default function PrestationFormModal({
@@ -22,6 +23,7 @@ export default function PrestationFormModal({
   const [description, setDescription] = useState('')
   const [prix, setPrix] = useState(0)
   const [duree, setDuree] = useState(60)
+  const [couleur, setCouleur] = useState(DEFAULT_PRESTATION_COLOR)
   const [error, setError] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
 
@@ -31,6 +33,7 @@ export default function PrestationFormModal({
       setDescription(prestation?.description ?? '')
       setPrix(prestation?.prix ?? 0)
       setDuree(prestation?.duree ?? 60)
+      setCouleur(prestation?.couleur ?? DEFAULT_PRESTATION_COLOR)
       setError(null)
     }
   }, [isOpen, prestation])
@@ -49,7 +52,7 @@ export default function PrestationFormModal({
     try {
       setSaving(true)
       setError(null)
-      await saveFn({ nom: nomTrim, description: description.trim(), prix, duree })
+      await saveFn({ nom: nomTrim, description: description.trim(), prix, duree, couleur })
       onSave()
       onClose()
     } catch (err) {
@@ -93,6 +96,25 @@ export default function PrestationFormModal({
               placeholder="Décrivez la prestation..."
               rows={2}
             />
+          </div>
+          <div className="prestation-form-row">
+            <span id="prestation-couleur-label" className="prestation-form-row-label">
+              Couleur (calendrier & liste)
+            </span>
+            <div className="prestation-color-swatches" role="group" aria-labelledby="prestation-couleur-label">
+              {PRESTATION_COLOR_OPTIONS.map((opt) => (
+                <button
+                  key={opt.hex}
+                  type="button"
+                  className={`prestation-color-swatch ${couleur === opt.hex ? 'prestation-color-swatch--selected' : ''}`}
+                  style={{ '--swatch': opt.hex } as CSSProperties}
+                  title={opt.label}
+                  aria-label={opt.label}
+                  aria-pressed={couleur === opt.hex}
+                  onClick={() => setCouleur(opt.hex)}
+                />
+              ))}
+            </div>
           </div>
           <div className="prestation-form-row prestation-form-row--inline">
             <div className="prestation-form-group">
