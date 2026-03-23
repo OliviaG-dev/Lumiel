@@ -67,13 +67,73 @@
   margin-bottom: 1rem;
 }
 
+.calendrier-dispo-month-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+  padding: 0.85rem 1rem;
+  background: linear-gradient(135deg, rgba(122, 143, 212, 0.12) 0%, rgba(201, 168, 130, 0.1) 100%);
+  border: 1px solid rgba(122, 143, 212, 0.28);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.calendrier-dispo-month-nav-center {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+}
+
+.calendrier-dispo-month-nav-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lumiel-gold);
+  margin-bottom: 0.2rem;
+}
+
 .calendrier-dispo-modal-month-title {
   font-family: var(--lumiel-heading);
-  font-size: 1rem;
-  font-weight: 400;
+  font-size: 1.35rem;
+  font-weight: 500;
   color: var(--lumiel-text);
-  margin: 0 0 0.5rem;
-  letter-spacing: 0.02em;
+  margin: 0;
+  letter-spacing: 0.03em;
+  line-height: 1.2;
+}
+
+.calendrier-dispo-month-nav-btn {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  font-size: 1.45rem;
+  line-height: 1;
+  font-weight: 300;
+  color: var(--lumiel-text);
+  background: rgba(21, 23, 30, 0.65);
+  border: 1px solid rgba(122, 143, 212, 0.4);
+  border-radius: 10px;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.calendrier-dispo-month-nav-btn:hover:not(:disabled) {
+  background: rgba(122, 143, 212, 0.2);
+  border-color: var(--lumiel-gold);
+  color: var(--lumiel-gold);
+}
+
+.calendrier-dispo-month-nav-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
 }
 
 .calendrier-dispo-modal-intro {

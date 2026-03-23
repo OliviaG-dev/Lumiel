@@ -2,9 +2,11 @@ import { useState, useEffect, useMemo, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import {
   addDays,
+  addMonths,
   eachDayOfInterval,
   endOfMonth,
   format,
+  isAfter,
   isBefore,
   setHours,
   setMinutes,
@@ -152,6 +154,9 @@ interface CalendrierDisponibilitesModalProps {
   onApplied: () => void | Promise<void>
 }
 
+/** Limite de navigation vers le futur (mois) depuis le mois d’ancrage à l’ouverture du modal. */
+const MAX_MONTHS_AHEAD = 48
+
 export default function CalendrierDisponibilitesModal({
   isOpen,
   onClose,
@@ -159,16 +164,42 @@ export default function CalendrierDisponibilitesModal({
   reservations,
   onApplied,
 }: CalendrierDisponibilitesModalProps) {
-  const templateWeeks = useMemo(() => buildWeekBlocks(calendarMonth), [calendarMonth])
+  /** Mois d’ancrage : celui du calendrier à l’ouverture ; on ne peut pas revenir avant. */
+  const [anchorMonth, setAnchorMonth] = useState(() => startOfMonth(calendarMonth))
+  const [displayMonth, setDisplayMonth] = useState(() => startOfMonth(calendarMonth))
+
+  useEffect(() => {
+    if (!isOpen) return
+    const anchor = startOfMonth(calendarMonth)
+    setAnchorMonth(anchor)
+    setDisplayMonth(anchor)
+  }, [isOpen, calendarMonth])
+
+  const maxNavMonth = useMemo(() => startOfMonth(addMonths(anchorMonth, MAX_MONTHS_AHEAD)), [anchorMonth])
+
+  const templateWeeks = useMemo(() => buildWeekBlocks(displayMonth), [displayMonth])
 
   const slotsByDay = useMemo(
-    () => slotsByDayFromDisponibilites(reservations, calendarMonth),
-    [reservations, calendarMonth],
+    () => slotsByDayFromDisponibilites(reservations, displayMonth),
+    [reservations, displayMonth],
   )
 
   const [weeks, setWeeks] = useState<WeekBlock[]>([])
   const [error, setError] = useState<string | null>(null)
   const [applying, setApplying] = useState(false)
+
+  const canGoToPrevMonth = isAfter(displayMonth, anchorMonth)
+  const canGoToNextMonth = isBefore(displayMonth, maxNavMonth)
+
+  const goToPrevMonth = useCallback(() => {
+    if (!canGoToPrevMonth) return
+    setDisplayMonth((m) => startOfMonth(addMonths(m, -1)))
+  }, [canGoToPrevMonth])
+
+  const goToNextMonth = useCallback(() => {
+    if (!canGoToNextMonth) return
+    setDisplayMonth((m) => startOfMonth(addMonths(m, 1)))
+  }, [canGoToNextMonth])
 
   useEffect(() => {
     if (!isOpen) return
@@ -299,7 +330,7 @@ export default function CalendrierDisponibilitesModal({
 
   if (!isOpen) return null
 
-  const monthLabel = capitalizeFr(format(calendarMonth, 'MMMM yyyy', { locale: fr }))
+  const monthLabel = capitalizeFr(format(displayMonth, 'MMMM yyyy', { locale: fr }))
   const target = document.getElementById('layout-main')
 
   const content = (
@@ -319,19 +350,47 @@ export default function CalendrierDisponibilitesModal({
         </div>
         <div className="calendrier-dispo-modal-body calendrier-dispo-modal-body--scroll">
           <div className="calendrier-dispo-modal-month">
-            <h3 className="calendrier-dispo-modal-month-title">Mois : {monthLabel}</h3>
+            <div className="calendrier-dispo-month-nav" role="group" aria-label="Choisir le mois à configurer">
+              <button
+                type="button"
+                className="calendrier-dispo-month-nav-btn"
+                onClick={goToPrevMonth}
+                disabled={!canGoToPrevMonth}
+                aria-label="Mois précédent"
+                title="Mois précédent"
+              >
+                ‹
+              </button>
+              <div className="calendrier-dispo-month-nav-center">
+                <span className="calendrier-dispo-month-nav-label">Mois affiché</span>
+                <h3 className="calendrier-dispo-modal-month-title" id="calendrier-dispo-month-heading">
+                  {monthLabel}
+                </h3>
+              </div>
+              <button
+                type="button"
+                className="calendrier-dispo-month-nav-btn"
+                onClick={goToNextMonth}
+                disabled={!canGoToNextMonth}
+                aria-label="Mois suivant"
+                title="Mois suivant"
+              >
+                ›
+              </button>
+            </div>
             <p className="calendrier-dispo-modal-intro">
-              Les plages déjà enregistrées pour ce mois sont préremplies. Cliquez sur un jour pour l’activer ou le
-              désactiver et ajuster les horaires (plusieurs plages possibles par jour). Les jours déjà passés ne sont
-              pas proposés.
+              Les plages déjà enregistrées pour ce mois sont préremplies. Utilisez les flèches pour parcourir les mois
+              suivants et planifier vos disponibilités à l’avance. Le retour en arrière s’arrête au mois du calendrier
+              (à l’ouverture de cette fenêtre). Cliquez sur un jour pour l’activer ou le désactiver et ajuster les
+              horaires (plusieurs plages possibles par jour). Les jours déjà passés ne sont pas proposés.
             </p>
           </div>
           {error && <p className="calendrier-dispo-modal-error">{error}</p>}
 
           {weeks.length === 0 && (
             <p className="calendrier-dispo-modal-empty">
-              Aucun jour à venir dans ce mois (tous les jours sont déjà passés). Affichez un mois plus récent dans
-              le calendrier.
+              Aucun jour à venir dans ce mois (tous les jours sont déjà passés). Passez au mois suivant avec la flèche
+              à droite, ou choisissez un mois plus récent dans le calendrier principal.
             </p>
           )}
 
