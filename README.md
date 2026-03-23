@@ -1,73 +1,79 @@
-# React + TypeScript + Vite
+# Lumiel
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Application web de présentation et de gestion pour un accompagnement bien-être : site vitrine, prise de rendez-vous et tableau de bord administrateur.
 
-Currently, two official plugins are available:
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Supabase](https://img.shields.io/badge/Supabase-Auth_%26_DB-3FCF8E?logo=supabase&logoColor=white)](https://supabase.com/)
+[![React Router](https://img.shields.io/badge/React_Router-7-CA4245?logo=react-router&logoColor=white)](https://reactrouter.com/)
+[![date-fns](https://img.shields.io/badge/date--fns-4-770000?logo=javascript&logoColor=white)](https://date-fns.org/)
+[![ESLint](https://img.shields.io/badge/ESLint-9-4B32C3?logo=eslint&logoColor=white)](https://eslint.org/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Stack technique
 
-## React Compiler
+| Domaine | Outils |
+|--------|--------|
+| Interface | React 19, TypeScript |
+| Build & dev | Vite |
+| Données & auth | Supabase (client JS) |
+| Navigation | React Router (v7) |
+| Calendrier | react-big-calendar, date-fns (locale `fr`) |
+| Qualité | ESLint, TypeScript strict |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Fonctionnalités
 
-## Expanding the ESLint configuration
+### Site public
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Accueil** — Présentation de l’approche et du cadre d’accompagnement.
+- **À propos** — Page dédiée à la présentation.
+- **Prestations & tarifs** — Liste des prestations (nom, description, durée, prix ou « sur devis »), chargée depuis Supabase.
+- **Témoignages** — Page dédiée aux retours clients.
+- **Blog** — Consultation des contenus blog.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Réservation
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **Prise de rendez-vous** (depuis la page prestations) — Choix d’une date, d’un créneau libre en fonction des réservations existantes et de la durée de la prestation, puis formulaire de contact pour confirmer le rendez-vous.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Administration (dashboard)
+
+Accès réservé aux comptes présents dans la table Supabase `admins` (connexion par e-mail via Supabase Auth).
+
+- **Statistiques** — Compteur d’avis ; emplacements prévus pour les prestations réalisées, la répartition par type et les prochains rendez-vous.
+- **Blog** — Zone réservée à la gestion des articles (interface à brancher sur Supabase).
+- **Avis** — Liste des avis, validation / invalidation et suppression.
+- **Calendrier** — Agenda des rendez-vous (react-big-calendar) et gestion des disponibilités.
+- **Prestations** — Création, édition et suppression des prestations (tarif, durée, couleur, description).
+
+## Prérequis
+
+- [Node.js](https://nodejs.org/) (version LTS recommandée)
+- Un projet [Supabase](https://supabase.com/) avec les tables et règles adaptées (dont `admins` pour l’accès dashboard)
+
+## Installation
+
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Variables d’environnement
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Créer un fichier `.env` à la racine du projet :
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```env
+VITE_SUPABASE_URL=https://votre-projet.supabase.co
+VITE_SUPABASE_ANON_KEY=votre_cle_anon
 ```
+
+## Scripts
+
+| Commande | Description |
+|----------|-------------|
+| `npm run dev` | Serveur de développement (Vite) |
+| `npm run build` | Compilation TypeScript + build de production |
+| `npm run preview` | Prévisualisation du build local |
+| `npm run lint` | Analyse ESLint |
+
+## Licence
+
+Projet privé (`private` dans `package.json`).
