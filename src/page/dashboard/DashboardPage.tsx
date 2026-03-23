@@ -1,84 +1,126 @@
-import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { supabase, isAdmin } from '../../lib/supabase'
-import type { User } from '@supabase/supabase-js'
-import './DashboardPage.css'
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { supabase, isAdmin } from "../../lib/supabase";
+import type { User } from "@supabase/supabase-js";
+import {
+  type TabId,
+  StatsTab,
+  BlogTab,
+  AvisTab,
+  CalendrierTab,
+  PrestationsTab,
+} from "./tabs";
+import "./DashboardPage.css";
 
 export default function DashboardPage() {
-  const [user, setUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState(true)
-  const navigate = useNavigate()
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<TabId>("stats");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    supabase.auth.getUser().then(async ({ data: { user } }) => {
-      if (!user) {
-        setLoading(false)
-        navigate('/login')
-        return
-      }
-      const admin = await isAdmin(user.email ?? '')
-      if (!admin) {
-        await supabase.auth.signOut()
-        navigate('/login')
-        return
-      }
-      setUser(user)
-      setLoading(false)
-    })
+    let mounted = true;
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!mounted) return;
       if (!session?.user) {
-        setUser(null)
-        navigate('/login')
-        return
+        setUser(null);
+        setLoading(false);
+        navigate("/login");
+        return;
       }
-      const admin = await isAdmin(session.user.email ?? '')
-      if (!admin) {
-        await supabase.auth.signOut()
-        navigate('/login')
-        return
-      }
-      setUser(session.user)
-    })
+      // Déporter les appels async hors du callback pour éviter les blocages Supabase Auth
+      const email = session.user.email ?? "";
+      setTimeout(async () => {
+        if (!mounted) return;
+        try {
+          const admin = await isAdmin(email);
+          if (!mounted) return;
+          if (!admin) {
+            await supabase.auth.signOut();
+            navigate("/login");
+            return;
+          }
+          setUser(session.user);
+        } catch {
+          if (mounted) navigate("/login");
+        } finally {
+          if (mounted) setLoading(false);
+        }
+      }, 50);
+    });
 
-    return () => subscription.unsubscribe()
-  }, [navigate])
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
+  }, [navigate]);
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut()
-    navigate('/login')
-  }
+    await supabase.auth.signOut();
+    navigate("/login");
+  };
 
   if (loading) {
     return (
       <div className="dashboard-page">
         <div className="dashboard-loading">Chargement...</div>
       </div>
-    )
+    );
   }
 
-  if (!user) return null
+  if (!user) return null;
+
+  const tabs: { id: TabId; label: string }[] = [
+    { id: "stats", label: "Statistiques" },
+    { id: "blog", label: "Blog" },
+    { id: "avis", label: "Avis" },
+    { id: "calendrier", label: "Calendrier" },
+    { id: "prestations", label: "Prestations" },
+  ];
+
+  const tabContent: Record<TabId, React.ReactNode> = {
+    stats: <StatsTab />,
+    blog: <BlogTab />,
+    avis: <AvisTab />,
+    calendrier: <CalendrierTab />,
+    prestations: <PrestationsTab />,
+  };
 
   return (
     <div className="dashboard-page">
-      <section className="dashboard-content">
-        <div className="dashboard-header">
+      <aside className="dashboard-sidebar">
+        <div className="dashboard-sidebar-header">
           <h1>Tableau de bord</h1>
-          <button type="button" className="btn-secondary" onClick={handleSignOut}>
+          <p className="dashboard-welcome">Administration</p>
+          <button
+            type="button"
+            className="btn-secondary"
+            onClick={handleSignOut}
+          >
             Déconnexion
           </button>
         </div>
-        <p className="dashboard-welcome">
-          Bienvenue, <strong>{user.email}</strong>
-        </p>
-        <div className="dashboard-card">
-          <h2>Votre espace</h2>
-          <p>
-            Vous êtes connecté à votre espace personnel Lumiel.
-            Cette page pourra afficher vos rendez-vous, séances et informations.
-          </p>
-        </div>
-      </section>
+        <nav className="dashboard-tabs">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              className={`dashboard-tab ${activeTab === tab.id ? "dashboard-tab--active" : ""}`}
+              onClick={() => setActiveTab(tab.id)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </nav>
+        <Link to="/" className="dashboard-home-btn">
+          Retour à l'accueil
+        </Link>
+      </aside>
+
+      <main className="dashboard-main">{tabContent[activeTab]}</main>
     </div>
-  )
+  );
 }

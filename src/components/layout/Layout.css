@@ -24,6 +24,7 @@
 }
 
 .layout-main {
+  position: relative;
   flex: 1;
   display: flex;
   align-items: center;
@@ -91,6 +92,24 @@
   .layout--login .menu {
     padding: 1.25rem 1.5rem;
   }
+}
+
+/* Page dashboard : pleine largeur */
+.layout--dashboard .layout-main {
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 0;
+}
+
+.layout--dashboard .layout-main-content {
+  max-width: none;
+  width: 100%;
+  min-height: 0;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
 }
 
 @media (max-width: 768px) {

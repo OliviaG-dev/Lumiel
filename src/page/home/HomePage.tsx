@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import './HomePage.css'
 
 export default function HomePage() {
@@ -11,7 +10,6 @@ export default function HomePage() {
           À travers une approche humaine et bienveillante, je vous accompagne pour relâcher
           les tensions, retrouver la sérénité et rééquilibrer votre énergie.
         </p>
-        <Link to="/prestations" className="btn-primary">Réserver une séance</Link>
       </section>
     </div>
   )

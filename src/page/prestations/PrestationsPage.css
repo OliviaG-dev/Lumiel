@@ -37,6 +37,68 @@
   margin: 0 0 1.25rem;
 }
 
+.prestations-loading {
+  color: var(--lumiel-text-soft);
+  font-style: italic;
+  margin: 2rem 0;
+}
+
+.prestations-error {
+  color: #c9756c;
+  margin: 2rem 0;
+}
+
+.prestations-empty {
+  color: var(--lumiel-text-soft);
+  font-style: italic;
+  margin: 2rem 0;
+}
+
+.prestations-list-public {
+  display: grid;
+  gap: 1rem;
+  margin: 2rem 0 0;
+  text-align: left;
+}
+
+.prestation-card {
+  padding: 1.25rem 1.5rem;
+  background: rgba(21, 23, 30, 0.5);
+  border-radius: 14px;
+  border: 1px solid rgba(107, 123, 158, 0.15);
+  border-left: 3px solid var(--lumiel-gold);
+}
+
+.prestation-card-nom {
+  font-family: var(--lumiel-heading);
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--lumiel-text);
+  margin: 0 0 0.5rem;
+}
+
+.prestation-card-desc {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--lumiel-text-soft);
+  margin: 0 0 0.75rem;
+}
+
+.prestation-card-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+}
+
+.prestation-card-prix {
+  color: var(--lumiel-gold);
+  font-weight: 500;
+}
+
+.prestation-card-duree {
+  color: var(--lumiel-text-soft);
+}
+
 .prestations-booking {
   margin-top: 3rem;
   padding-top: 2rem;
@@ -60,6 +122,9 @@
   letter-spacing: 0.03em;
   background: var(--lumiel-gold);
   color: #15171e;
+  border: none;
+  cursor: pointer;
+  font: inherit;
   transition: all 0.25s ease;
 }
 

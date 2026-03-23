@@ -1,0 +1,298 @@
+/* Modal gestion des disponibilités — mois → semaines → jours / plages */
+
+.calendrier-dispo-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  z-index: 1100;
+  padding: 1.5rem 0.5rem 2rem;
+  overflow-y: auto;
+}
+
+.calendrier-dispo-modal {
+  background: linear-gradient(165deg, rgba(26, 29, 38, 0.98) 0%, rgba(21, 24, 32, 0.99) 100%);
+  border: 1px solid rgba(107, 123, 158, 0.2);
+  border-radius: 16px;
+  max-width: min(640px, calc(100% - 2rem));
+  width: 100%;
+  flex-shrink: 0;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+}
+
+.calendrier-dispo-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid rgba(107, 123, 158, 0.12);
+  flex-shrink: 0;
+}
+
+.calendrier-dispo-modal-header h2 {
+  font-family: var(--lumiel-heading);
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--lumiel-text);
+  margin: 0;
+}
+
+.calendrier-dispo-modal-close {
+  width: 30px;
+  height: 30px;
+  background: rgba(107, 123, 158, 0.1);
+  border: 1px solid rgba(107, 123, 158, 0.2);
+  border-radius: 8px;
+  color: var(--lumiel-text-soft);
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendrier-dispo-modal-body {
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+.calendrier-dispo-modal-body--scroll {
+  max-height: min(72vh, 620px);
+  overflow-y: auto;
+}
+
+.calendrier-dispo-modal-month {
+  margin-bottom: 1rem;
+}
+
+.calendrier-dispo-modal-month-title {
+  font-family: var(--lumiel-heading);
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--lumiel-text);
+  margin: 0 0 0.5rem;
+  letter-spacing: 0.02em;
+}
+
+.calendrier-dispo-modal-intro {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--lumiel-text-soft);
+}
+
+.calendrier-dispo-modal-error {
+  color: #e8a0a0;
+  font-size: 0.85rem;
+  margin: 0 0 0.75rem;
+}
+
+.calendrier-dispo-modal-empty {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--lumiel-text-soft);
+}
+
+.calendrier-dispo-week {
+  margin-bottom: 1.35rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid rgba(107, 123, 158, 0.1);
+}
+
+.calendrier-dispo-week:last-of-type {
+  border-bottom: none;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0;
+}
+
+.calendrier-dispo-week-range {
+  font-family: var(--lumiel-heading);
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--lumiel-gold);
+  margin: 0 0 0.75rem;
+  letter-spacing: 0.02em;
+}
+
+.calendrier-dispo-week-days {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.calendrier-dispo-day-block {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.55rem 0.85rem;
+}
+
+.calendrier-dispo-day-pill {
+  flex-shrink: 0;
+  min-width: 4.25rem;
+  padding: 0.4rem 0.55rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--lumiel-text-soft);
+  background: rgba(21, 23, 30, 0.5);
+  border: 1px solid rgba(107, 123, 158, 0.2);
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.calendrier-dispo-day-pill:hover {
+  color: var(--lumiel-text);
+  border-color: rgba(107, 123, 158, 0.4);
+}
+
+.calendrier-dispo-day-pill--active {
+  color: #0f1116;
+  background: rgba(122, 143, 212, 0.4);
+  border-color: rgba(122, 143, 212, 0.55);
+}
+
+.calendrier-dispo-day-pill--active:hover {
+  background: rgba(122, 143, 212, 0.5);
+}
+
+.calendrier-dispo-day-slots {
+  display: flex;
+  flex: 1;
+  min-width: min(100%, 220px);
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.calendrier-dispo-slot-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.calendrier-dispo-time-input {
+  padding: 0.4rem 0.55rem;
+  font-size: 0.88rem;
+  color: var(--lumiel-text);
+  background: rgba(21, 23, 30, 0.6);
+  border: 1px solid rgba(107, 123, 158, 0.25);
+  border-radius: 6px;
+  min-width: 0;
+}
+
+.calendrier-dispo-time-input:focus {
+  outline: none;
+  border-color: var(--lumiel-gold);
+}
+
+.calendrier-dispo-hours-sep {
+  color: var(--lumiel-text-soft);
+  font-size: 0.85rem;
+}
+
+.calendrier-dispo-slot-remove {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--lumiel-text-soft);
+  background: rgba(200, 90, 90, 0.15);
+  border: 1px solid rgba(200, 90, 90, 0.25);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.calendrier-dispo-slot-remove:hover {
+  color: #e8a0a0;
+  border-color: rgba(200, 90, 90, 0.4);
+}
+
+.calendrier-dispo-add-slot {
+  align-self: flex-start;
+  margin-top: 0.1rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+  color: var(--lumiel-gold);
+  background: transparent;
+  border: 1px dashed rgba(201, 168, 130, 0.35);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.calendrier-dispo-add-slot:hover {
+  border-color: var(--lumiel-gold);
+  background: rgba(201, 168, 130, 0.08);
+}
+
+.calendrier-dispo-modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  justify-content: flex-end;
+  padding-top: 1rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid rgba(107, 123, 158, 0.12);
+  position: sticky;
+  bottom: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(21, 24, 32, 0.97) 12%);
+  padding-bottom: 0.25rem;
+}
+
+.calendrier-dispo-btn-secondary {
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  background: rgba(107, 123, 158, 0.15);
+  color: var(--lumiel-text-soft);
+  border: 1px solid rgba(107, 123, 158, 0.3);
+  cursor: pointer;
+}
+
+.calendrier-dispo-btn-primary {
+  padding: 0.5rem 1.15rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  background: var(--lumiel-gold);
+  color: #0f1116;
+  border: none;
+  cursor: pointer;
+}
+
+.calendrier-dispo-btn-primary:hover:not(:disabled) {
+  background: var(--lumiel-gold-light);
+}
+
+.calendrier-dispo-btn-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.calendrier-dispo-modal .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+@media (max-width: 480px) {
+  .calendrier-dispo-modal-actions {
+    flex-direction: column-reverse;
+  }
+
+  .calendrier-dispo-btn-secondary,
+  .calendrier-dispo-btn-primary {
+    width: 100%;
+  }
+}
