@@ -1,5 +1,10 @@
 /* Calendrier Lumiel - design raffiné */
 
+.calendrier-tab.dashboard-tab-content {
+  min-width: 0;
+  max-width: 100%;
+}
+
 .calendrier-loading {
   display: flex;
   align-items: center;
@@ -58,8 +63,11 @@
 }
 
 .calendrier-tab .calendrier-card {
+  min-width: 0;
+  max-width: 100%;
   padding: 0;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: visible;
   background: linear-gradient(
     145deg,
     rgba(21, 23, 30, 0.5) 0%,
@@ -125,9 +133,34 @@
 }
 
 .calendrier-wrapper {
-  min-height: 560px;
-  height: min(72vh, 680px);
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 0;
+  height: auto;
   padding: 0 2rem 2rem;
+}
+
+/*
+ * react-big-calendar : .rbc-calendar est en height:100% et la vue mois en flex:1 0 0.
+ * Sans hauteur explicite sur le parent, les pourcentages ne s’appliquent pas et la grille tombe à 0 px.
+ */
+.calendrier-wrapper .rbc-calendar {
+  height: auto;
+  min-height: 480px;
+}
+
+.calendrier-wrapper .rbc-month-view {
+  flex: 0 0 auto !important;
+  height: auto !important;
+}
+
+.calendrier-wrapper .rbc-month-row {
+  flex: 0 0 auto !important;
+  height: auto !important;
+  min-height: 100px;
+  overflow: visible;
 }
 
 /* Toolbar — Aujourd’hui à gauche ; Précédent + mois + Suivant groupés au centre ; vues à droite */
@@ -313,6 +346,203 @@
     padding: 0.4rem 0.5rem;
     font-size: 0.75rem;
   }
+
+  /* Barre d’outils en une colonne : Aujourd’hui puis navigation mois pleine largeur */
+  .calendrier-wrapper .calendrier-toolbar.rbc-toolbar {
+    grid-template-columns: 1fr;
+    row-gap: 0.65rem;
+  }
+
+  .calendrier-wrapper .calendrier-toolbar-today {
+    grid-column: 1;
+    justify-self: center;
+  }
+
+  .calendrier-wrapper .calendrier-toolbar-month {
+    grid-column: 1;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .calendrier-wrapper .calendrier-toolbar:has(.calendrier-toolbar-views) .calendrier-toolbar-month {
+    grid-column: 1;
+  }
+
+  .calendrier-wrapper .calendrier-toolbar-views {
+    grid-column: 1;
+    justify-self: center;
+  }
+}
+
+/* Vue mois — tablette / mobile : hauteur auto pour afficher tout le mois (scroll page) */
+@media (max-width: 1024px) {
+  .calendrier-wrapper {
+    padding: 0 1rem 1.5rem;
+    height: auto;
+    min-height: 0;
+  }
+
+  .calendrier-wrapper .rbc-calendar {
+    min-height: 420px;
+  }
+
+  .calendrier-wrapper .rbc-month-row {
+    min-height: 88px;
+  }
+
+  .calendrier-wrapper .rbc-header {
+    padding: 0.7rem 0.35rem;
+    font-size: 0.76rem;
+  }
+
+  /* Disponibilité : fond de case (l’icône est masquée ≤1024px via une règle placée après les styles du marqueur) */
+  .calendrier-wrapper .rbc-day-bg.calendrier-day-bg--has-dispo.calendrier-day-bg--future:not(.rbc-off-range-bg) {
+    background: linear-gradient(
+      145deg,
+      rgba(45, 140, 118, 0.38) 0%,
+      rgba(24, 28, 38, 0.42) 100%
+    );
+  }
+
+  .calendrier-wrapper .rbc-day-bg.calendrier-day-bg--has-dispo.calendrier-day-bg--future:not(.rbc-off-range-bg):hover {
+    background: linear-gradient(
+      145deg,
+      rgba(55, 160, 135, 0.45) 0%,
+      rgba(107, 123, 158, 0.12) 100%
+    );
+  }
+
+  .calendrier-wrapper .rbc-day-bg.calendrier-day-bg--has-dispo.calendrier-day-bg--past:not(.rbc-off-range-bg) {
+    background: linear-gradient(
+      145deg,
+      rgba(32, 95, 82, 0.28) 0%,
+      rgba(12, 14, 18, 0.58) 100%
+    );
+  }
+
+  .calendrier-wrapper .rbc-day-bg.calendrier-day-bg--has-dispo.calendrier-day-bg--past:not(.rbc-off-range-bg):hover {
+    background: linear-gradient(
+      145deg,
+      rgba(40, 110, 95, 0.32) 0%,
+      rgba(107, 123, 158, 0.08) 100%
+    );
+  }
+
+  .calendrier-wrapper .rbc-day-bg.calendrier-day-bg--has-dispo.calendrier-day-bg--future.rbc-off-range-bg {
+    background: linear-gradient(
+      145deg,
+      rgba(35, 100, 88, 0.32) 0%,
+      rgba(18, 20, 26, 0.42) 100%
+    );
+  }
+
+  .calendrier-wrapper .rbc-day-bg.calendrier-day-bg--has-dispo.calendrier-day-bg--future.rbc-off-range-bg:hover {
+    background: linear-gradient(
+      145deg,
+      rgba(45, 120, 105, 0.38) 0%,
+      rgba(107, 123, 158, 0.1) 100%
+    );
+  }
+
+  .calendrier-wrapper .rbc-day-bg.calendrier-day-bg--has-dispo.calendrier-day-bg--past.rbc-off-range-bg {
+    background: linear-gradient(
+      145deg,
+      rgba(28, 78, 68, 0.26) 0%,
+      rgba(10, 12, 16, 0.55) 100%
+    );
+  }
+
+  .calendrier-wrapper .rbc-day-bg.calendrier-day-bg--has-dispo.calendrier-day-bg--past.rbc-off-range-bg:hover {
+    background: linear-gradient(
+      145deg,
+      rgba(35, 90, 78, 0.3) 0%,
+      rgba(107, 123, 158, 0.08) 100%
+    );
+  }
+
+  .calendrier-wrapper .rbc-day-bg.calendrier-day-bg--has-dispo.calendrier-day-bg--today,
+  .calendrier-wrapper .rbc-day-bg.calendrier-day-bg--has-dispo.rbc-today {
+    background: linear-gradient(
+      135deg,
+      rgba(70, 175, 155, 0.32) 0%,
+      rgba(122, 143, 212, 0.2) 100%
+    );
+    box-shadow:
+      inset 0 0 0 1px rgba(100, 210, 185, 0.45),
+      inset 0 0 0 1px rgba(122, 143, 212, 0.25);
+  }
+
+  .calendrier-wrapper .rbc-day-bg.calendrier-day-bg--has-dispo.calendrier-day-bg--today:hover,
+  .calendrier-wrapper .rbc-day-bg.calendrier-day-bg--has-dispo.rbc-today:hover {
+    background: linear-gradient(
+      135deg,
+      rgba(85, 195, 170, 0.38) 0%,
+      rgba(122, 143, 212, 0.26) 100%
+    );
+  }
+}
+
+@media (max-width: 768px) {
+  .calendrier-wrapper {
+    padding: 0 0.75rem 1rem;
+    height: auto;
+    min-height: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+
+  .calendrier-wrapper .rbc-calendar {
+    min-height: 360px;
+  }
+
+  .calendrier-wrapper .rbc-month-view {
+    min-width: 280px;
+  }
+
+  .calendrier-wrapper .rbc-month-row {
+    min-height: 80px;
+  }
+
+  .calendrier-wrapper .rbc-header {
+    padding: 0.55rem 0.18rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+  }
+
+  .calendrier-wrapper .rbc-month-view .rbc-row-content-scroll-container {
+    max-height: 6.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .calendrier-wrapper {
+    padding: 0 0.45rem 0.85rem;
+    height: auto;
+    min-height: 0;
+  }
+
+  .calendrier-wrapper .rbc-calendar {
+    min-height: 320px;
+  }
+
+  .calendrier-wrapper .rbc-month-row {
+    min-height: 70px;
+  }
+
+  .calendrier-wrapper .rbc-header {
+    padding: 0.42rem 0.1rem;
+    font-size: 0.58rem;
+    letter-spacing: 0.02em;
+  }
+
+  .calendrier-wrapper .rbc-month-view .rbc-row-content-scroll-container {
+    max-height: 5.25rem;
+  }
+
+  .calendrier-wrapper .rbc-month-view .rbc-event--rendezvous .rbc-event-content {
+    font-size: 0.58rem;
+  }
 }
 
 /* En-têtes des jours de la semaine */
@@ -333,6 +563,10 @@
 
 /* Grille mois */
 .calendrier-wrapper .rbc-month-view {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   border: 1px solid rgba(107, 123, 158, 0.12);
   border-radius: 14px;
   overflow: hidden;
@@ -341,7 +575,6 @@
 
 .calendrier-wrapper .rbc-month-row {
   border-color: rgba(107, 123, 158, 0.06);
-  min-height: 100px;
 }
 
 .calendrier-wrapper .rbc-day-bg {
@@ -455,6 +688,17 @@
   height: 15px;
   color: #7dffd9;
   filter: drop-shadow(0 0 6px rgba(100, 255, 210, 0.65));
+}
+
+/* Tablette / téléphone : pas d’icône dispo (la règle doit suivre le display: inline-flex ci-dessus) */
+@media (max-width: 1024px) {
+  .calendrier-wrapper .calendrier-date-dispo-marker {
+    display: none;
+  }
+
+  .calendrier-wrapper .calendrier-date-header-row[data-has-dispo='true'] {
+    justify-content: flex-end;
+  }
 }
 
 .calendrier-wrapper .rbc-date-cell .calendrier-date-label {

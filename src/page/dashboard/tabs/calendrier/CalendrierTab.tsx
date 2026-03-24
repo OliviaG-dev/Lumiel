@@ -701,9 +701,15 @@ export default function CalendrierTab() {
             showAllEvents
             selectable
             messages={messages}
-            dayPropGetter={(d) => ({
-              className: `calendrier-day-bg--${getCalendrierDayKind(d)}`,
-            })}
+            dayPropGetter={(d) => {
+              const kind = getCalendrierDayKind(d)
+              const hasDispo = reservations.some(
+                (r) => r.type === 'disponibilité' && isSameDay(r.start, d),
+              )
+              const classes = [`calendrier-day-bg--${kind}`]
+              if (hasDispo) classes.push('calendrier-day-bg--has-dispo')
+              return { className: classes.join(' ') }
+            }}
             components={{
               toolbar: CalendrierToolbar,
               month: {
