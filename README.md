@@ -15,11 +15,11 @@ Application web de présentation et de gestion pour un accompagnement bien-être
 | Domaine | Outils |
 |--------|--------|
 | Interface | React 19, TypeScript |
-| Build & dev | Vite |
-| Données & auth | Supabase (client JS) |
-| Navigation | React Router (v7) |
+| Build & dev | Vite 8 |
+| Données & auth | Supabase (`@supabase/supabase-js`) |
+| Navigation | React Router 7 |
 | Calendrier | react-big-calendar, date-fns (locale `fr`) |
-| Qualité | ESLint, TypeScript strict |
+| Qualité | ESLint 9, TypeScript strict |
 
 ## Fonctionnalités
 
@@ -39,10 +39,12 @@ Application web de présentation et de gestion pour un accompagnement bien-être
 
 Accès réservé aux comptes présents dans la table Supabase `admins` (connexion par e-mail via Supabase Auth).
 
+En **tablette et mobile** (≤ 1024px), la barre latérale devient un **burger menu** : bouton en-tête, voile assombri, fermeture par clic extérieur, choix d’un onglet ou touche Échap.
+
 - **Statistiques** — Compteur d’avis ; emplacements prévus pour les prestations réalisées, la répartition par type et les prochains rendez-vous.
 - **Blog** — Zone réservée à la gestion des articles (interface à brancher sur Supabase).
 - **Avis** — Liste des avis, validation / invalidation et suppression.
-- **Calendrier** — Agenda des rendez-vous (react-big-calendar) et gestion des disponibilités.
+- **Calendrier** — Agenda des rendez-vous (react-big-calendar) et gestion des disponibilités. Sur tablette / mobile, les jours avec disponibilité sont surtout repérables par la **couleur de la case** (pastille masquée).
 - **Prestations** — Création, édition et suppression des prestations (tarif, durée, couleur, description).
 
 ## Prérequis
