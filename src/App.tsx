@@ -5,6 +5,7 @@ import AboutPage from './page/about/AboutPage'
 import PrestationsPage from './page/prestations/PrestationsPage'
 import TemoignagesPage from './page/temoignages/TemoignagesPage'
 import BlogPage from './page/blog/BlogPage'
+import BlogArticlePage from './page/blog/BlogArticlePage'
 import LoginPage from './page/login/LoginPage'
 import DashboardPage from './page/dashboard/DashboardPage'
 
@@ -18,6 +19,7 @@ function App() {
           <Route path="prestations" element={<PrestationsPage />} />
           <Route path="temoignages" element={<TemoignagesPage />} />
           <Route path="blog" element={<BlogPage />} />
+          <Route path="blog/:slug" element={<BlogArticlePage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="dashboard" element={<DashboardPage />} />
         </Route>

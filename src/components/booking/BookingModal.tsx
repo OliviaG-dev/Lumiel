@@ -132,7 +132,7 @@ export default function BookingModal({ isOpen, onClose, onSuccess }: BookingModa
               <div className="booking-steps">
                 <button
                   type="button"
-                  className={`booking-step-item ${step === 'date' ? 'active' : step !== 'date' ? 'done' : ''}`}
+                  className={`booking-step-item ${step === 'date' ? 'active' : 'done'}`}
                   onClick={() => {
                     setStep('date')
                     setSelectedDate(null)

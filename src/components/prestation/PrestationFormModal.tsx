@@ -1,7 +1,12 @@
 import { useState, useEffect, type CSSProperties } from 'react'
 import { createPortal } from 'react-dom'
 import type { Prestation } from '../../types/prestation'
-import { PRESTATION_COLOR_OPTIONS, DEFAULT_PRESTATION_COLOR } from '../../lib/prestationColors'
+import {
+  PRESTATION_COLOR_OPTIONS,
+  DEFAULT_PRESTATION_COLOR,
+  normalizePrestationCouleur,
+  type PrestationHex,
+} from '../../lib/prestationColors'
 import './PrestationFormModal.css'
 
 interface PrestationFormModalProps {
@@ -23,7 +28,7 @@ export default function PrestationFormModal({
   const [description, setDescription] = useState('')
   const [prix, setPrix] = useState(0)
   const [duree, setDuree] = useState(60)
-  const [couleur, setCouleur] = useState(DEFAULT_PRESTATION_COLOR)
+  const [couleur, setCouleur] = useState<PrestationHex>(DEFAULT_PRESTATION_COLOR)
   const [error, setError] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
 
@@ -33,7 +38,7 @@ export default function PrestationFormModal({
       setDescription(prestation?.description ?? '')
       setPrix(prestation?.prix ?? 0)
       setDuree(prestation?.duree ?? 60)
-      setCouleur(prestation?.couleur ?? DEFAULT_PRESTATION_COLOR)
+      setCouleur(normalizePrestationCouleur(prestation?.couleur))
       setError(null)
     }
   }, [isOpen, prestation])
