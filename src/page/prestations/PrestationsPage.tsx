@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, type CSSProperties } from 'react'
 import BookingModal from '../../components/booking/BookingModal'
 import { loadPrestations } from '../../lib/prestations'
 import type { Prestation } from '../../types/prestation'
@@ -31,7 +31,7 @@ export default function PrestationsPage() {
     <div className="prestations-page">
       <section className="prestations-content">
         <h1>Prestations & Tarifs</h1>
-        <p>
+        <p className="prestations-lead">
           Découvrez les différentes prestations proposées et trouvez celle qui correspond
           à vos besoins. Les tarifs et disponibilités sont consultables ci-dessous.
         </p>
@@ -40,19 +40,33 @@ export default function PrestationsPage() {
           <p className="prestations-loading">Chargement des prestations…</p>
         ) : prestations.length > 0 ? (
           <div className="prestations-list-public">
-            {prestations.map((p) => (
-              <div
+            {prestations.map((p, index) => (
+              <article
                 key={p.id}
                 className="prestation-card"
-                style={{ borderLeftColor: p.couleur }}
+                style={
+                  {
+                    '--prestation-accent': p.couleur,
+                    '--card-delay': `${Math.min(index, 8) * 0.06}s`,
+                  } as CSSProperties
+                }
               >
-                <h3 className="prestation-card-nom">{p.nom}</h3>
-                {p.description && <p className="prestation-card-desc">{p.description}</p>}
-                <div className="prestation-card-meta">
-                  <span className="prestation-card-prix">{formatPrix(p.prix)}</span>
-                  <span className="prestation-card-duree">{formatDuree(p.duree)}</span>
+                <div className="prestation-card-inner">
+                  <h3 className="prestation-card-nom">{p.nom}</h3>
+                  {p.description ? (
+                    <p className="prestation-card-desc">{p.description}</p>
+                  ) : null}
+                  <div className="prestation-card-meta">
+                    <span className="prestation-card-chip prestation-card-chip--duree">
+                      <span className="prestation-card-duree-label">Durée</span>
+                      {formatDuree(p.duree)}
+                    </span>
+                    <span className="prestation-card-chip prestation-card-chip--prix">
+                      {formatPrix(p.prix)}
+                    </span>
+                  </div>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
         ) : (
