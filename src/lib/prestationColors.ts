@@ -13,14 +13,16 @@ export const PRESTATION_COLOR_OPTIONS = [
   { hex: '#b07a8a', label: 'Rose thé' },
 ] as const
 
-export const DEFAULT_PRESTATION_COLOR = PRESTATION_COLOR_OPTIONS[0].hex
+export type PrestationHex = (typeof PRESTATION_COLOR_OPTIONS)[number]['hex']
+
+export const DEFAULT_PRESTATION_COLOR: PrestationHex = PRESTATION_COLOR_OPTIONS[0].hex
 
 const ALLOWED = new Set(PRESTATION_COLOR_OPTIONS.map((c) => c.hex.toLowerCase()))
 
-export function normalizePrestationCouleur(hex: string | null | undefined): string {
+export function normalizePrestationCouleur(hex: string | null | undefined): PrestationHex {
   if (!hex || typeof hex !== 'string') return DEFAULT_PRESTATION_COLOR
   const h = hex.trim().toLowerCase()
-  return ALLOWED.has(h) ? h : DEFAULT_PRESTATION_COLOR
+  return (ALLOWED.has(h) ? h : DEFAULT_PRESTATION_COLOR) as PrestationHex
 }
 
 function hexToRgb(hex: string): { r: number; g: number; b: number } {

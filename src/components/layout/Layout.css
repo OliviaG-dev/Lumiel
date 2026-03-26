@@ -38,7 +38,7 @@
 .layout-main-content {
   position: relative;
   width: 100%;
-  max-width: 720px;
+  max-width: 1040px;
   background: rgba(21, 23, 30, 0.6);
   backdrop-filter: blur(12px);
   border-radius: 24px;
@@ -85,6 +85,7 @@
   }
 
   .layout--login .layout-main-content {
+    max-width: 440px;
     max-height: none;
     padding: 1.25rem 1.5rem;
   }
