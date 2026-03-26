@@ -9,6 +9,7 @@ import {
   AvisTab,
   CalendrierTab,
   PrestationsTab,
+  ClientsTab,
 } from "./tabs";
 import "./DashboardPage.css";
 
@@ -123,6 +124,7 @@ export default function DashboardPage() {
     { id: "avis", label: "Avis" },
     { id: "calendrier", label: "Calendrier" },
     { id: "prestations", label: "Prestations" },
+    { id: "clients", label: "Clients" },
   ];
 
   const activeTabLabel =
@@ -134,6 +136,7 @@ export default function DashboardPage() {
     avis: <AvisTab />,
     calendrier: <CalendrierTab />,
     prestations: <PrestationsTab />,
+    clients: <ClientsTab />,
   };
 
   return (
