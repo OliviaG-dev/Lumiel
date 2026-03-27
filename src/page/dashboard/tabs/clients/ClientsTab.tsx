@@ -222,12 +222,16 @@ export default function ClientsTab() {
   return (
     <div className="dashboard-tab-content clients-tab">
       <div className="dashboard-card clients-card">
-        <header className="clients-header">
-          <h2>Clients</h2>
-          <p className="clients-intro">
-            Fiches clients : contact, notes privées, suivi des séances. Les prestations affichées reprennent
-            les rendez-vous du calendrier lorsque l’e-mail ou le portable correspond.
-          </p>
+        <header className="dashboard-page-header">
+          <span className="dashboard-page-header-accent" aria-hidden="true" />
+          <div className="dashboard-page-header-text">
+            <h2 className="dashboard-page-title">Clients</h2>
+            <p className="dashboard-page-tagline">Fiches et suivi</p>
+            <p className="dashboard-page-intro clients-intro">
+              Fiches clients : contact, notes privées, suivi des séances. Les prestations affichées reprennent
+              les rendez-vous du calendrier lorsque l’e-mail ou le portable correspond.
+            </p>
+          </div>
         </header>
 
         {error && (
@@ -240,7 +244,7 @@ export default function ClientsTab() {
         )}
 
         <div className="clients-toolbar">
-          <button type="button" className="clients-btn-add" onClick={() => setShowAddModal(true)}>
+          <button type="button" className="dash-btn dash-btn--primary dash-btn--pill clients-btn-add" onClick={() => setShowAddModal(true)}>
             + Ajouter un client
           </button>
         </div>
@@ -302,7 +306,7 @@ export default function ClientsTab() {
                   <div className="clients-detail-actions">
                     <button
                       type="button"
-                      className="clients-btn-edit"
+                      className="dash-btn dash-btn--secondary dash-btn--sm clients-btn-edit"
                       onClick={() => setEditingClient(selected)}
                       disabled={!!actionLoading}
                     >
@@ -310,7 +314,7 @@ export default function ClientsTab() {
                     </button>
                     <button
                       type="button"
-                      className="clients-btn-delete"
+                      className="dash-btn dash-btn--danger dash-btn--sm clients-btn-delete"
                       onClick={() => setConfirmDeleteClientId(selected.id)}
                       disabled={!!actionLoading}
                     >
@@ -399,7 +403,7 @@ export default function ClientsTab() {
                             </span>
                             <button
                               type="button"
-                              className="clients-seance-delete"
+                              className="dash-btn dash-btn--danger dash-btn--sm clients-seance-delete"
                               onClick={() => setConfirmDeleteNoteId(n.id)}
                               disabled={!!actionLoading}
                               aria-label="Supprimer cette note"
@@ -438,7 +442,7 @@ export default function ClientsTab() {
                     />
                     <button
                       type="submit"
-                      className="clients-btn-add-note"
+                      className="dash-btn dash-btn--primary dash-btn--pill dash-btn--sm clients-btn-add-note"
                       disabled={!newSeanceContent.trim() || actionLoading === 'seance-add'}
                     >
                       {actionLoading === 'seance-add' ? 'Ajout…' : 'Ajouter la note'}

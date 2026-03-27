@@ -41,16 +41,20 @@ Accès réservé aux comptes présents dans la table Supabase `admins` (connexio
 
 En **tablette et mobile** (≤ 1024px), la barre latérale devient un **burger menu** : bouton en-tête, voile assombri, fermeture par clic extérieur, choix d’un onglet ou touche Échap.
 
-- **Statistiques** — Compteur d’avis ; emplacements prévus pour les prestations réalisées, la répartition par type et les prochains rendez-vous.
-- **Blog** — Zone réservée à la gestion des articles (interface à brancher sur Supabase).
+- **Statistiques** — Vue d’ensemble : nombre d’avis, prestations réalisées (rendez-vous passés), prestations en attente (rendez-vous à venir) ; graphique « prestations par type » (camembert) ; liste paginée des prochains rendez-vous.
+- **Blog** — Création, édition et suppression des articles (`blog_posts`). Image de couverture optionnelle via **Supabase Storage** (bucket dédié, voir configuration du projet).
 - **Avis** — Liste des avis, validation / invalidation et suppression.
 - **Calendrier** — Agenda des rendez-vous (react-big-calendar) et gestion des disponibilités. Sur tablette / mobile, les jours avec disponibilité sont surtout repérables par la **couleur de la case** (pastille masquée).
 - **Prestations** — Création, édition et suppression des prestations (tarif, durée, couleur, description).
+- **Clients** — Fiches clients : coordonnées, notes privées sur la fiche, notes après séance ; association des rendez-vous du calendrier lorsque l’e-mail ou le portable correspond.
 
 ## Prérequis
 
 - [Node.js](https://nodejs.org/) (version LTS recommandée)
-- Un projet [Supabase](https://supabase.com/) avec les tables et règles adaptées (dont `admins` pour l’accès dashboard)
+- Un projet [Supabase](https://supabase.com/) avec au minimum :
+  - table `admins` (contrôle d’accès au dashboard) ;
+  - données métier utilisées par l’app : `prestations`, `rendez_vous`, `disponibilites`, `avis`, `blog_posts`, `clients`, `client_seance_notes` ;
+  - politiques RLS et, pour le blog, **Storage** si vous utilisez les images d’article.
 
 ## Installation
 
@@ -75,6 +79,18 @@ VITE_SUPABASE_ANON_KEY=votre_cle_anon
 | `npm run build` | Compilation TypeScript + build de production |
 | `npm run preview` | Prévisualisation du build local |
 | `npm run lint` | Analyse ESLint |
+
+## Développement
+
+### Boutons harmonisés (dashboard)
+
+Les boutons du tableau de bord et des écrans qui partagent le même langage visuel (modales de confirmation, formulaires client / prestation / réservation côté admin, calendrier, blog, etc.) reposent sur **`src/page/dashboard/dash-buttons.css`**.
+
+- **Base** : `.dash-btn`
+- **Variantes** : `.dash-btn--primary`, `.dash-btn--secondary`, `.dash-btn--outline`, `.dash-btn--danger`, `.dash-btn--danger-solid`
+- **Utilitaires** : `.dash-btn--sm`, `.dash-btn--pill`, `.dash-btn--block`, `.dash-btn--grow`
+
+La feuille est chargée depuis **`DashboardPage.tsx`** (route `/dashboard`). Pour un composant utilisé ailleurs mais qui doit garder le même rendu (par exemple **`ConfirmModal`**, **`ReservationForm`**), importer explicitement `dash-buttons.css` depuis ce chemin.
 
 ## Licence
 

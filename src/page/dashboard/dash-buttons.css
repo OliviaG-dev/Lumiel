@@ -1,0 +1,118 @@
+/**
+ * Boutons harmonisés — utilisés sur le dashboard et modales associées.
+ * Importer depuis DashboardPage (route /dashboard).
+ */
+
+.dash-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  margin: 0;
+  box-sizing: border-box;
+  padding: 0.52rem 1.1rem;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease,
+    transform 0.12s ease;
+}
+
+.dash-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.dash-btn:focus-visible {
+  outline: 2px solid rgba(201, 168, 130, 0.55);
+  outline-offset: 2px;
+}
+
+.dash-btn--primary {
+  background: var(--lumiel-gold);
+  color: #0f1116;
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.14) inset;
+}
+
+.dash-btn--primary:hover:not(:disabled) {
+  background: var(--lumiel-gold-light);
+}
+
+.dash-btn--secondary {
+  background: rgba(107, 123, 158, 0.14);
+  color: var(--lumiel-text);
+  border-color: rgba(107, 123, 158, 0.32);
+}
+
+.dash-btn--secondary:hover:not(:disabled) {
+  background: rgba(107, 123, 158, 0.24);
+  border-color: rgba(107, 123, 158, 0.48);
+}
+
+.dash-btn--outline {
+  background: transparent;
+  color: var(--lumiel-text-soft);
+  border-color: rgba(107, 123, 158, 0.42);
+}
+
+.dash-btn--outline:hover:not(:disabled) {
+  color: var(--lumiel-text);
+  border-color: rgba(201, 168, 130, 0.45);
+  background: rgba(201, 168, 130, 0.08);
+}
+
+.dash-btn--danger {
+  background: rgba(200, 90, 90, 0.12);
+  color: #e8a8a8;
+  border-color: rgba(220, 120, 120, 0.38);
+}
+
+.dash-btn--danger:hover:not(:disabled) {
+  background: rgba(200, 90, 90, 0.22);
+  border-color: rgba(230, 130, 130, 0.52);
+}
+
+.dash-btn--danger-solid {
+  background: rgba(200, 80, 80, 0.92);
+  color: #fff;
+  border-color: transparent;
+}
+
+.dash-btn--danger-solid:hover:not(:disabled) {
+  background: rgba(220, 90, 90, 1);
+  filter: brightness(1.03);
+}
+
+.dash-btn--sm {
+  padding: 0.38rem 0.8rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.dash-btn--pill {
+  border-radius: 999px;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+.dash-btn--block {
+  width: 100%;
+}
+
+.dash-btn--grow {
+  flex: 1;
+  min-width: 0;
+}

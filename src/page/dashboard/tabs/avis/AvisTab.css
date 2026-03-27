@@ -5,23 +5,10 @@
   padding: 1rem 0;
 }
 
-.avis-header {
-  margin-bottom: 1.5rem;
-}
-
-.avis-title {
-  font-family: var(--lumiel-heading);
-  font-size: 1.25rem;
-  font-weight: 400;
-  color: var(--lumiel-text);
-  margin: 0 0 0.35rem;
-}
-
 .avis-intro {
   margin: 0;
   font-size: 0.9rem;
-  line-height: 1.5;
-  color: var(--lumiel-text-soft);
+  line-height: 1.55;
 }
 
 .avis-error {

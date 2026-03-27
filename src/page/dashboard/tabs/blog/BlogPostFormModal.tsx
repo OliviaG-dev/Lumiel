@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import type { BlogPost } from '../../../../types/blogPost'
 import { slugifyTitle } from '../../../../lib/blogPosts'
 import { uploadBlogCoverImage } from '../../../../lib/blogImageUpload'
+import '../../dash-buttons.css'
 import './BlogPostFormModal.css'
 
 const IMAGE_ACCEPT = 'image/jpeg,image/png,image/gif,image/webp'
@@ -174,7 +175,7 @@ export default function BlogPostFormModal({
               />
               <button
                 type="button"
-                className="blog-post-btn-secondary"
+                className="dash-btn dash-btn--outline dash-btn--sm blog-post-btn-secondary"
                 onClick={() => {
                   setSlug(slugifyTitle(title))
                   setSlugTouched(true)
@@ -287,10 +288,10 @@ export default function BlogPostFormModal({
             </label>
           </div>
           <div className="blog-post-modal-actions">
-            <button type="button" className="blog-post-btn-secondary" onClick={onClose}>
+            <button type="button" className="dash-btn dash-btn--outline blog-post-btn-secondary" onClick={onClose}>
               Annuler
             </button>
-            <button type="submit" className="blog-post-btn-primary" disabled={saving || uploadBusy}>
+            <button type="submit" className="dash-btn dash-btn--primary blog-post-btn-primary" disabled={saving || uploadBusy}>
               {saving ? 'Enregistrement…' : post ? 'Enregistrer' : 'Créer l’article'}
             </button>
           </div>

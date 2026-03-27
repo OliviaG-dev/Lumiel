@@ -22,38 +22,10 @@
   }
 }
 
-.clients-header {
-  margin-bottom: 1.5rem;
-}
-
-.clients-tab .clients-card > .clients-header h2,
-.clients-header h2 {
-  font-family: var(--lumiel-heading);
-  font-size: 1.55rem;
-  font-weight: 400;
-  letter-spacing: 0.06em;
-  color: var(--lumiel-text);
-  margin: 0 0 1rem;
-  line-height: 1.25;
-}
-
-.clients-header h2::after {
-  content: '';
-  display: block;
-  width: 2.75rem;
-  height: 2px;
-  margin-top: 0.85rem;
-  border-radius: 2px;
-  background: linear-gradient(90deg, var(--lumiel-gold-light), rgba(232, 208, 220, 0.35), transparent);
-}
-
 .clients-intro {
   margin: 0;
   max-width: 46rem;
-  font-size: 0.92rem;
-  color: var(--lumiel-text-soft);
   line-height: 1.65;
-  letter-spacing: 0.02em;
 }
 
 .clients-loading {
@@ -345,7 +317,8 @@
 .clients-rdv-hint {
   font-size: 0.84rem;
   color: var(--lumiel-text-soft);
-  margin: -0.25rem 0 1.5rem;
+  margin-top: -0.25rem;
+  margin-bottom: 1.5rem;
   padding: 0.85rem 1.1rem;
   background: var(--clients-blush);
   border: 1px solid var(--clients-blush-border);
@@ -371,7 +344,8 @@
   font-size: 0.85rem;
   font-weight: 400;
   color: var(--lumiel-text);
-  margin: 0 0 0.9rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0.9rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   opacity: 0.92;

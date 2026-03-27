@@ -87,11 +87,15 @@ export default function AvisTab() {
   return (
     <div className="dashboard-tab-content">
       <div className="dashboard-card avis-card">
-        <header className="avis-header">
-          <h2 className="avis-title">Gestion des avis</h2>
-          <p className="avis-intro">
-            Modérez les témoignages. Seuls les avis validés apparaissent sur la page Témoignages.
-          </p>
+        <header className="dashboard-page-header">
+          <span className="dashboard-page-header-accent" aria-hidden="true" />
+          <div className="dashboard-page-header-text">
+            <h2 className="dashboard-page-title">Gestion des avis</h2>
+            <p className="dashboard-page-tagline">Modération des témoignages</p>
+            <p className="dashboard-page-intro avis-intro">
+              Modérez les témoignages. Seuls les avis validés apparaissent sur la page Témoignages.
+            </p>
+          </div>
         </header>
 
         {error && (
@@ -176,7 +180,7 @@ export default function AvisTab() {
                         {a.valide ? (
                           <button
                             type="button"
-                            className="btn-avis-invalidate"
+                            className="dash-btn dash-btn--outline dash-btn--sm btn-avis-invalidate"
                             onClick={(e) => { e.stopPropagation(); handleInvalidate(a.id) }}
                             disabled={actionLoading === a.id}
                             title="Retirer de la publication"
@@ -186,7 +190,7 @@ export default function AvisTab() {
                         ) : (
                           <button
                             type="button"
-                            className="btn-avis-validate"
+                            className="dash-btn dash-btn--primary dash-btn--sm btn-avis-validate"
                             onClick={(e) => { e.stopPropagation(); handleValidate(a.id) }}
                             disabled={actionLoading === a.id}
                             title="Publier sur la page Témoignages"
@@ -196,7 +200,7 @@ export default function AvisTab() {
                         )}
                         <button
                           type="button"
-                          className="btn-avis-delete"
+                          className="dash-btn dash-btn--danger dash-btn--sm btn-avis-delete"
                           onClick={(e) => { e.stopPropagation(); handleDeleteClick(a.id) }}
                           disabled={actionLoading === a.id}
                           title="Supprimer définitivement"

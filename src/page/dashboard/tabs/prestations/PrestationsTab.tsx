@@ -85,11 +85,17 @@ export default function PrestationsTab() {
   return (
     <div className="dashboard-tab-content">
       <div className="dashboard-card">
-        <h2>Prestations</h2>
-        <p className="prestations-intro">
-          Gérez les prestations proposées aux clients : nom, description, prix, durée et couleur
-          (calendrier).
-        </p>
+        <header className="dashboard-page-header">
+          <span className="dashboard-page-header-accent" aria-hidden="true" />
+          <div className="dashboard-page-header-text">
+            <h2 className="dashboard-page-title">Prestations</h2>
+            <p className="dashboard-page-tagline">Catalogue et tarifs</p>
+            <p className="dashboard-page-intro prestations-intro">
+              Gérez les prestations proposées aux clients : nom, description, prix, durée et couleur
+              (calendrier).
+            </p>
+          </div>
+        </header>
 
         {error && (
           <div className="prestations-error">
@@ -99,7 +105,7 @@ export default function PrestationsTab() {
         )}
 
         <div className="prestations-toolbar">
-          <button type="button" className="btn-prestation-add" onClick={() => setShowAddModal(true)}>
+          <button type="button" className="dash-btn dash-btn--primary btn-prestation-add" onClick={() => setShowAddModal(true)}>
             + Ajouter une prestation
           </button>
         </div>
@@ -128,7 +134,7 @@ export default function PrestationsTab() {
                 <div className="prestations-item-actions">
                   <button
                     type="button"
-                    className="prestations-btn-edit"
+                    className="dash-btn dash-btn--secondary dash-btn--sm prestations-btn-edit"
                     onClick={() => setEditingPrestation(p)}
                     disabled={actionLoading === p.id}
                     title="Modifier"
@@ -138,7 +144,7 @@ export default function PrestationsTab() {
                   </button>
                   <button
                     type="button"
-                    className="prestations-btn-delete"
+                    className="dash-btn dash-btn--danger dash-btn--sm prestations-btn-delete"
                     onClick={() => setConfirmDeleteId(p.id)}
                     disabled={actionLoading === p.id}
                     title="Supprimer"

@@ -12,6 +12,7 @@ import {
   ClientsTab,
 } from "./tabs";
 import "./DashboardPage.css";
+import "./dash-buttons.css";
 
 export default function DashboardPage() {
   const [user, setUser] = useState<User | null>(null);
@@ -196,7 +197,7 @@ export default function DashboardPage() {
           <p className="dashboard-welcome">Administration</p>
           <button
             type="button"
-            className="btn-secondary"
+            className="dash-btn dash-btn--outline dash-btn--pill dash-btn--block"
             onClick={handleSignOut}
           >
             Déconnexion
@@ -217,7 +218,11 @@ export default function DashboardPage() {
             </button>
           ))}
         </nav>
-        <Link to="/" className="dashboard-home-btn" onClick={closeNav}>
+        <Link
+          to="/"
+          className="dash-btn dash-btn--outline dash-btn--block dashboard-home-btn"
+          onClick={closeNav}
+        >
           Retour à l'accueil
         </Link>
       </aside>

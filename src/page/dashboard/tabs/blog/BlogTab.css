@@ -4,25 +4,16 @@
   color: var(--lumiel-text-soft);
 }
 
-.blog-tab-card h2 {
-  margin-bottom: 0.35rem;
-}
-
-.blog-tab-header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 1.25rem;
-}
 
 .blog-tab-intro {
   margin: 0;
   font-size: 0.95rem;
-  color: var(--lumiel-text-soft);
   line-height: 1.55;
   max-width: 42rem;
+}
+
+.blog-tab-header.dashboard-page-header--with-actions .blog-tab-btn-new {
+  align-self: center;
 }
 
 .blog-tab-btn-new {

@@ -82,16 +82,18 @@ export default function BlogTab() {
   return (
     <div className="dashboard-tab-content">
       <div className="dashboard-card blog-tab-card">
-        <header className="blog-tab-header">
-          <div>
-            <h2>Gestion du blog</h2>
-            <p className="blog-tab-intro">
+        <header className="dashboard-page-header dashboard-page-header--with-actions blog-tab-header">
+          <span className="dashboard-page-header-accent" aria-hidden="true" />
+          <div className="dashboard-page-header-text">
+            <h2 className="dashboard-page-title">Gestion du blog</h2>
+            <p className="dashboard-page-tagline">Articles et publication</p>
+            <p className="dashboard-page-intro blog-tab-intro">
               Rédigez des articles avec texte et image ; les brouillons restent privés jusqu’à publication.
             </p>
           </div>
           <button
             type="button"
-            className="blog-tab-btn-new"
+            className="dash-btn dash-btn--primary dash-btn--pill blog-tab-btn-new"
             onClick={() => {
               setEditingPost(null)
               setFormOpen(true)
@@ -140,7 +142,7 @@ export default function BlogTab() {
                     ) : null}
                     <button
                       type="button"
-                      className="blog-tab-btn-edit"
+                      className="dash-btn dash-btn--secondary dash-btn--sm blog-tab-btn-edit"
                       onClick={() => {
                         setEditingPost(p)
                         setFormOpen(true)
@@ -150,7 +152,7 @@ export default function BlogTab() {
                     </button>
                     <button
                       type="button"
-                      className="blog-tab-btn-delete"
+                      className="dash-btn dash-btn--danger dash-btn--sm blog-tab-btn-delete"
                       disabled={actionLoading === p.id}
                       onClick={() => setConfirmDeleteId(p.id)}
                     >

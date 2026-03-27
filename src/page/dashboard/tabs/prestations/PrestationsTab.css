@@ -6,9 +6,8 @@
 }
 
 .prestations-intro {
-  margin-bottom: 1rem;
+  margin: 0;
   font-size: 0.95rem;
-  color: var(--lumiel-text-soft);
 }
 
 .prestations-error {
