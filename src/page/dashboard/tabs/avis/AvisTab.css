@@ -78,8 +78,7 @@
   background: rgba(107, 123, 158, 0.05);
 }
 
-.avis-accordion-trigger {
-  position: relative;
+.avis-accordion-header-row {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -87,8 +86,21 @@
   gap: 0.5rem;
   width: 100%;
   padding: 1rem 1.25rem;
+  box-sizing: border-box;
+}
+
+.avis-accordion-trigger {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  padding: 0.35rem 0.5rem;
+  margin: -0.35rem 0 -0.35rem -0.5rem;
   background: none;
   border: none;
+  border-radius: 8px;
   color: inherit;
   font: inherit;
   text-align: left;
@@ -98,6 +110,16 @@
 
 .avis-accordion-trigger:hover {
   background: rgba(107, 123, 158, 0.08);
+}
+
+.avis-accordion-trigger:focus {
+  outline: none;
+}
+
+.avis-accordion-trigger:focus-visible {
+  outline: 2px solid rgba(154, 171, 223, 0.65);
+  outline-offset: -2px;
+  border-radius: 4px;
 }
 
 .avis-accordion-trigger-inner {
@@ -130,10 +152,10 @@
   color: var(--lumiel-gold);
 }
 
-
 .avis-accordion-actions-inline {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
   gap: 0.25rem;
 }
 

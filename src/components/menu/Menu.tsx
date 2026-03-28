@@ -40,7 +40,6 @@ export default function Menu() {
           <span />
         </button>
       </div>
-      <p className="menu-tagline">La lumière qui guide votre énergie</p>
       <nav className={`menu-nav ${open ? "menu-nav--open" : ""}`}>
         <Link to="/" onClick={closeMenu}>
           Accueil

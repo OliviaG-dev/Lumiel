@@ -1,52 +1,144 @@
-/* Page Accueil */
+/* Page Accueil — héro Lumiel */
 
 .home-page {
   background: transparent;
 }
 
+@media (min-width: 1025px) {
+  .home-page {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .home-hero {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem 0.5rem 2.5rem;
+  }
+}
+
 .home-hero {
-  padding: 3rem 1.5rem 4rem;
-  max-width: 640px;
+  padding: 1rem 0.5rem 2.5rem;
+  max-width: 34rem;
   margin: 0 auto;
   text-align: center;
 }
 
 @media (max-width: 768px) {
   .home-hero {
-    padding: 2rem 1rem 2rem;
+    padding: 0.25rem 0.25rem 1.5rem;
   }
 }
 
-.home-hero h1 {
+.home-kicker {
   font-family: var(--lumiel-heading);
-  font-size: 2rem;
+  font-size: 0.9rem;
+  font-style: italic;
   font-weight: 400;
-  color: var(--lumiel-text);
-  margin: 0 0 1.5rem;
+  letter-spacing: 0.06em;
+  color: rgba(154, 171, 223, 0.85);
+  margin: 0 0 1.25rem;
+  position: relative;
+  display: inline-block;
+}
+
+.home-kicker::after {
+  content: "";
+  display: block;
+  width: 3rem;
+  height: 1px;
+  margin: 0.85rem auto 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(122, 143, 212, 0.75),
+    transparent
+  );
+}
+
+.home-hero h1 {
+  font-family: var(--lumiel-page-title);
+  font-size: clamp(1.65rem, 4.5vw, 2.35rem);
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0 0 1.35rem;
   letter-spacing: 0.02em;
 }
 
-.home-hero p {
-  font-size: 1.1rem;
-  line-height: 1.8;
+.home-lead {
+  font-size: 1.05rem;
+  line-height: 1.75;
   color: var(--lumiel-text-soft);
-  margin: 0 0 2rem;
+  margin: 0 0 1.15rem;
+  text-wrap: pretty;
 }
 
-.btn-primary {
-  display: inline-block;
-  padding: 0.6rem 1.5rem;
-  border-radius: 2rem;
+.home-support {
+  font-size: 0.98rem;
+  line-height: 1.72;
+  color: rgba(165, 172, 188, 0.78);
+  margin: 0 0 2rem;
+  text-wrap: pretty;
+}
+
+.home-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem 1rem;
+}
+
+.home-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1.35rem;
+  border-radius: 999px;
   text-decoration: none;
-  font-size: 0.9rem;
-  letter-spacing: 0.03em;
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.25s ease;
+}
+
+.home-btn--primary {
   background: var(--lumiel-gold);
   color: #15171e;
-  transition: all 0.25s ease;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.18) inset;
 }
 
-.btn-primary:hover {
+.home-btn--primary:hover {
   background: var(--lumiel-gold-light);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(122, 143, 212, 0.35);
+  transform: translateY(-1px);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.2) inset,
+    0 6px 20px rgba(122, 143, 212, 0.28);
+}
+
+.home-btn--secondary {
+  background: transparent;
+  color: var(--lumiel-text-soft);
+  border: 1px solid rgba(107, 123, 158, 0.45);
+}
+
+.home-btn--secondary:hover {
+  color: var(--lumiel-text);
+  border-color: rgba(154, 171, 223, 0.55);
+  background: rgba(107, 123, 158, 0.1);
+}
+
+.home-btn:focus-visible {
+  outline: 2px solid rgba(154, 171, 223, 0.65);
+  outline-offset: 3px;
 }
