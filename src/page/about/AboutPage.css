@@ -17,10 +17,9 @@
 }
 
 .about-content > h1 {
-  font-family: var(--lumiel-heading);
+  font-family: var(--lumiel-page-title);
   font-size: 2rem;
-  font-weight: 400;
-  color: var(--lumiel-text);
+  font-weight: 500;
   margin: 0 0 1rem;
   letter-spacing: 0.02em;
   text-align: center;
@@ -50,10 +49,9 @@
 }
 
 .about-section h2 {
-  font-family: var(--lumiel-heading);
+  font-family: var(--lumiel-page-title);
   font-size: 1.35rem;
   font-weight: 400;
-  color: var(--lumiel-text);
   margin: 0 0 0.85rem;
   letter-spacing: 0.02em;
 }

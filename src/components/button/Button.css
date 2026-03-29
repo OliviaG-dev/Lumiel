@@ -1,0 +1,172 @@
+/**
+ * Bouton générique Lumiel — dashboard, modales, formulaires publics.
+ */
+
+.lumiel-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin: 0;
+  box-sizing: border-box;
+  padding: 0.56rem 1.2rem;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0.045em;
+  text-decoration: none;
+  border-radius: var(--lumiel-btn-radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lumiel-btn:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.lumiel-btn:focus-visible {
+  outline: 1px solid color-mix(in srgb, var(--lumiel-gold-light) 65%, transparent);
+  outline-offset: 3px;
+}
+
+.lumiel-btn--primary {
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--lumiel-gold) 100%, #a8b8ea 12%) 0%,
+    var(--lumiel-gold) 48%,
+    color-mix(in srgb, var(--lumiel-gold) 88%, #2d3450 8%) 100%
+  );
+  color: rgba(12, 14, 20, 0.94);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.22) inset,
+    0 4px 14px rgba(15, 18, 28, 0.18);
+  font-weight: 600;
+}
+
+.lumiel-btn--primary:hover:not(:disabled) {
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--lumiel-gold-light) 92%, #fff 8%) 0%,
+    var(--lumiel-gold-light) 100%
+  );
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.28) inset,
+    0 6px 20px rgba(122, 143, 212, 0.2);
+  transform: translateY(-0.5px);
+}
+
+.lumiel-btn--primary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.14) inset,
+    0 2px 8px rgba(15, 18, 28, 0.14);
+}
+
+.lumiel-btn--secondary {
+  background: rgba(107, 123, 158, 0.1);
+  color: rgba(232, 236, 248, 0.92);
+  border-color: rgba(107, 123, 158, 0.22);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset;
+}
+
+.lumiel-btn--secondary:hover:not(:disabled) {
+  background: rgba(107, 123, 158, 0.18);
+  border-color: rgba(154, 171, 223, 0.34);
+  color: var(--lumiel-text);
+}
+
+.lumiel-btn--outline {
+  background: rgba(21, 23, 30, 0.2);
+  color: rgba(200, 208, 224, 0.88);
+  border-color: rgba(107, 123, 158, 0.28);
+  box-shadow: none;
+}
+
+.lumiel-btn--outline:hover:not(:disabled) {
+  color: rgba(238, 242, 252, 0.95);
+  border-color: color-mix(in srgb, var(--lumiel-gold-light) 42%, rgba(107, 123, 158, 0.35));
+  background: rgba(107, 123, 158, 0.08);
+}
+
+.lumiel-btn--danger {
+  background: rgba(180, 72, 88, 0.1);
+  color: #ddb8be;
+  border-color: rgba(200, 110, 125, 0.28);
+}
+
+.lumiel-btn--danger:hover:not(:disabled) {
+  background: rgba(180, 72, 88, 0.18);
+  border-color: rgba(215, 130, 140, 0.42);
+  color: #ece4e6;
+}
+
+.lumiel-btn--danger-solid {
+  background: linear-gradient(
+    165deg,
+    rgba(198, 82, 92, 0.96) 0%,
+    rgba(165, 58, 68, 0.98) 100%
+  );
+  color: rgba(255, 252, 252, 0.98);
+  border-color: rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.12) inset,
+    0 4px 14px rgba(40, 12, 16, 0.2);
+  font-weight: 600;
+}
+
+.lumiel-btn--danger-solid:hover:not(:disabled) {
+  background: linear-gradient(
+    165deg,
+    rgba(210, 92, 100, 1) 0%,
+    rgba(175, 62, 72, 1) 100%
+  );
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.14) inset,
+    0 6px 18px rgba(90, 28, 32, 0.22);
+  transform: translateY(-0.5px);
+  filter: none;
+}
+
+.lumiel-btn--danger-solid:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.lumiel-btn--sm {
+  padding: 0.4rem 0.88rem;
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  border-radius: var(--lumiel-btn-radius-sm);
+  font-weight: 500;
+}
+
+.lumiel-btn--pill {
+  border-radius: var(--lumiel-btn-radius-pill);
+  padding-left: 1.35rem;
+  padding-right: 1.35rem;
+}
+
+.lumiel-btn--pill.lumiel-btn--sm {
+  padding-left: 1.1rem;
+  padding-right: 1.1rem;
+}
+
+.lumiel-btn--block {
+  width: 100%;
+}
+
+.lumiel-btn--grow {
+  flex: 1;
+  min-width: 0;
+}

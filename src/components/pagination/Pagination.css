@@ -1,0 +1,101 @@
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  margin: 1.35rem 0;
+  padding: 0.65rem 1rem;
+  box-sizing: border-box;
+  border-radius: 12px;
+  background: rgba(107, 123, 158, 0.045);
+  border: 1px solid rgba(107, 123, 158, 0.11);
+}
+
+.pagination__status {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: var(--lumiel-text-soft);
+  letter-spacing: 0.02em;
+  user-select: none;
+}
+
+.pagination__status-num {
+  display: inline-block;
+  min-width: 1em;
+  text-align: center;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+  color: rgba(232, 236, 248, 0.88);
+}
+
+.pagination__btn {
+  margin: 0;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(107, 123, 158, 0.2);
+  background: transparent;
+  color: rgba(232, 236, 248, 0.72);
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.pagination__btn:hover:not(:disabled) {
+  border-color: rgba(107, 123, 158, 0.28);
+  color: rgba(232, 236, 248, 0.92);
+  background: rgba(107, 123, 158, 0.07);
+}
+
+.pagination__btn:focus-visible {
+  outline: 1px solid rgba(196, 175, 145, 0.45);
+  outline-offset: 2px;
+}
+
+.pagination__btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* Dashboard : discret, aligné sur les cartes */
+.pagination--dashboard {
+  margin: 1.25rem 0;
+  padding: 0.55rem 0.85rem;
+  border-radius: 10px;
+  background: rgba(107, 123, 158, 0.04);
+  border-color: rgba(107, 123, 158, 0.13);
+}
+
+.pagination--dashboard .pagination__btn {
+  border-radius: 8px;
+  padding: 0.42rem 0.95rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+  border-color: rgba(107, 123, 158, 0.18);
+  color: var(--lumiel-text-soft);
+}
+
+.pagination--dashboard .pagination__btn:hover:not(:disabled) {
+  border-color: rgba(154, 171, 223, 0.28);
+  color: var(--lumiel-text);
+  background: rgba(107, 123, 158, 0.09);
+}
+
+.pagination--dashboard .pagination__status {
+  font-size: 0.78rem;
+  color: var(--lumiel-text-soft);
+}
+
+.pagination--dashboard .pagination__status-num {
+  color: var(--lumiel-text);
+  font-weight: 500;
+}

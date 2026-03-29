@@ -28,6 +28,7 @@ import ConfirmModal from '../../../../components/confirm/ConfirmModal'
 import CalendrierToolbar from './CalendrierToolbar'
 import CalendrierEvent from './CalendrierEvent'
 import CalendrierDispoIcon from './CalendrierDispoIcon'
+import { Button } from '../../../../components/button/Button'
 
 /** Bandeau RDV vue mois : même hauteur que les inline-row. RBC met une height inline (slot plein) si on ne la remplace pas. */
 const MONTH_VIEW_RDV_ROW_STYLE: CSSProperties = {
@@ -278,14 +279,14 @@ function DayModal({
                         {r.prestation && <p>Prestation : {r.prestation}</p>}
                         {r.resume && <p className="calendrier-modal-resume">Résumé : {r.resume}</p>}
                         <div className="calendrier-modal-item-actions">
-                          <button type="button" className="btn-calendrier-edit" onClick={() => startEdit(r)}>Modifier</button>
-                          <button type="button" className="btn-calendrier-delete" onClick={() => onDelete(r.id, r.type)}>Supprimer</button>
+                          <Button type="button" variant="secondary" size="sm" className="btn-calendrier-edit" onClick={() => startEdit(r)}>Modifier</Button>
+                          <Button type="button" variant="danger" size="sm" className="btn-calendrier-delete" onClick={() => onDelete(r.id, r.type)}>Supprimer</Button>
                         </div>
                       </div>
                     )}
                     {r.type === 'disponibilité' && (
                       <div className="calendrier-modal-item-actions calendrier-modal-item-actions--right">
-                        <button type="button" className="btn-calendrier-delete" onClick={() => onDelete(r.id, r.type)}>Supprimer</button>
+                        <Button type="button" variant="danger" size="sm" className="btn-calendrier-delete" onClick={() => onDelete(r.id, r.type)}>Supprimer</Button>
                       </div>
                     )}
                   </div>
@@ -297,8 +298,10 @@ function DayModal({
           {!showDispoForm && !showRdvForm && (
             <div className="calendrier-modal-buttons">
               {canAddDisponibilite ? (
-                <button
+                <Button
                   type="button"
+                  variant="secondary"
+                  block
                   className="btn-calendrier-add"
                   onClick={() => {
                     setDispoSlots([{ start: '09:00', end: '18:00' }])
@@ -307,15 +310,15 @@ function DayModal({
                   }}
                 >
                   + Ajouter une disponibilité
-                </button>
+                </Button>
               ) : (
                 <p className="calendrier-modal-past-hint" role="status">
                   Les disponibilités ne peuvent pas être ajoutées sur un jour passé.
                 </p>
               )}
-              <button type="button" className="btn-calendrier-add btn-calendrier-add--rdv" onClick={startAddRdv}>
+              <Button type="button" variant="secondary" block className="btn-calendrier-add btn-calendrier-add--rdv" onClick={startAddRdv}>
                 + Ajouter un rendez-vous
-              </button>
+              </Button>
             </div>
           )}
 
@@ -378,19 +381,20 @@ function DayModal({
                 </button>
               </div>
               <div className="calendrier-form-actions">
-                <button
+                <Button
                   type="button"
-                  className="btn-secondary"
+                  variant="outline"
+                  grow
                   onClick={() => {
                     setDispoFormError(null)
                     setShowDispoForm(false)
                   }}
                 >
                   Annuler
-                </button>
-                <button type="submit" className="btn-primary">
+                </Button>
+                <Button type="submit" variant="primary" grow>
                   Ajouter
-                </button>
+                </Button>
               </div>
             </form>
           )}
@@ -643,14 +647,22 @@ export default function CalendrierTab() {
             <button type="button" onClick={() => setError(null)}>×</button>
           </div>
         )}
+        <header className="dashboard-page-header calendrier-page-header">
+          <span className="dashboard-page-header-accent" aria-hidden="true" />
+          <div className="dashboard-page-header-text">
+            <h2 className="dashboard-page-title">Calendrier</h2>
+            <p className="dashboard-page-tagline">Rendez-vous et disponibilités</p>
+          </div>
+        </header>
         <div className="calendrier-disponibilites-bar">
-          <button
+          <Button
             type="button"
+            variant="primary"
             className="calendrier-btn-disponibilites"
             onClick={() => setDispoModalOpen(true)}
           >
             Gestion des disponibilités
-          </button>
+          </Button>
         </div>
         <CalendrierDisponibilitesModal
           isOpen={dispoModalOpen}

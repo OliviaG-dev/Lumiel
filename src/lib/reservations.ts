@@ -1,4 +1,5 @@
 import { addDays, addMinutes, startOfDay } from "date-fns";
+import { upsertClientFromRendezVous } from "./clients";
 import { supabase } from "./supabase";
 import type { Reservation } from "../types/reservation";
 
@@ -110,6 +111,17 @@ export async function addRendezVous(
 
   if (error) throw error;
 
+  try {
+    await upsertClientFromRendezVous({
+      nom: row.nom,
+      prenom: row.prenom,
+      email: row.email,
+      telephone: row.telephone,
+    });
+  } catch (syncErr) {
+    console.error("[Lumiel] Synchronisation fiche client après création du RDV :", syncErr);
+  }
+
   return {
     id: row.id,
     type: "rendez-vous",
@@ -143,6 +155,19 @@ export async function updateRendezVous(data: Reservation): Promise<void> {
     .eq("id", data.id);
 
   if (error) throw error;
+
+  if (data.type === "rendez-vous") {
+    try {
+      await upsertClientFromRendezVous({
+        nom: data.nom,
+        prenom: data.prenom,
+        email: data.email,
+        telephone: data.telephone ?? null,
+      });
+    } catch (syncErr) {
+      console.error("[Lumiel] Synchronisation fiche client après mise à jour du RDV :", syncErr);
+    }
+  }
 }
 
 /** Supprime une disponibilité ou un rendez-vous */

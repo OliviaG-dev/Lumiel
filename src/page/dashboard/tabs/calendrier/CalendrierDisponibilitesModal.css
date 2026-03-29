@@ -306,35 +306,6 @@
   padding-bottom: 0.25rem;
 }
 
-.calendrier-dispo-btn-secondary {
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  background: rgba(107, 123, 158, 0.15);
-  color: var(--lumiel-text-soft);
-  border: 1px solid rgba(107, 123, 158, 0.3);
-  cursor: pointer;
-}
-
-.calendrier-dispo-btn-primary {
-  padding: 0.5rem 1.15rem;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  background: var(--lumiel-gold);
-  color: #0f1116;
-  border: none;
-  cursor: pointer;
-}
-
-.calendrier-dispo-btn-primary:hover:not(:disabled) {
-  background: var(--lumiel-gold-light);
-}
-
-.calendrier-dispo-btn-primary:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
 .calendrier-dispo-modal .sr-only {
   position: absolute;
   width: 1px;

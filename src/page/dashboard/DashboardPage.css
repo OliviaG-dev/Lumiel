@@ -30,19 +30,7 @@
 
 .dashboard-home-btn {
   margin-top: auto;
-  padding: 0.6rem 1rem;
-  font-size: 0.85rem;
-  color: var(--lumiel-text-soft);
-  text-decoration: none;
-  border: 1px solid rgba(107, 123, 158, 0.25);
-  border-radius: 8px;
-  transition: all 0.2s ease;
   text-align: center;
-}
-
-.dashboard-home-btn:hover {
-  color: var(--lumiel-gold);
-  border-color: var(--lumiel-gold);
 }
 
 .dashboard-sidebar-header h1 {
@@ -62,23 +50,6 @@
 
 .dashboard-welcome strong {
   color: var(--lumiel-text);
-}
-
-.btn-secondary {
-  padding: 0.5rem 1rem;
-  border-radius: 2rem;
-  font-size: 0.85rem;
-  background: transparent;
-  color: var(--lumiel-text-soft);
-  border: 1px solid rgba(107, 123, 158, 0.4);
-  cursor: pointer;
-  transition: all 0.25s ease;
-  width: 100%;
-}
-
-.btn-secondary:hover {
-  color: var(--lumiel-text);
-  border-color: rgba(107, 123, 158, 0.6);
 }
 
 /* Onglets verticaux */
@@ -115,6 +86,9 @@
 /* Zone principale */
 .dashboard-main {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
   padding: 2rem;
   overflow-y: auto;
 }
@@ -126,12 +100,95 @@
   border: 1px solid rgba(107, 123, 158, 0.15);
 }
 
-.dashboard-card h2 {
+/* Titres h2 hors en-tête décoré (ancien contenu) */
+.dashboard-card > h2:first-child {
   font-family: var(--lumiel-heading);
   font-size: 1.25rem;
   font-weight: 400;
   color: var(--lumiel-text);
   margin: 0 0 1rem;
+}
+
+/* En-tête d’onglet (barre d’accent + titre + accroche), aligné sur l’onglet Statistiques */
+.dashboard-page-header {
+  display: flex;
+  align-items: stretch;
+  gap: 1rem 1.35rem;
+  flex-shrink: 0;
+  margin: clamp(0.35rem, 1.2vw, 0.85rem) 0 clamp(1.15rem, 2.5vw, 2rem);
+  padding: clamp(0.65rem, 1.8vw, 1.1rem) 0 clamp(1rem, 2.2vw, 1.65rem);
+  border-bottom: 1px solid rgba(107, 123, 158, 0.14);
+}
+
+.dashboard-page-header--loading {
+  border-bottom-color: rgba(107, 123, 158, 0.08);
+  margin-bottom: clamp(0.85rem, 2vw, 1.35rem);
+  padding-bottom: clamp(0.85rem, 1.8vw, 1.35rem);
+}
+
+.dashboard-page-header-accent {
+  width: 4px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  background: linear-gradient(
+    180deg,
+    var(--lumiel-gold) 0%,
+    rgba(201, 168, 130, 0.38) 55%,
+    rgba(122, 143, 212, 0.35) 100%
+  );
+  box-shadow:
+    0 0 14px rgba(201, 168, 130, 0.22),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.dashboard-page-header-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.4rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.dashboard-page-title {
+  font-family: var(--lumiel-heading);
+  font-size: clamp(1.2rem, 2.8vw, 1.55rem);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--lumiel-text);
+  margin: 0;
+  line-height: 1.2;
+  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.18);
+}
+
+.dashboard-page-tagline {
+  margin: 0;
+  font-size: clamp(0.72rem, 1.35vw, 0.82rem);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lumiel-text-soft);
+  line-height: 1.35;
+  opacity: 0.92;
+}
+
+.dashboard-page-intro {
+  margin: 0.15rem 0 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--lumiel-text-soft);
+  letter-spacing: 0.02em;
+  max-width: 46rem;
+}
+
+.dashboard-page-header--with-actions {
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.dashboard-page-header--with-actions .dashboard-page-header-text {
+  flex: 1;
+  min-width: min(100%, 220px);
 }
 
 .dashboard-card p {

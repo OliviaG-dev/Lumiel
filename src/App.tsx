@@ -6,6 +6,8 @@ import PrestationsPage from './page/prestations/PrestationsPage'
 import TemoignagesPage from './page/temoignages/TemoignagesPage'
 import BlogPage from './page/blog/BlogPage'
 import BlogArticlePage from './page/blog/BlogArticlePage'
+import ContactFaqPage from './page/contact/ContactFaqPage'
+import ConfidentialitePage from './page/confidentialite/ConfidentialitePage'
 import LoginPage from './page/login/LoginPage'
 import DashboardPage from './page/dashboard/DashboardPage'
 
@@ -20,6 +22,8 @@ function App() {
           <Route path="temoignages" element={<TemoignagesPage />} />
           <Route path="blog" element={<BlogPage />} />
           <Route path="blog/:slug" element={<BlogArticlePage />} />
+          <Route path="contact" element={<ContactFaqPage />} />
+          <Route path="confidentialite" element={<ConfidentialitePage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="dashboard" element={<DashboardPage />} />
         </Route>

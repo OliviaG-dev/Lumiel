@@ -1,0 +1,27 @@
+.site-footer {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  padding: 1rem 1.5rem 1.25rem;
+  text-align: center;
+}
+
+.site-footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem 1.25rem;
+}
+
+.site-footer-nav a {
+  font-size: 0.82rem;
+  color: rgba(165, 172, 188, 0.75);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(132, 152, 212, 0.25);
+  padding-bottom: 1px;
+}
+
+.site-footer-nav a:hover {
+  color: rgba(200, 208, 224, 0.9);
+  border-bottom-color: rgba(154, 171, 223, 0.45);
+}

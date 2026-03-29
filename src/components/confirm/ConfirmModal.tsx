@@ -1,4 +1,5 @@
 import { createPortal } from 'react-dom'
+import { Button } from '../button/Button'
 import './ConfirmModal.css'
 
 interface ConfirmModalProps {
@@ -36,16 +37,22 @@ export default function ConfirmModal({
         <h3 className="confirm-modal-title">{title}</h3>
         <p className="confirm-modal-message">{message}</p>
         <div className="confirm-modal-actions">
-          <button type="button" className="confirm-modal-cancel" onClick={onClose}>
-            {cancelLabel}
-          </button>
-          <button
+          <Button
             type="button"
-            className={`confirm-modal-confirm confirm-modal-confirm--${variant}`}
+            variant="secondary"
+            className="confirm-modal-cancel"
+            onClick={onClose}
+          >
+            {cancelLabel}
+          </Button>
+          <Button
+            type="button"
+            variant={variant === 'danger' ? 'dangerSolid' : 'primary'}
+            className="confirm-modal-confirm"
             onClick={handleConfirm}
           >
             {confirmLabel}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

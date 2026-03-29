@@ -18,10 +18,9 @@
 }
 
 .login-content h1 {
-  font-family: var(--lumiel-heading);
+  font-family: var(--lumiel-page-title);
   font-size: 1.75rem;
-  font-weight: 400;
-  color: var(--lumiel-text);
+  font-weight: 500;
   margin: 0 0 0.25rem;
   letter-spacing: 0.02em;
 }

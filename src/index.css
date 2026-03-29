@@ -7,6 +7,45 @@
   --lumiel-text: #c8d0e0;
   --lumiel-text-soft: #9ca3b5;
   --lumiel-heading: "Cormorant Garamond", Georgia, serif;
+  /* Titres des pages (distinct du logo / accroches en Cormorant) */
+  --lumiel-page-title: "Playfair Display", "Cormorant Garamond", Georgia, serif;
+  /* Halo / flux visuel discret (énergie calme) */
+  --lumiel-aura-top: rgba(122, 143, 212, 0.13);
+  --lumiel-aura-side: rgba(154, 171, 223, 0.08);
+  --lumiel-aura-bottom: rgba(107, 123, 158, 0.09);
+
+  /* Boutons génériques (.lumiel-btn) — un seul langage d’arrondi */
+  --lumiel-btn-radius: 11px;
+  --lumiel-btn-radius-sm: 9px;
+  --lumiel-btn-radius-pill: 999px;
+
+  /* Titres de page (site public) — repli sans background-clip / WebKit */
+  --lumiel-title-h1: #eef2ff;
+  --lumiel-title-h2: #96a9e4;
+  --lumiel-title-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+  --lumiel-title-h1-gradient: linear-gradient(
+    132deg,
+    #fffbf5 0%,
+    #e2e9ff 26%,
+    #9fb2f2 58%,
+    #5a72c8 82%,
+    #3d56b0 100%
+  );
+  --lumiel-title-h2-gradient: linear-gradient(
+    135deg,
+    #f0f3fc 0%,
+    #7f95d6 72%,
+    #4d63a8 100%
+  );
+  /* Mot LUMIEL (menu) — dégradé un peu plus horizontal pour le cap tracking */
+  --lumiel-logo-gradient: linear-gradient(
+    102deg,
+    #fffaf4 0%,
+    #eef2ff 24%,
+    #c2cff7 48%,
+    #7f94e0 74%,
+    #4d64c6 100%
+  );
 
   --text: #9ca3b5;
   --text-h: #e4e8f0;
@@ -21,7 +60,7 @@
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
   --sans: system-ui, "Segoe UI", Roboto, sans-serif;
-  --heading: system-ui, "Segoe UI", Roboto, sans-serif;
+  --heading: var(--lumiel-page-title);
   --mono: ui-monospace, Consolas, monospace;
 
   font: 18px/145% var(--sans);
@@ -83,23 +122,36 @@ body {
 h1,
 h2 {
   font-family: var(--heading);
-  font-weight: 500;
   color: var(--text-h);
 }
 
+/* Titres principaux — échelle éditoriale, lisible sur mobile, chasse adaptée au serif */
 h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+  font-weight: 500;
+  font-size: clamp(1.85rem, 4vw + 0.85rem, 3rem);
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  margin: 0 0 1.15rem;
+  text-wrap: pretty;
+  font-variant-numeric: proportional-nums;
+  font-feature-settings:
+    "kern" 1,
+    "liga" 1;
+}
+
+@media (max-width: 1024px) {
+  h1 {
+    line-height: 1.22;
+    margin-bottom: 1rem;
+    letter-spacing: 0.024em;
   }
 }
+
 h2 {
+  font-weight: 500;
   font-size: 24px;
   line-height: 118%;
-  letter-spacing: -0.24px;
+  letter-spacing: 0.01em;
   margin: 0 0 8px;
   @media (max-width: 1024px) {
     font-size: 20px;

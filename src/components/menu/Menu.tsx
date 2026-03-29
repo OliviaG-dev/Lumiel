@@ -40,7 +40,6 @@ export default function Menu() {
           <span />
         </button>
       </div>
-      <p className="menu-tagline">La lumière qui guide votre énergie</p>
       <nav className={`menu-nav ${open ? "menu-nav--open" : ""}`}>
         <Link to="/" onClick={closeMenu}>
           Accueil
@@ -56,6 +55,9 @@ export default function Menu() {
         </Link>
         <Link to="/blog" onClick={closeMenu}>
           Blog
+        </Link>
+        <Link to="/contact" onClick={closeMenu}>
+          Contact & FAQ
         </Link>
         <Link to="/login" onClick={closeMenu} className="menu-login" aria-label="Connexion">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

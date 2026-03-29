@@ -27,6 +27,7 @@ export default function BookingModal({ isOpen, onClose, onSuccess }: BookingModa
   const [prestations, setPrestations] = useState<Prestation[]>([])
   const [loading, setLoading] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
+  const [privacyAccepted, setPrivacyAccepted] = useState(false)
 
   useEffect(() => {
     if (isOpen && !submitted) {
@@ -53,6 +54,7 @@ export default function BookingModal({ isOpen, onClose, onSuccess }: BookingModa
     setSelectedSlot(null)
     setFormData(defaultFormData)
     setSubmitted(false)
+    setPrivacyAccepted(false)
   }, [])
 
   const handleClose = useCallback(() => {
@@ -257,6 +259,11 @@ export default function BookingModal({ isOpen, onClose, onSuccess }: BookingModa
                     disabled={loading}
                     hidePrestation
                     hideDuree
+                    privacyConsent={{
+                      checked: privacyAccepted,
+                      onChange: setPrivacyAccepted,
+                      id: 'booking-reservation-privacy',
+                    }}
                   />
                 </form>
               )}

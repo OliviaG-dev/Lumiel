@@ -5,23 +5,10 @@
   padding: 1rem 0;
 }
 
-.avis-header {
-  margin-bottom: 1.5rem;
-}
-
-.avis-title {
-  font-family: var(--lumiel-heading);
-  font-size: 1.25rem;
-  font-weight: 400;
-  color: var(--lumiel-text);
-  margin: 0 0 0.35rem;
-}
-
 .avis-intro {
   margin: 0;
   font-size: 0.9rem;
-  line-height: 1.5;
-  color: var(--lumiel-text-soft);
+  line-height: 1.55;
 }
 
 .avis-error {
@@ -71,6 +58,10 @@
   border-bottom: 1px solid rgba(107, 123, 158, 0.2);
 }
 
+.avis-tab-pagination {
+  margin: 0;
+}
+
 /* Accordion */
 .avis-accordion {
   display: flex;
@@ -91,8 +82,7 @@
   background: rgba(107, 123, 158, 0.05);
 }
 
-.avis-accordion-trigger {
-  position: relative;
+.avis-accordion-header-row {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -100,8 +90,21 @@
   gap: 0.5rem;
   width: 100%;
   padding: 1rem 1.25rem;
+  box-sizing: border-box;
+}
+
+.avis-accordion-trigger {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  padding: 0.35rem 0.5rem;
+  margin: -0.35rem 0 -0.35rem -0.5rem;
   background: none;
   border: none;
+  border-radius: 8px;
   color: inherit;
   font: inherit;
   text-align: left;
@@ -111,6 +114,16 @@
 
 .avis-accordion-trigger:hover {
   background: rgba(107, 123, 158, 0.08);
+}
+
+.avis-accordion-trigger:focus {
+  outline: none;
+}
+
+.avis-accordion-trigger:focus-visible {
+  outline: 2px solid rgba(154, 171, 223, 0.65);
+  outline-offset: -2px;
+  border-radius: 4px;
 }
 
 .avis-accordion-trigger-inner {
@@ -143,10 +156,10 @@
   color: var(--lumiel-gold);
 }
 
-
 .avis-accordion-actions-inline {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
   gap: 0.25rem;
 }
 
@@ -228,44 +241,4 @@
   flex-wrap: wrap;
 }
 
-.btn-avis-validate,
-.btn-avis-invalidate,
-.btn-avis-delete {
-  padding: 0.4rem 0.85rem;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: all 0.2s ease;
-}
-
-.btn-avis-validate {
-  background: var(--lumiel-gold);
-  color: #0f1116;
-}
-
-.btn-avis-validate:hover:not(:disabled) {
-  background: var(--lumiel-gold-light);
-}
-
-.btn-avis-invalidate {
-  background: rgba(107, 123, 158, 0.2);
-  color: var(--lumiel-text-soft);
-  border-color: rgba(107, 123, 158, 0.3);
-}
-
-.btn-avis-invalidate:hover:not(:disabled) {
-  color: var(--lumiel-text);
-  background: rgba(107, 123, 158, 0.3);
-}
-
-.btn-avis-delete {
-  background: transparent;
-  color: #c08080;
-  border-color: rgba(200, 80, 80, 0.4);
-}
-
-.btn-avis-delete:hover:not(:disabled) {
-  background: rgba(200, 80, 80, 0.15);
-}
+/* .btn-avis-* : rendu = composant Button (variants primary / outline / danger) */

@@ -14,7 +14,11 @@ import type { Client } from '../../../../types/client'
 import type { Reservation } from '../../../../types/reservation'
 import ClientFormModal from '../../../../components/client/ClientFormModal'
 import ConfirmModal from '../../../../components/confirm/ConfirmModal'
+import Pagination, { getTotalPages } from '../../../../components/pagination/Pagination'
+import { Button } from '../../../../components/button/Button'
 import './ClientsTab.css'
+
+const CLIENTS_LIST_PAGE_SIZE = 12
 
 function formatRdvDate(d: Date) {
   return d.toLocaleString('fr-FR', {
@@ -56,6 +60,25 @@ export default function ClientsTab() {
 
   const [newSeanceContent, setNewSeanceContent] = useState('')
   const [newSeanceDate, setNewSeanceDate] = useState('')
+  const [clientListPage, setClientListPage] = useState(1)
+
+  const clientListTotalPages = useMemo(
+    () => getTotalPages(clients.length, CLIENTS_LIST_PAGE_SIZE),
+    [clients.length],
+  )
+
+  useEffect(() => {
+    setClientListPage((p) => Math.min(p, clientListTotalPages))
+  }, [clientListTotalPages])
+
+  const clientsPageSlice = useMemo(
+    () =>
+      clients.slice(
+        (clientListPage - 1) * CLIENTS_LIST_PAGE_SIZE,
+        clientListPage * CLIENTS_LIST_PAGE_SIZE,
+      ),
+    [clients, clientListPage],
+  )
 
   const fetchClientsAndReservations = useCallback(async () => {
     const [c, r] = await Promise.all([loadClients(), loadReservations()])
@@ -222,12 +245,16 @@ export default function ClientsTab() {
   return (
     <div className="dashboard-tab-content clients-tab">
       <div className="dashboard-card clients-card">
-        <header className="clients-header">
-          <h2>Clients</h2>
-          <p className="clients-intro">
-            Fiches clients : contact, notes privées, suivi des séances. Les prestations affichées reprennent
-            les rendez-vous du calendrier lorsque l’e-mail ou le portable correspond.
-          </p>
+        <header className="dashboard-page-header">
+          <span className="dashboard-page-header-accent" aria-hidden="true" />
+          <div className="dashboard-page-header-text">
+            <h2 className="dashboard-page-title">Clients</h2>
+            <p className="dashboard-page-tagline">Fiches et suivi</p>
+            <p className="dashboard-page-intro clients-intro">
+              Fiches clients : contact, notes privées, suivi des séances. Les prestations affichées reprennent
+              les rendez-vous du calendrier lorsque l’e-mail ou le portable correspond.
+            </p>
+          </div>
         </header>
 
         {error && (
@@ -240,9 +267,9 @@ export default function ClientsTab() {
         )}
 
         <div className="clients-toolbar">
-          <button type="button" className="clients-btn-add" onClick={() => setShowAddModal(true)}>
+          <Button type="button" variant="primary" className="btn-clients-add" onClick={() => setShowAddModal(true)}>
             + Ajouter un client
-          </button>
+          </Button>
         </div>
 
         <div className="clients-layout">
@@ -250,26 +277,36 @@ export default function ClientsTab() {
             {clients.length === 0 ? (
               <p className="dashboard-empty">Aucun client. Créez une fiche pour commencer le suivi.</p>
             ) : (
-              <ul className="clients-list">
-                {clients.map((c) => (
-                  <li key={c.id}>
-                    <button
-                      type="button"
-                      className={`clients-list-item${selectedId === c.id ? ' clients-list-item--active' : ''}`}
-                      onClick={() => selectClient(c)}
-                    >
-                      <span className="clients-list-name">
-                        {[c.prenom, c.nom].filter(Boolean).join(' ') || 'Sans nom'}
-                      </span>
-                      {(c.email || c.telephone) && (
-                        <span className="clients-list-contact">
-                          {c.email || c.telephone}
+              <>
+                <ul className="clients-list">
+                  {clientsPageSlice.map((c) => (
+                    <li key={c.id}>
+                      <button
+                        type="button"
+                        className={`clients-list-item${selectedId === c.id ? ' clients-list-item--active' : ''}`}
+                        onClick={() => selectClient(c)}
+                      >
+                        <span className="clients-list-name">
+                          {[c.prenom, c.nom].filter(Boolean).join(' ') || 'Sans nom'}
                         </span>
-                      )}
-                    </button>
-                  </li>
-                ))}
-              </ul>
+                        {(c.email || c.telephone) && (
+                          <span className="clients-list-contact">
+                            {c.email || c.telephone}
+                          </span>
+                        )}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+                <Pagination
+                  currentPage={clientListPage}
+                  totalPages={clientListTotalPages}
+                  onPageChange={setClientListPage}
+                  variant="dashboard"
+                  className="clients-list-pagination"
+                  ariaLabel="Pagination des clients"
+                />
+              </>
             )}
           </div>
 
@@ -300,22 +337,26 @@ export default function ClientsTab() {
                     </div>
                   </div>
                   <div className="clients-detail-actions">
-                    <button
+                    <Button
                       type="button"
+                      variant="secondary"
+                      size="sm"
                       className="clients-btn-edit"
                       onClick={() => setEditingClient(selected)}
                       disabled={!!actionLoading}
                     >
                       Modifier
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                       type="button"
+                      variant="danger"
+                      size="sm"
                       className="clients-btn-delete"
                       onClick={() => setConfirmDeleteClientId(selected.id)}
                       disabled={!!actionLoading}
                     >
                       Supprimer
-                    </button>
+                    </Button>
                   </div>
                 </div>
 
@@ -334,14 +375,16 @@ export default function ClientsTab() {
                     rows={4}
                     placeholder="Rappels généraux, préférences, informations utiles…"
                   />
-                  <button
+                  <Button
                     type="button"
+                    variant="primary"
+                    size="sm"
                     className="clients-btn-save-notes"
                     onClick={handleSaveFicheNotes}
                     disabled={actionLoading === 'fiche-notes'}
                   >
                     {actionLoading === 'fiche-notes' ? 'Enregistrement…' : 'Enregistrer les notes'}
-                  </button>
+                  </Button>
                 </section>
 
                 <section className="clients-section clients-section--rdv">
@@ -397,15 +440,17 @@ export default function ClientsTab() {
                             <span className="clients-seance-created">
                               {addedWhen ? `Ajoutée le ${addedWhen}` : 'Note enregistrée'}
                             </span>
-                            <button
+                            <Button
                               type="button"
+                              variant="danger"
+                              size="sm"
                               className="clients-seance-delete"
                               onClick={() => setConfirmDeleteNoteId(n.id)}
                               disabled={!!actionLoading}
                               aria-label="Supprimer cette note"
                             >
                               Supprimer
-                            </button>
+                            </Button>
                           </div>
                           <p className="clients-seance-content">{n.content}</p>
                         </li>
@@ -436,13 +481,15 @@ export default function ClientsTab() {
                       value={newSeanceDate}
                       onChange={(e) => setNewSeanceDate(e.target.value)}
                     />
-                    <button
+                    <Button
                       type="submit"
+                      variant="primary"
+                      size="sm"
                       className="clients-btn-add-note"
                       disabled={!newSeanceContent.trim() || actionLoading === 'seance-add'}
                     >
                       {actionLoading === 'seance-add' ? 'Ajout…' : 'Ajouter la note'}
-                    </button>
+                    </Button>
                   </form>
                 </section>
               </>

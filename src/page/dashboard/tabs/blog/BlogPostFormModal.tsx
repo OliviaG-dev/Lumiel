@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import type { BlogPost } from '../../../../types/blogPost'
 import { slugifyTitle } from '../../../../lib/blogPosts'
 import { uploadBlogCoverImage } from '../../../../lib/blogImageUpload'
+import { Button } from '../../../../components/button/Button'
 import './BlogPostFormModal.css'
 
 const IMAGE_ACCEPT = 'image/jpeg,image/png,image/gif,image/webp'
@@ -172,8 +173,10 @@ export default function BlogPostFormModal({
                 required
                 spellCheck={false}
               />
-              <button
+              <Button
                 type="button"
+                variant="outline"
+                size="sm"
                 className="blog-post-btn-secondary"
                 onClick={() => {
                   setSlug(slugifyTitle(title))
@@ -181,7 +184,7 @@ export default function BlogPostFormModal({
                 }}
               >
                 Depuis le titre
-              </button>
+              </Button>
             </div>
             <span className="blog-post-hint">Ex. : mon-article-bien-etre → /blog/mon-article-bien-etre</span>
           </div>
@@ -287,12 +290,12 @@ export default function BlogPostFormModal({
             </label>
           </div>
           <div className="blog-post-modal-actions">
-            <button type="button" className="blog-post-btn-secondary" onClick={onClose}>
+            <Button type="button" variant="outline" className="blog-post-btn-secondary" onClick={onClose}>
               Annuler
-            </button>
-            <button type="submit" className="blog-post-btn-primary" disabled={saving || uploadBusy}>
+            </Button>
+            <Button type="submit" variant="primary" className="blog-post-btn-primary" disabled={saving || uploadBusy}>
               {saving ? 'Enregistrement…' : post ? 'Enregistrer' : 'Créer l’article'}
-            </button>
+            </Button>
           </div>
         </form>
       </div>
