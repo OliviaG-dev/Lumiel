@@ -56,6 +56,9 @@ export default function Menu() {
         <Link to="/blog" onClick={closeMenu}>
           Blog
         </Link>
+        <Link to="/contact" onClick={closeMenu}>
+          Contact & FAQ
+        </Link>
         <Link to="/login" onClick={closeMenu} className="menu-login" aria-label="Connexion">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
