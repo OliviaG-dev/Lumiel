@@ -42,10 +42,6 @@
   border-bottom: 1px solid rgba(107, 123, 158, 0.1);
 }
 
-.calendrier-btn-disponibilites:active:not(:disabled) {
-  transform: translateY(1px);
-}
-
 .calendrier-tab .calendrier-card {
   min-width: 0;
   max-width: 100%;
@@ -1448,27 +1444,6 @@
   border-radius: 10px;
 }
 
-.dash-btn.btn-calendrier-add--rdv {
-  background: linear-gradient(
-    135deg,
-    rgba(100, 150, 170, 0.28) 0%,
-    rgba(75, 120, 140, 0.18) 100%
-  );
-  color: var(--lumiel-text);
-  border-color: rgba(100, 150, 170, 0.42);
-  box-shadow: none;
-}
-
-.dash-btn.btn-calendrier-add--rdv:hover:not(:disabled) {
-  background: linear-gradient(
-    135deg,
-    rgba(100, 150, 170, 0.38) 0%,
-    rgba(75, 120, 140, 0.28) 100%
-  );
-  border-color: rgba(100, 150, 170, 0.55);
-  filter: none;
-}
-
 .calendrier-form-grid-2 {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -1502,31 +1477,6 @@
   font-size: 0.85rem;
   color: var(--lumiel-text-soft);
   margin-left: auto;
-}
-
-.dash-btn.btn-calendrier-add {
-  padding: 0.85rem 1.15rem;
-  font-size: 0.92rem;
-  font-weight: 600;
-  background: linear-gradient(
-    135deg,
-    rgba(122, 143, 212, 0.28) 0%,
-    rgba(122, 143, 212, 0.14) 100%
-  );
-  color: var(--lumiel-gold-light);
-  border-color: rgba(122, 143, 212, 0.42);
-  box-shadow: none;
-}
-
-.dash-btn.btn-calendrier-add:hover:not(:disabled) {
-  background: linear-gradient(
-    135deg,
-    rgba(122, 143, 212, 0.38) 0%,
-    rgba(122, 143, 212, 0.22) 100%
-  );
-  color: var(--lumiel-text);
-  border-color: rgba(122, 143, 212, 0.55);
-  filter: none;
 }
 
 .calendrier-modal-form .calendrier-form-row {

@@ -8,7 +8,7 @@
   --clients-pill-bg: rgba(22, 24, 34, 0.72);
   --clients-radius-lg: 18px;
   --clients-radius-md: 14px;
-  --clients-radius-pill: 999px;
+  --clients-radius-pill: var(--lumiel-btn-radius-pill);
 }
 
 .clients-tab .clients-card {
@@ -67,29 +67,11 @@
 }
 
 .clients-toolbar {
-  margin-bottom: 1.75rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
-.clients-btn-add {
-  padding: 0.65rem 1.35rem;
-  border-radius: var(--clients-radius-pill);
-  font-size: 0.86rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  background: linear-gradient(135deg, var(--lumiel-gold) 0%, var(--lumiel-gold-light) 100%);
-  color: #12141c;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgba(122, 143, 212, 0.35);
-  transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease;
-}
-
-.clients-btn-add:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 26px rgba(122, 143, 212, 0.45);
-}
+/* .clients-btn-* : styles visuels = composant Button (.lumiel-btn) */
 
 .clients-layout {
   display: grid;
@@ -277,49 +259,6 @@
   align-items: center;
 }
 
-.clients-btn-edit {
-  padding: 0.5rem 1.1rem;
-  border-radius: var(--clients-radius-pill);
-  font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  background: rgba(186, 174, 214, 0.12);
-  border: 1px solid rgba(186, 174, 214, 0.35);
-  color: var(--lumiel-text);
-  cursor: pointer;
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease;
-}
-
-.clients-btn-edit:hover:not(:disabled) {
-  background: rgba(186, 174, 214, 0.22);
-  border-color: rgba(186, 174, 214, 0.5);
-}
-
-.clients-btn-delete {
-  padding: 0.5rem 1.1rem;
-  border-radius: var(--clients-radius-pill);
-  font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  background: rgba(200, 120, 140, 0.12);
-  border: 1px solid rgba(220, 160, 175, 0.4);
-  color: #e8c0c8;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.clients-btn-delete:hover:not(:disabled) {
-  background: rgba(200, 120, 140, 0.2);
-}
-
-.clients-btn-edit:disabled,
-.clients-btn-delete:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
 .clients-rdv-hint {
   font-size: 0.84rem;
   color: var(--lumiel-text-soft);
@@ -401,29 +340,7 @@
 }
 
 .clients-btn-save-notes {
-  padding: 0.55rem 1.2rem;
-  border-radius: var(--clients-radius-pill);
-  font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  background: rgba(186, 174, 214, 0.15);
-  border: 1px solid rgba(186, 174, 214, 0.38);
-  color: var(--lumiel-text);
-  cursor: pointer;
-  transition:
-    background 0.2s ease,
-    transform 0.18s ease;
-}
-
-.clients-btn-save-notes:hover:not(:disabled) {
-  background: rgba(186, 174, 214, 0.26);
-  transform: translateY(-1px);
-}
-
-.clients-btn-save-notes:disabled {
-  opacity: 0.55;
-  cursor: wait;
-  transform: none;
+  margin-top: 0.65rem;
 }
 
 .clients-rdv-list {
@@ -509,28 +426,7 @@
 
 .clients-seance-delete {
   margin-left: auto;
-  padding: 0.25rem 0.65rem;
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: var(--clients-radius-pill);
-  color: #d8a8b4;
-  cursor: pointer;
-  transition:
-    background 0.18s ease,
-    border-color 0.18s ease;
-}
-
-.clients-seance-delete:hover:not(:disabled) {
-  background: rgba(200, 120, 140, 0.14);
-  border-color: rgba(220, 160, 175, 0.35);
-  color: #eec8d0;
-}
-
-.clients-seance-delete:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
+  flex-shrink: 0;
 }
 
 .clients-seance-content {
@@ -596,28 +492,5 @@
 }
 
 .clients-btn-add-note {
-  padding: 0.58rem 1.25rem;
-  border-radius: var(--clients-radius-pill);
-  font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  background: linear-gradient(135deg, var(--lumiel-gold) 0%, var(--lumiel-gold-light) 100%);
-  color: #12141c;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 18px rgba(122, 143, 212, 0.3);
-  transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease;
-}
-
-.clients-btn-add-note:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 22px rgba(122, 143, 212, 0.42);
-}
-
-.clients-btn-add-note:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
+  margin-top: 0.35rem;
 }

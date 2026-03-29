@@ -17,7 +17,7 @@ import {
 import { fr } from 'date-fns/locale'
 import { addDisponibilitesBatch } from '../../../../lib/reservations'
 import type { Reservation } from '../../../../types/reservation'
-import '../../dash-buttons.css'
+import { Button } from '../../../../components/button/Button'
 import './CalendrierDisponibilitesModal.css'
 
 type TimeSlot = { start: string; end: string }
@@ -462,17 +462,18 @@ export default function CalendrierDisponibilitesModal({
           ))}
 
           <div className="calendrier-dispo-modal-actions">
-            <button type="button" className="dash-btn dash-btn--outline calendrier-dispo-btn-secondary" onClick={onClose}>
+            <Button type="button" variant="outline" className="calendrier-dispo-btn-secondary" onClick={onClose}>
               Fermer
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
-              className="dash-btn dash-btn--primary calendrier-dispo-btn-primary"
+              variant="primary"
+              className="calendrier-dispo-btn-primary"
               onClick={() => void handleApply()}
               disabled={applying || weeks.length === 0}
             >
               {applying ? 'Application…' : 'Appliquer au mois'}
-            </button>
+            </Button>
           </div>
         </div>
       </div>

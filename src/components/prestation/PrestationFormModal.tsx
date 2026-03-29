@@ -7,7 +7,7 @@ import {
   normalizePrestationCouleur,
   type PrestationHex,
 } from '../../lib/prestationColors'
-import '../../page/dashboard/dash-buttons.css'
+import { Button } from '../button/Button'
 import './PrestationFormModal.css'
 
 interface PrestationFormModalProps {
@@ -149,12 +149,12 @@ export default function PrestationFormModal({
             </div>
           </div>
           <div className="prestation-modal-actions">
-            <button type="button" className="dash-btn dash-btn--outline btn-prestation-secondary" onClick={onClose}>
+            <Button type="button" variant="outline" className="btn-prestation-secondary" onClick={onClose}>
               Annuler
-            </button>
-            <button type="submit" className="dash-btn dash-btn--primary btn-prestation-primary" disabled={saving}>
+            </Button>
+            <Button type="submit" variant="primary" className="btn-prestation-primary" disabled={saving}>
               {saving ? 'Enregistrement…' : prestation ? 'Enregistrer' : 'Ajouter'}
-            </button>
+            </Button>
           </div>
         </form>
       </div>

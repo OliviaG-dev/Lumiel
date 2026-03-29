@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { supabase, isAdmin } from "../../lib/supabase";
 import type { User } from "@supabase/supabase-js";
 import {
@@ -12,7 +12,7 @@ import {
   ClientsTab,
 } from "./tabs";
 import "./DashboardPage.css";
-import "./dash-buttons.css";
+import { Button, ButtonLink } from "../../components/button/Button";
 
 export default function DashboardPage() {
   const [user, setUser] = useState<User | null>(null);
@@ -195,13 +195,15 @@ export default function DashboardPage() {
         <div className="dashboard-sidebar-header">
           <h1>Tableau de bord</h1>
           <p className="dashboard-welcome">Administration</p>
-          <button
+          <Button
             type="button"
-            className="dash-btn dash-btn--outline dash-btn--pill dash-btn--block"
+            variant="outline"
+            pill
+            block
             onClick={handleSignOut}
           >
             Déconnexion
-          </button>
+          </Button>
         </div>
         <nav className="dashboard-tabs">
           {tabs.map((tab) => (
@@ -218,13 +220,15 @@ export default function DashboardPage() {
             </button>
           ))}
         </nav>
-        <Link
+        <ButtonLink
           to="/"
-          className="dash-btn dash-btn--outline dash-btn--block dashboard-home-btn"
+          variant="outline"
+          block
+          className="dashboard-home-btn"
           onClick={closeNav}
         >
           Retour à l'accueil
-        </Link>
+        </ButtonLink>
       </aside>
 
       <main className="dashboard-main">{tabContent[activeTab]}</main>

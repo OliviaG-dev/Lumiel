@@ -82,15 +82,9 @@ VITE_SUPABASE_ANON_KEY=votre_cle_anon
 
 ## Développement
 
-### Boutons harmonisés (dashboard)
+### Boutons harmonisés
 
-Les boutons du tableau de bord et des écrans qui partagent le même langage visuel (modales de confirmation, formulaires client / prestation / réservation côté admin, calendrier, blog, etc.) reposent sur **`src/page/dashboard/dash-buttons.css`**.
-
-- **Base** : `.dash-btn`
-- **Variantes** : `.dash-btn--primary`, `.dash-btn--secondary`, `.dash-btn--outline`, `.dash-btn--danger`, `.dash-btn--danger-solid`
-- **Utilitaires** : `.dash-btn--sm`, `.dash-btn--pill`, `.dash-btn--block`, `.dash-btn--grow`
-
-La feuille est chargée depuis **`DashboardPage.tsx`** (route `/dashboard`). Pour un composant utilisé ailleurs mais qui doit garder le même rendu (par exemple **`ConfirmModal`**, **`ReservationForm`**), importer explicitement `dash-buttons.css` depuis ce chemin.
+Le composant **`Button`** et le lien stylé **`ButtonLink`** (`src/components/button/`) partagent les styles **`Button.css`** (classes `lumiel-btn`, `lumiel-btn--primary`, etc.). Les utiliser sur le dashboard, les modales et les formulaires publics qui doivent garder le même langage visuel. La fonction **`lumielButtonClassName`** permet d’appliquer les mêmes classes à un élément personnalisé si besoin.
 
 ## Licence
 

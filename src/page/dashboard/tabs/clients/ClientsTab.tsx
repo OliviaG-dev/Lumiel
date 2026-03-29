@@ -15,6 +15,7 @@ import type { Reservation } from '../../../../types/reservation'
 import ClientFormModal from '../../../../components/client/ClientFormModal'
 import ConfirmModal from '../../../../components/confirm/ConfirmModal'
 import Pagination, { getTotalPages } from '../../../../components/pagination/Pagination'
+import { Button } from '../../../../components/button/Button'
 import './ClientsTab.css'
 
 const CLIENTS_LIST_PAGE_SIZE = 12
@@ -266,9 +267,9 @@ export default function ClientsTab() {
         )}
 
         <div className="clients-toolbar">
-          <button type="button" className="dash-btn dash-btn--primary dash-btn--pill clients-btn-add" onClick={() => setShowAddModal(true)}>
+          <Button type="button" variant="primary" className="btn-clients-add" onClick={() => setShowAddModal(true)}>
             + Ajouter un client
-          </button>
+          </Button>
         </div>
 
         <div className="clients-layout">
@@ -336,22 +337,26 @@ export default function ClientsTab() {
                     </div>
                   </div>
                   <div className="clients-detail-actions">
-                    <button
+                    <Button
                       type="button"
-                      className="dash-btn dash-btn--secondary dash-btn--sm clients-btn-edit"
+                      variant="secondary"
+                      size="sm"
+                      className="clients-btn-edit"
                       onClick={() => setEditingClient(selected)}
                       disabled={!!actionLoading}
                     >
                       Modifier
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                       type="button"
-                      className="dash-btn dash-btn--danger dash-btn--sm clients-btn-delete"
+                      variant="danger"
+                      size="sm"
+                      className="clients-btn-delete"
                       onClick={() => setConfirmDeleteClientId(selected.id)}
                       disabled={!!actionLoading}
                     >
                       Supprimer
-                    </button>
+                    </Button>
                   </div>
                 </div>
 
@@ -370,14 +375,16 @@ export default function ClientsTab() {
                     rows={4}
                     placeholder="Rappels généraux, préférences, informations utiles…"
                   />
-                  <button
+                  <Button
                     type="button"
+                    variant="primary"
+                    size="sm"
                     className="clients-btn-save-notes"
                     onClick={handleSaveFicheNotes}
                     disabled={actionLoading === 'fiche-notes'}
                   >
                     {actionLoading === 'fiche-notes' ? 'Enregistrement…' : 'Enregistrer les notes'}
-                  </button>
+                  </Button>
                 </section>
 
                 <section className="clients-section clients-section--rdv">
@@ -433,15 +440,17 @@ export default function ClientsTab() {
                             <span className="clients-seance-created">
                               {addedWhen ? `Ajoutée le ${addedWhen}` : 'Note enregistrée'}
                             </span>
-                            <button
+                            <Button
                               type="button"
-                              className="dash-btn dash-btn--danger dash-btn--sm clients-seance-delete"
+                              variant="danger"
+                              size="sm"
+                              className="clients-seance-delete"
                               onClick={() => setConfirmDeleteNoteId(n.id)}
                               disabled={!!actionLoading}
                               aria-label="Supprimer cette note"
                             >
                               Supprimer
-                            </button>
+                            </Button>
                           </div>
                           <p className="clients-seance-content">{n.content}</p>
                         </li>
@@ -472,13 +481,15 @@ export default function ClientsTab() {
                       value={newSeanceDate}
                       onChange={(e) => setNewSeanceDate(e.target.value)}
                     />
-                    <button
+                    <Button
                       type="submit"
-                      className="dash-btn dash-btn--primary dash-btn--pill dash-btn--sm clients-btn-add-note"
+                      variant="primary"
+                      size="sm"
+                      className="clients-btn-add-note"
                       disabled={!newSeanceContent.trim() || actionLoading === 'seance-add'}
                     >
                       {actionLoading === 'seance-add' ? 'Ajout…' : 'Ajouter la note'}
-                    </button>
+                    </Button>
                   </form>
                 </section>
               </>

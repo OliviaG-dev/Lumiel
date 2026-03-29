@@ -241,44 +241,4 @@
   flex-wrap: wrap;
 }
 
-.btn-avis-validate,
-.btn-avis-invalidate,
-.btn-avis-delete {
-  padding: 0.4rem 0.85rem;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: all 0.2s ease;
-}
-
-.btn-avis-validate {
-  background: var(--lumiel-gold);
-  color: #0f1116;
-}
-
-.btn-avis-validate:hover:not(:disabled) {
-  background: var(--lumiel-gold-light);
-}
-
-.btn-avis-invalidate {
-  background: rgba(107, 123, 158, 0.2);
-  color: var(--lumiel-text-soft);
-  border-color: rgba(107, 123, 158, 0.3);
-}
-
-.btn-avis-invalidate:hover:not(:disabled) {
-  color: var(--lumiel-text);
-  background: rgba(107, 123, 158, 0.3);
-}
-
-.btn-avis-delete {
-  background: transparent;
-  color: #c08080;
-  border-color: rgba(200, 80, 80, 0.4);
-}
-
-.btn-avis-delete:hover:not(:disabled) {
-  background: rgba(200, 80, 80, 0.15);
-}
+/* .btn-avis-* : rendu = composant Button (variants primary / outline / danger) */

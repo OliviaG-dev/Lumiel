@@ -38,20 +38,6 @@
   margin-bottom: 1rem;
 }
 
-.btn-prestation-add {
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  background: var(--lumiel-gold);
-  color: #0f1116;
-  border: none;
-  cursor: pointer;
-}
-
-.btn-prestation-add:hover {
-  background: var(--lumiel-gold-light);
-}
-
 .prestations-list {
   display: flex;
   flex-direction: column;
@@ -114,35 +100,11 @@
   gap: 0.25rem;
 }
 
+/* Icônes seules : taille carrée, couleurs = variants Button */
 .prestations-btn-edit,
 .prestations-btn-delete {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 2rem;
+  height: 2rem;
+  min-width: 2rem;
   padding: 0;
-  background: none;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.prestations-btn-edit {
-  color: var(--lumiel-gold);
-}
-
-.prestations-btn-edit:hover {
-  color: var(--lumiel-gold-light);
-  background: rgba(180, 160, 100, 0.2);
-}
-
-.prestations-btn-delete {
-  color: #d4a0a0;
-}
-
-.prestations-btn-delete:hover {
-  color: #e8b0b0;
-  background: rgba(200, 80, 80, 0.2);
 }

@@ -8,6 +8,7 @@ import {
 import type { Avis } from "../../../../types/avis";
 import ConfirmModal from "../../../../components/confirm/ConfirmModal";
 import Pagination, { getTotalPages } from "../../../../components/pagination/Pagination";
+import { Button } from "../../../../components/button/Button";
 import "./AvisTab.css";
 
 const AVIS_PAGE_SIZE = 8;
@@ -258,9 +259,11 @@ export default function AvisTab() {
           <p className="avis-accordion-text">{a.avis}</p>
           <div className="avis-accordion-actions">
             {a.valide ? (
-              <button
+              <Button
                 type="button"
-                className="dash-btn dash-btn--outline dash-btn--sm btn-avis-invalidate"
+                variant="outline"
+                size="sm"
+                className="btn-avis-invalidate"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleInvalidate(a.id);
@@ -269,11 +272,13 @@ export default function AvisTab() {
                 title="Retirer de la publication"
               >
                 {actionLoading === a.id ? "…" : "Retirer"}
-              </button>
+              </Button>
             ) : (
-              <button
+              <Button
                 type="button"
-                className="dash-btn dash-btn--primary dash-btn--sm btn-avis-validate"
+                variant="primary"
+                size="sm"
+                className="btn-avis-validate"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleValidate(a.id);
@@ -282,11 +287,13 @@ export default function AvisTab() {
                 title="Publier sur la page Témoignages"
               >
                 {actionLoading === a.id ? "…" : "Valider"}
-              </button>
+              </Button>
             )}
-            <button
+            <Button
               type="button"
-              className="dash-btn dash-btn--danger dash-btn--sm btn-avis-delete"
+              variant="danger"
+              size="sm"
+              className="btn-avis-delete"
               onClick={(e) => {
                 e.stopPropagation();
                 handleDeleteClick(a.id);
@@ -295,7 +302,7 @@ export default function AvisTab() {
               title="Supprimer définitivement"
             >
               {actionLoading === a.id ? "…" : "Supprimer"}
-            </button>
+            </Button>
           </div>
         </div>
       </div>

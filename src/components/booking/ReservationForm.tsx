@@ -1,5 +1,5 @@
 import type { Reservation } from "../../types/reservation";
-import "../../page/dashboard/dash-buttons.css";
+import { Button } from "../button/Button";
 
 const PRESTATIONS_FALLBACK = [
   "Massage bien-être",
@@ -164,21 +164,25 @@ export default function ReservationForm({
       </div>
       <div className="reservation-form-actions">
         {onCancel && (
-          <button
+          <Button
             type="button"
-            className="dash-btn dash-btn--outline dash-btn--grow btn-booking-secondary"
+            variant="outline"
+            grow
+            className="btn-booking-secondary"
             onClick={onCancel}
           >
             Annuler
-          </button>
+          </Button>
         )}
-        <button
+        <Button
           type="submit"
-          className="dash-btn dash-btn--primary dash-btn--grow btn-booking-primary"
+          variant="primary"
+          grow
+          className="btn-booking-primary"
           disabled={disabled}
         >
           {submitLabel}
-        </button>
+        </Button>
       </div>
     </div>
   );

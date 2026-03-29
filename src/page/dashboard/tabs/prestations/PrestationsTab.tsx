@@ -3,6 +3,7 @@ import { loadPrestations, addPrestation, updatePrestation, deletePrestation } fr
 import type { Prestation } from '../../../../types/prestation'
 import PrestationFormModal from '../../../../components/prestation/PrestationFormModal'
 import ConfirmModal from '../../../../components/confirm/ConfirmModal'
+import { Button } from '../../../../components/button/Button'
 import './PrestationsTab.css'
 
 export default function PrestationsTab() {
@@ -105,9 +106,9 @@ export default function PrestationsTab() {
         )}
 
         <div className="prestations-toolbar">
-          <button type="button" className="dash-btn dash-btn--primary btn-prestation-add" onClick={() => setShowAddModal(true)}>
+          <Button type="button" variant="primary" className="btn-prestation-add" onClick={() => setShowAddModal(true)}>
             + Ajouter une prestation
-          </button>
+          </Button>
         </div>
 
         {prestations.length === 0 ? (
@@ -132,26 +133,30 @@ export default function PrestationsTab() {
                   {p.description && <p className="prestations-item-desc">{p.description}</p>}
                 </div>
                 <div className="prestations-item-actions">
-                  <button
+                  <Button
                     type="button"
-                    className="dash-btn dash-btn--secondary dash-btn--sm prestations-btn-edit"
+                    variant="secondary"
+                    size="sm"
+                    className="prestations-btn-edit"
                     onClick={() => setEditingPrestation(p)}
                     disabled={actionLoading === p.id}
                     title="Modifier"
                     aria-label="Modifier"
                   >
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     type="button"
-                    className="dash-btn dash-btn--danger dash-btn--sm prestations-btn-delete"
+                    variant="danger"
+                    size="sm"
+                    className="prestations-btn-delete"
                     onClick={() => setConfirmDeleteId(p.id)}
                     disabled={actionLoading === p.id}
                     title="Supprimer"
                     aria-label="Supprimer"
                   >
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
-                  </button>
+                  </Button>
                 </div>
               </div>
             ))}

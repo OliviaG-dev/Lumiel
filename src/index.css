@@ -14,6 +14,11 @@
   --lumiel-aura-side: rgba(154, 171, 223, 0.08);
   --lumiel-aura-bottom: rgba(107, 123, 158, 0.09);
 
+  /* Boutons génériques (.lumiel-btn) — un seul langage d’arrondi */
+  --lumiel-btn-radius: 11px;
+  --lumiel-btn-radius-sm: 9px;
+  --lumiel-btn-radius-pill: 999px;
+
   /* Titres de page (site public) — repli sans background-clip / WebKit */
   --lumiel-title-h1: #eef2ff;
   --lumiel-title-h2: #96a9e4;

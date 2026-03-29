@@ -8,6 +8,7 @@ import { buildPrestationPrixLookup, sumEstimatedCaEuros } from '../../../../lib/
 import type { Prestation } from '../../../../types/prestation'
 import type { Reservation } from '../../../../types/reservation'
 import StatsPrestationDonut from './StatsPrestationDonut'
+import { Button } from '../../../../components/button/Button'
 import './StatsTab.css'
 
 const OPEN_SLOTS_HORIZON_DAYS = 14
@@ -291,21 +292,25 @@ export default function StatsTab() {
                 </ul>
                 {showUpcomingPagination && (
                   <nav className="stats-upcoming-pagination" aria-label="Pagination des rendez-vous">
-                    <button
+                    <Button
                       type="button"
-                      className="dash-btn dash-btn--outline dash-btn--sm stats-upcoming-page-btn"
+                      variant="outline"
+                      size="sm"
+                      className="stats-upcoming-page-btn"
                       disabled={upcomingPage <= 0}
                       onClick={() => setUpcomingPage((p) => Math.max(0, p - 1))}
                       aria-label="Page précédente"
                     >
                       ‹
-                    </button>
+                    </Button>
                     <span className="stats-upcoming-page-info">
                       {upcomingPage + 1} / {upcomingTotalPages}
                     </span>
-                    <button
+                    <Button
                       type="button"
-                      className="dash-btn dash-btn--outline dash-btn--sm stats-upcoming-page-btn"
+                      variant="outline"
+                      size="sm"
+                      className="stats-upcoming-page-btn"
                       disabled={upcomingPage >= upcomingTotalPages - 1}
                       onClick={() =>
                         setUpcomingPage((p) => Math.min(upcomingTotalPages - 1, p + 1))
@@ -313,7 +318,7 @@ export default function StatsTab() {
                       aria-label="Page suivante"
                     >
                       ›
-                    </button>
+                    </Button>
                   </nav>
                 )}
               </>

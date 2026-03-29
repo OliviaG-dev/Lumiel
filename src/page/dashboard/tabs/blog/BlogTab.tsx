@@ -9,6 +9,7 @@ import {
 import type { BlogPost } from '../../../../types/blogPost'
 import ConfirmModal from '../../../../components/confirm/ConfirmModal'
 import Pagination, { getTotalPages } from '../../../../components/pagination/Pagination'
+import { Button } from '../../../../components/button/Button'
 import BlogPostFormModal from './BlogPostFormModal'
 import './BlogTab.css'
 
@@ -98,7 +99,7 @@ export default function BlogTab() {
   return (
     <div className="dashboard-tab-content">
       <div className="dashboard-card blog-tab-card">
-        <header className="dashboard-page-header dashboard-page-header--with-actions blog-tab-header">
+        <header className="dashboard-page-header">
           <span className="dashboard-page-header-accent" aria-hidden="true" />
           <div className="dashboard-page-header-text">
             <h2 className="dashboard-page-title">Gestion du blog</h2>
@@ -107,16 +108,6 @@ export default function BlogTab() {
               Rédigez des articles avec texte et image ; les brouillons restent privés jusqu’à publication.
             </p>
           </div>
-          <button
-            type="button"
-            className="dash-btn dash-btn--primary dash-btn--pill blog-tab-btn-new"
-            onClick={() => {
-              setEditingPost(null)
-              setFormOpen(true)
-            }}
-          >
-            Nouvel article
-          </button>
         </header>
 
         {error && (
@@ -127,6 +118,20 @@ export default function BlogTab() {
             </button>
           </div>
         )}
+
+        <div className="blog-tab-toolbar">
+          <Button
+            type="button"
+            variant="primary"
+            className="btn-blog-add"
+            onClick={() => {
+              setEditingPost(null)
+              setFormOpen(true)
+            }}
+          >
+            + Nouvel article
+          </Button>
+        </div>
 
         {posts.length === 0 ? (
           <p className="dashboard-empty">Aucun article pour le moment.</p>
@@ -157,24 +162,28 @@ export default function BlogTab() {
                           Voir sur le site
                         </Link>
                       ) : null}
-                      <button
+                      <Button
                         type="button"
-                        className="dash-btn dash-btn--secondary dash-btn--sm blog-tab-btn-edit"
+                        variant="secondary"
+                        size="sm"
+                        className="blog-tab-btn-edit"
                         onClick={() => {
                           setEditingPost(p)
                           setFormOpen(true)
                         }}
                       >
                         Modifier
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         type="button"
-                        className="dash-btn dash-btn--danger dash-btn--sm blog-tab-btn-delete"
+                        variant="danger"
+                        size="sm"
+                        className="blog-tab-btn-delete"
                         disabled={actionLoading === p.id}
                         onClick={() => setConfirmDeleteId(p.id)}
                       >
                         Supprimer
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </li>

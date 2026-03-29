@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import type { Client } from '../../types/client'
-import '../../page/dashboard/dash-buttons.css'
+import { Button } from '../button/Button'
 import './ClientFormModal.css'
 
 export interface ClientFormFields {
@@ -127,12 +127,12 @@ export default function ClientFormModal({
             correspond à une réservation.
           </p>
           <div className="client-modal-actions">
-            <button type="button" className="dash-btn dash-btn--outline btn-client-secondary" onClick={onClose}>
+            <Button type="button" variant="outline" className="btn-client-secondary" onClick={onClose}>
               Annuler
-            </button>
-            <button type="submit" className="dash-btn dash-btn--primary btn-client-primary" disabled={saving}>
+            </Button>
+            <Button type="submit" variant="primary" className="btn-client-primary" disabled={saving}>
               {saving ? 'Enregistrement…' : client ? 'Enregistrer' : 'Ajouter'}
-            </button>
+            </Button>
           </div>
         </form>
       </div>
