@@ -14,7 +14,10 @@ import type { Client } from '../../../../types/client'
 import type { Reservation } from '../../../../types/reservation'
 import ClientFormModal from '../../../../components/client/ClientFormModal'
 import ConfirmModal from '../../../../components/confirm/ConfirmModal'
+import Pagination, { getTotalPages } from '../../../../components/pagination/Pagination'
 import './ClientsTab.css'
+
+const CLIENTS_LIST_PAGE_SIZE = 12
 
 function formatRdvDate(d: Date) {
   return d.toLocaleString('fr-FR', {
@@ -56,6 +59,25 @@ export default function ClientsTab() {
 
   const [newSeanceContent, setNewSeanceContent] = useState('')
   const [newSeanceDate, setNewSeanceDate] = useState('')
+  const [clientListPage, setClientListPage] = useState(1)
+
+  const clientListTotalPages = useMemo(
+    () => getTotalPages(clients.length, CLIENTS_LIST_PAGE_SIZE),
+    [clients.length],
+  )
+
+  useEffect(() => {
+    setClientListPage((p) => Math.min(p, clientListTotalPages))
+  }, [clientListTotalPages])
+
+  const clientsPageSlice = useMemo(
+    () =>
+      clients.slice(
+        (clientListPage - 1) * CLIENTS_LIST_PAGE_SIZE,
+        clientListPage * CLIENTS_LIST_PAGE_SIZE,
+      ),
+    [clients, clientListPage],
+  )
 
   const fetchClientsAndReservations = useCallback(async () => {
     const [c, r] = await Promise.all([loadClients(), loadReservations()])
@@ -254,26 +276,36 @@ export default function ClientsTab() {
             {clients.length === 0 ? (
               <p className="dashboard-empty">Aucun client. Créez une fiche pour commencer le suivi.</p>
             ) : (
-              <ul className="clients-list">
-                {clients.map((c) => (
-                  <li key={c.id}>
-                    <button
-                      type="button"
-                      className={`clients-list-item${selectedId === c.id ? ' clients-list-item--active' : ''}`}
-                      onClick={() => selectClient(c)}
-                    >
-                      <span className="clients-list-name">
-                        {[c.prenom, c.nom].filter(Boolean).join(' ') || 'Sans nom'}
-                      </span>
-                      {(c.email || c.telephone) && (
-                        <span className="clients-list-contact">
-                          {c.email || c.telephone}
+              <>
+                <ul className="clients-list">
+                  {clientsPageSlice.map((c) => (
+                    <li key={c.id}>
+                      <button
+                        type="button"
+                        className={`clients-list-item${selectedId === c.id ? ' clients-list-item--active' : ''}`}
+                        onClick={() => selectClient(c)}
+                      >
+                        <span className="clients-list-name">
+                          {[c.prenom, c.nom].filter(Boolean).join(' ') || 'Sans nom'}
                         </span>
-                      )}
-                    </button>
-                  </li>
-                ))}
-              </ul>
+                        {(c.email || c.telephone) && (
+                          <span className="clients-list-contact">
+                            {c.email || c.telephone}
+                          </span>
+                        )}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+                <Pagination
+                  currentPage={clientListPage}
+                  totalPages={clientListTotalPages}
+                  onPageChange={setClientListPage}
+                  variant="dashboard"
+                  className="clients-list-pagination"
+                  ariaLabel="Pagination des clients"
+                />
+              </>
             )}
           </div>
 

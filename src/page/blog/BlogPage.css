@@ -155,6 +155,11 @@
   text-decoration: underline;
 }
 
+/* Espacement vertical géré par .pagination */
+.blog-pagination {
+  margin: 0;
+}
+
 /* Article détail */
 
 .blog-content--article {

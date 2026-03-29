@@ -122,7 +122,7 @@ export default function TemoignagesPage() {
                 ? couleurPrestationPourTypeSeance(a.typeSeance, prestationCouleurByNom)
                 : null
               const typeStyle: CSSProperties | undefined = typeAccent
-                ? { '--prestation-accent': typeAccent }
+                ? ({ '--prestation-accent': typeAccent } as CSSProperties)
                 : undefined
               return (
                 <li key={a.id} className="temoignages-item">

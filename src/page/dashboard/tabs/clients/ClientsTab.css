@@ -138,6 +138,12 @@
   border-radius: 6px;
 }
 
+.clients-list-pagination {
+  margin: 0;
+  padding: 0.35rem 0.5rem 0.5rem;
+  border-top: 1px solid var(--clients-line);
+}
+
 .clients-list-item {
   width: 100%;
   text-align: left;

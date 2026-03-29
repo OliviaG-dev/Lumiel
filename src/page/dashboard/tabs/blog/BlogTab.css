@@ -65,10 +65,15 @@
   gap: 1rem;
 }
 
+.blog-tab-pagination {
+  margin: 0;
+}
+
 .blog-tab-item {
   display: flex;
+  align-items: flex-start;
   gap: 1rem;
-  padding: 1rem;
+  padding: 2.55rem 1rem 1.15rem;
   border-radius: 12px;
   border: 1px solid rgba(107, 123, 158, 0.12);
   background: rgba(15, 17, 22, 0.35);
@@ -80,7 +85,7 @@
 
 .blog-tab-thumb {
   width: 100px;
-  height: 72px;
+  height: 94px;
   object-fit: cover;
   border-radius: 8px;
   display: block;

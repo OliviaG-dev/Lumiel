@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import {
   loadBlogPosts,
@@ -8,11 +8,16 @@ import {
 } from '../../../../lib/blogPosts'
 import type { BlogPost } from '../../../../types/blogPost'
 import ConfirmModal from '../../../../components/confirm/ConfirmModal'
+import Pagination, { getTotalPages } from '../../../../components/pagination/Pagination'
 import BlogPostFormModal from './BlogPostFormModal'
 import './BlogTab.css'
 
+/** Nombre d’articles par page dans l’onglet blog du dashboard. */
+const PAGE_SIZE = 2
+
 export default function BlogTab() {
   const [posts, setPosts] = useState<BlogPost[]>([])
+  const [listPage, setListPage] = useState(1)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [actionLoading, setActionLoading] = useState<string | null>(null)
@@ -36,6 +41,17 @@ export default function BlogTab() {
   useEffect(() => {
     fetchPosts()
   }, [fetchPosts])
+
+  const totalPages = useMemo(() => getTotalPages(posts.length, PAGE_SIZE), [posts.length])
+
+  useEffect(() => {
+    setListPage((p) => Math.min(p, totalPages))
+  }, [totalPages])
+
+  const postsPage = useMemo(
+    () => posts.slice((listPage - 1) * PAGE_SIZE, listPage * PAGE_SIZE),
+    [posts, listPage],
+  )
 
   const handleSave = async (data: {
     slug: string
@@ -115,54 +131,64 @@ export default function BlogTab() {
         {posts.length === 0 ? (
           <p className="dashboard-empty">Aucun article pour le moment.</p>
         ) : (
-          <ul className="blog-tab-list">
-            {posts.map((p) => (
-              <li key={p.id} className="blog-tab-item">
-                <div className="blog-tab-item-visual">
-                  {p.imageUrl ? (
-                    <img src={p.imageUrl} alt="" className="blog-tab-thumb" decoding="async" />
-                  ) : (
-                    <div className="blog-tab-thumb blog-tab-thumb--placeholder" aria-hidden />
-                  )}
-                </div>
-                <div className="blog-tab-item-body">
-                  <div className="blog-tab-item-meta">
-                    <span className={`blog-tab-badge ${p.published ? 'blog-tab-badge--live' : 'blog-tab-badge--draft'}`}>
-                      {p.published ? 'Publié' : 'Brouillon'}
-                    </span>
-                    <time dateTime={p.updatedAt.toISOString()}>{formatDate(p.updatedAt)}</time>
+          <>
+            <ul className="blog-tab-list">
+              {postsPage.map((p) => (
+                <li key={p.id} className="blog-tab-item">
+                  <div className="blog-tab-item-visual">
+                    {p.imageUrl ? (
+                      <img src={p.imageUrl} alt="" className="blog-tab-thumb" decoding="async" />
+                    ) : (
+                      <div className="blog-tab-thumb blog-tab-thumb--placeholder" aria-hidden />
+                    )}
                   </div>
-                  <h3 className="blog-tab-item-title">{p.title}</h3>
-                  {p.excerpt ? <p className="blog-tab-item-excerpt">{p.excerpt}</p> : null}
-                  <div className="blog-tab-item-actions">
-                    {p.published ? (
-                      <Link to={`/blog/${encodeURIComponent(p.slug)}`} className="blog-tab-link" target="_blank" rel="noopener noreferrer">
-                        Voir sur le site
-                      </Link>
-                    ) : null}
-                    <button
-                      type="button"
-                      className="dash-btn dash-btn--secondary dash-btn--sm blog-tab-btn-edit"
-                      onClick={() => {
-                        setEditingPost(p)
-                        setFormOpen(true)
-                      }}
-                    >
-                      Modifier
-                    </button>
-                    <button
-                      type="button"
-                      className="dash-btn dash-btn--danger dash-btn--sm blog-tab-btn-delete"
-                      disabled={actionLoading === p.id}
-                      onClick={() => setConfirmDeleteId(p.id)}
-                    >
-                      Supprimer
-                    </button>
+                  <div className="blog-tab-item-body">
+                    <div className="blog-tab-item-meta">
+                      <span className={`blog-tab-badge ${p.published ? 'blog-tab-badge--live' : 'blog-tab-badge--draft'}`}>
+                        {p.published ? 'Publié' : 'Brouillon'}
+                      </span>
+                      <time dateTime={p.updatedAt.toISOString()}>{formatDate(p.updatedAt)}</time>
+                    </div>
+                    <h3 className="blog-tab-item-title">{p.title}</h3>
+                    {p.excerpt ? <p className="blog-tab-item-excerpt">{p.excerpt}</p> : null}
+                    <div className="blog-tab-item-actions">
+                      {p.published ? (
+                        <Link to={`/blog/${encodeURIComponent(p.slug)}`} className="blog-tab-link" target="_blank" rel="noopener noreferrer">
+                          Voir sur le site
+                        </Link>
+                      ) : null}
+                      <button
+                        type="button"
+                        className="dash-btn dash-btn--secondary dash-btn--sm blog-tab-btn-edit"
+                        onClick={() => {
+                          setEditingPost(p)
+                          setFormOpen(true)
+                        }}
+                      >
+                        Modifier
+                      </button>
+                      <button
+                        type="button"
+                        className="dash-btn dash-btn--danger dash-btn--sm blog-tab-btn-delete"
+                        disabled={actionLoading === p.id}
+                        onClick={() => setConfirmDeleteId(p.id)}
+                      >
+                        Supprimer
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+                </li>
+              ))}
+            </ul>
+            <Pagination
+              currentPage={listPage}
+              totalPages={totalPages}
+              onPageChange={setListPage}
+              variant="dashboard"
+              className="blog-tab-pagination"
+              ariaLabel="Pagination des articles"
+            />
+          </>
         )}
       </div>
 
