@@ -129,7 +129,9 @@ h1 {
   margin: 0 0 1.15rem;
   text-wrap: pretty;
   font-variant-numeric: proportional-nums;
-  font-feature-settings: "kern" 1, "liga" 1;
+  font-feature-settings:
+    "kern" 1,
+    "liga" 1;
 }
 
 @media (max-width: 1024px) {

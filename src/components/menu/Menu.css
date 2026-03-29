@@ -101,7 +101,6 @@
   .menu .menu-logo {
     animation: none;
   }
-
 }
 
 @supports (background-clip: text) or (-webkit-background-clip: text) {
