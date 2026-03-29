@@ -155,9 +155,8 @@
   text-decoration: underline;
 }
 
-/* Espacement vertical géré par .pagination */
 .blog-pagination {
-  margin: 0;
+  margin: 1.5rem 0 0;
 }
 
 /* Article détail */

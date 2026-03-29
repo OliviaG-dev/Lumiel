@@ -1,0 +1,109 @@
+.confidentialite-page {
+  padding: 0.5rem 0 1rem;
+}
+
+.confidentialite-content {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.confidentialite-content > h1 {
+  font-family: var(--lumiel-page-title);
+  font-size: 2rem;
+  font-weight: 500;
+  margin: 0 0 1rem;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+.confidentialite-lead {
+  font-size: 1.05rem;
+  line-height: 1.82;
+  color: var(--lumiel-text-soft);
+  margin: 0 0 2rem;
+  text-align: center;
+}
+
+.confidentialite-section {
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid rgba(107, 123, 158, 0.12);
+}
+
+.confidentialite-section:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 1.5rem;
+}
+
+.confidentialite-section h2 {
+  font-family: var(--lumiel-page-title);
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin: 0 0 0.75rem;
+  letter-spacing: 0.02em;
+}
+
+.confidentialite-section p {
+  font-size: 1rem;
+  line-height: 1.78;
+  color: var(--lumiel-text-soft);
+  margin: 0 0 0.85rem;
+}
+
+.confidentialite-list {
+  margin: 0.5rem 0 0;
+  padding-left: 1.15rem;
+  color: var(--lumiel-text-soft);
+  font-size: 0.98rem;
+  line-height: 1.75;
+}
+
+.confidentialite-list li {
+  margin-bottom: 0.9rem;
+}
+
+.confidentialite-list li:last-child {
+  margin-bottom: 0;
+}
+
+.confidentialite-mail,
+.confidentialite-ext {
+  color: var(--lumiel-gold-light, #9aabdf);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.confidentialite-mail:hover,
+.confidentialite-ext:hover {
+  color: #c8d2f0;
+}
+
+.confidentialite-updated {
+  font-size: 0.92rem !important;
+  opacity: 0.9;
+  margin-bottom: 0 !important;
+}
+
+.confidentialite-back {
+  text-align: center;
+  margin: 0 !important;
+  font-size: 0.95rem;
+}
+
+.confidentialite-inline-link {
+  color: var(--lumiel-gold-light, #9aabdf);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(154, 171, 223, 0.35);
+}
+
+.confidentialite-inline-link:hover {
+  border-bottom-color: rgba(200, 210, 240, 0.6);
+}
+
+@media (max-width: 768px) {
+  .confidentialite-content > h1 {
+    font-size: 1.65rem;
+  }
+}

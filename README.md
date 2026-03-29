@@ -28,12 +28,14 @@ Application web de présentation et de gestion pour un accompagnement bien-être
 - **Accueil** — Présentation de l’approche et du cadre d’accompagnement.
 - **À propos** — Page dédiée à la présentation.
 - **Prestations & tarifs** — Liste des prestations (nom, description, durée, prix ou « sur devis »), chargée depuis Supabase.
-- **Témoignages** — Page dédiée aux retours clients.
+- **Témoignages** — Page dédiée aux retours clients ; envoi d’un avis soumis à un consentement explicite (publication après modération), avec lien vers la politique de confidentialité.
 - **Blog** — Consultation des contenus blog.
+- **Contact & FAQ** — Formulaire (relai e-mail tiers) et questions fréquentes ; consentement obligatoire au traitement des données avant envoi.
+- **Confidentialité** — Page `/confidentialite` : politique de confidentialité (RGPD), lien en pied de page sur tout le site public.
 
 ### Réservation
 
-- **Prise de rendez-vous** (depuis la page prestations) — Choix d’une date, d’un créneau libre en fonction des réservations existantes et de la durée de la prestation, puis formulaire de contact pour confirmer le rendez-vous.
+- **Prise de rendez-vous** (depuis la page prestations) — Choix d’une date, d’un créneau libre en fonction des réservations existantes et de la durée de la prestation, puis formulaire pour confirmer le rendez-vous (consentement au traitement des données requis).
 
 ### Administration (dashboard)
 
@@ -70,6 +72,20 @@ Créer un fichier `.env` à la racine du projet :
 VITE_SUPABASE_URL=https://votre-projet.supabase.co
 VITE_SUPABASE_ANON_KEY=votre_cle_anon
 ```
+
+Variables **optionnelles** affichées sur la page de confidentialité (sinon valeurs par défaut / placeholders dans `src/config/legal.ts`) :
+
+```env
+VITE_RGPD_CONTROLLER_NAME=Nom ou raison sociale
+VITE_RGPD_CONTACT_EMAIL=contact@exemple.fr
+VITE_RGPD_CONTROLLER_ADDRESS=Adresse, code postal, ville, pays
+```
+
+## Confidentialité (RGPD)
+
+- **Politique** — Contenu éditorial sur `/confidentialite` ; personnaliser `src/config/legal.ts` ou les variables `VITE_RGPD_*` ci-dessus.
+- **Bandeau** — Information cookies / traceurs et mention des polices Google Fonts au premier chargement (accusé stocké en `localStorage`).
+- **Formulaires** — Cases à cocher et liens vers la politique sur le contact, la réservation publique et les témoignages.
 
 ## Scripts
 

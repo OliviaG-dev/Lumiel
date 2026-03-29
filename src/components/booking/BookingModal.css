@@ -391,6 +391,36 @@
   border-color: var(--lumiel-gold);
 }
 
+.reservation-form-row--privacy {
+  margin-top: 0.25rem;
+}
+
+.reservation-form-privacy-label {
+  display: flex !important;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-bottom: 0 !important;
+  font-size: 0.82rem !important;
+  font-weight: 400 !important;
+  line-height: 1.55;
+  cursor: pointer;
+  color: var(--lumiel-text-soft) !important;
+}
+
+.reservation-form-privacy-label input {
+  width: auto !important;
+  min-width: 1rem;
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+  accent-color: var(--lumiel-gold);
+}
+
+.reservation-form-privacy-label a {
+  color: var(--lumiel-gold-light);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .reservation-form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;

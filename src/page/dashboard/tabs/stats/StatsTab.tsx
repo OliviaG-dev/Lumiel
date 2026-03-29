@@ -30,7 +30,7 @@ function formatRdvDateTimeFr(date: Date) {
   return raw.charAt(0).toUpperCase() + raw.slice(1)
 }
 
-const UPCOMING_PAGE_SIZE = 4
+const UPCOMING_PAGE_SIZE = 5
 
 export default function StatsTab() {
   const [avisCount, setAvisCount] = useState<number | null>(null)

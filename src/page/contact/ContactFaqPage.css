@@ -122,6 +122,35 @@
   cursor: not-allowed;
 }
 
+.contact-form-row--privacy {
+  margin-top: 0.35rem;
+}
+
+.contact-form-privacy-label {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.88rem !important;
+  line-height: 1.55;
+  cursor: pointer;
+  color: var(--lumiel-text-soft) !important;
+}
+
+.contact-form-privacy-label input[type="checkbox"] {
+  width: auto !important;
+  min-width: 1.05rem;
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+  accent-color: var(--lumiel-gold);
+}
+
+.contact-privacy-link {
+  color: var(--lumiel-gold-light);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .contact-form-error {
   margin: 0;
   font-size: 0.9rem;

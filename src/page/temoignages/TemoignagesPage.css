@@ -33,6 +33,7 @@
 
 .btn-avis-temoignages {
   display: inline-block;
+  margin-bottom: 5rem;
   padding: 0.6rem 1.5rem;
   border-radius: 2rem;
   font-size: 0.9rem;
@@ -143,12 +144,17 @@
   color: rgba(107, 123, 158, 0.28);
   font-size: 1.12rem;
   line-height: 1;
-  transition: color 0.2s ease, transform 0.2s ease, filter 0.2s ease;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease,
+    filter 0.2s ease;
 }
 
 .temoignages-item-stars .temoignages-star--filled {
   color: var(--lumiel-gold);
-  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--lumiel-gold) 45%, transparent));
+  filter: drop-shadow(
+    0 0 6px color-mix(in srgb, var(--lumiel-gold) 45%, transparent)
+  );
 }
 
 .temoignages-item:hover .temoignages-item-stars .temoignages-star--filled {
@@ -198,7 +204,12 @@
   letter-spacing: 0.03em;
   color: rgba(248, 249, 252, 0.95);
   border-radius: 100px;
-  background: color-mix(in srgb, var(--prestation-accent) 38%, rgba(30, 32, 40, 0.95));
-  border: 1px solid color-mix(in srgb, var(--prestation-accent) 45%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--prestation-accent) 38%,
+    rgba(30, 32, 40, 0.95)
+  );
+  border: 1px solid
+    color-mix(in srgb, var(--prestation-accent) 45%, transparent);
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08) inset;
 }

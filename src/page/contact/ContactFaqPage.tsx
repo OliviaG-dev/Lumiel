@@ -27,7 +27,7 @@ const FAQ_ITEMS: { q: string; a: string }[] = [
   },
   {
     q: 'Comment sont gérées la confidentialité et les données ?',
-    a: 'Les échanges dans le cadre des séances sont traités avec discrétion. Les informations nécessaires à la réservation (coordonnées, etc.) servent uniquement à l’organisation des rendez-vous, dans le respect du cadre légal applicable.',
+    a: 'Les échanges dans le cadre des séances sont traités avec discrétion. Les informations nécessaires à la réservation (coordonnées, etc.) servent uniquement à l’organisation des rendez-vous. Le détail des traitements et vos droits figurent sur la page « Confidentialité & données personnelles » (lien en bas de chaque page).',
   },
   {
     q: 'Proposez-vous des séances à distance ?',
@@ -77,10 +77,17 @@ export default function ContactFaqPage() {
   const [message, setMessage] = useState('')
   const [status, setStatus] = useState<SendStatus>('idle')
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [privacyAccepted, setPrivacyAccepted] = useState(false)
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setErrorMessage(null)
+    if (!privacyAccepted) {
+      setErrorMessage(
+        'Merci de cocher la case concernant la politique de confidentialité pour envoyer votre message.',
+      )
+      return
+    }
     setStatus('sending')
     try {
       await submitContactMessage({
@@ -92,6 +99,7 @@ export default function ContactFaqPage() {
       setName('')
       setEmail('')
       setMessage('')
+      setPrivacyAccepted(false)
     } catch (err) {
       setStatus('error')
       setErrorMessage(err instanceof Error ? err.message : "L'envoi a échoué.")
@@ -176,12 +184,37 @@ export default function ContactFaqPage() {
                   placeholder="Votre question ou message…"
                 />
               </div>
+              <div className="contact-form-row contact-form-row--privacy">
+                <label className="contact-form-privacy-label" htmlFor="contact-privacy">
+                  <input
+                    id="contact-privacy"
+                    name="privacy"
+                    type="checkbox"
+                    checked={privacyAccepted}
+                    onChange={(e) => setPrivacyAccepted(e.target.checked)}
+                    disabled={status === 'sending'}
+                  />
+                  <span>
+                    J’accepte que mes données (nom, e-mail, message) soient utilisées pour répondre à
+                    ma demande, conformément à la{' '}
+                    <Link to="/confidentialite" className="contact-privacy-link">
+                      politique de confidentialité
+                    </Link>
+                    .
+                  </span>
+                </label>
+              </div>
               {errorMessage ? (
                 <p className="contact-form-error" role="alert">
                   {errorMessage}
                 </p>
               ) : null}
-              <Button type="submit" variant="primary" block disabled={status === 'sending'}>
+              <Button
+                type="submit"
+                variant="primary"
+                block
+                disabled={status === 'sending' || !privacyAccepted}
+              >
                 {status === 'sending' ? 'Envoi en cours…' : 'Envoyer le message'}
               </Button>
             </form>

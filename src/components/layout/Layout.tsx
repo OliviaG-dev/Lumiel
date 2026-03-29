@@ -1,5 +1,7 @@
 import { Outlet, useLocation } from "react-router-dom";
 import Menu from "../menu/Menu";
+import SiteFooter from "../siteFooter/SiteFooter";
+import CookieConsent from "../cookieConsent/CookieConsent";
 import "./Layout.css";
 
 export default function Layout() {
@@ -20,6 +22,8 @@ export default function Layout() {
           <Outlet />
         </div>
       </main>
+      {!isDashboardPage && <SiteFooter />}
+      {!isDashboardPage && <CookieConsent />}
     </div>
   );
 }

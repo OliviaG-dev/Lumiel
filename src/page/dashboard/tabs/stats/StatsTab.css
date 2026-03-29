@@ -346,6 +346,7 @@
   overflow-y: auto;
   padding-right: 0.15rem;
   scrollbar-gutter: stable;
+  justify-content: center;
 }
 
 .stats-panel--prestations .stats-panel-body {

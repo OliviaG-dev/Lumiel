@@ -1,4 +1,5 @@
 import type { Reservation } from "../../types/reservation";
+import { Link } from "react-router-dom";
 import { Button } from "../button/Button";
 
 const PRESTATIONS_FALLBACK = [
@@ -32,6 +33,12 @@ interface ReservationFormProps {
   hidePrestation?: boolean;
   /** Masque le sélecteur de durée (réservation client : durée = celle de la prestation) */
   hideDuree?: boolean;
+  /** Consentement RGPD (réservation publique) : case obligatoire pour activer l’envoi. */
+  privacyConsent?: {
+    checked: boolean;
+    onChange: (checked: boolean) => void;
+    id?: string;
+  };
 }
 
 export function getDefaultFormData(prestations?: string[]): ReservationFormData {
@@ -74,6 +81,7 @@ export default function ReservationForm({
   prestations = PRESTATIONS_FALLBACK,
   hidePrestation = false,
   hideDuree = false,
+  privacyConsent,
 }: ReservationFormProps) {
   const update = (field: keyof ReservationFormData, value: string | number) => {
     onChange({ ...data, [field]: value });
@@ -162,6 +170,28 @@ export default function ReservationForm({
           rows={2}
         />
       </div>
+      {privacyConsent ? (
+        <div className="reservation-form-row reservation-form-row--privacy">
+          <label className="reservation-form-privacy-label" htmlFor={privacyConsent.id ?? "reservation-privacy"}>
+            <input
+              id={privacyConsent.id ?? "reservation-privacy"}
+              type="checkbox"
+              checked={privacyConsent.checked}
+              onChange={(e) => privacyConsent.onChange(e.target.checked)}
+              disabled={disabled}
+              required
+            />
+            <span>
+              J’accepte que mes données soient utilisées pour traiter ma demande de rendez-vous,
+              conformément à la{' '}
+              <Link to="/confidentialite" target="_blank" rel="noopener noreferrer">
+                politique de confidentialité
+              </Link>
+              .
+            </span>
+          </label>
+        </div>
+      ) : null}
       <div className="reservation-form-actions">
         {onCancel && (
           <Button
@@ -179,7 +209,7 @@ export default function ReservationForm({
           variant="primary"
           grow
           className="btn-booking-primary"
-          disabled={disabled}
+          disabled={disabled || (privacyConsent !== undefined && !privacyConsent.checked)}
         >
           {submitLabel}
         </Button>

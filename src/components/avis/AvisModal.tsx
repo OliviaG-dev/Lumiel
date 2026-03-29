@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
+import { Link } from 'react-router-dom'
 import './AvisModal.css'
 
 const TYPES_SEANCE = ['Massage bien-être', 'Reiki', 'Soin énergétique', 'Consultation', 'Autre']
@@ -17,10 +18,11 @@ export default function AvisModal({ isOpen, onClose, onSubmit, submitError }: Av
   const [note, setNote] = useState(0)
   const [typeSeance, setTypeSeance] = useState(TYPES_SEANCE[0])
   const [avis, setAvis] = useState('')
+  const [privacyAccepted, setPrivacyAccepted] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!avis.trim()) return
+    if (!avis.trim() || !privacyAccepted) return
     try {
       await onSubmit?.({ prenom, nom, note: note || 0, typeSeance, avis: avis.trim() })
       setPrenom('')
@@ -28,6 +30,7 @@ export default function AvisModal({ isOpen, onClose, onSubmit, submitError }: Av
       setNote(0)
       setTypeSeance(TYPES_SEANCE[0])
       setAvis('')
+      setPrivacyAccepted(false)
       onClose()
     } catch {
       // Erreur gérée par le parent (submitError)
@@ -40,6 +43,7 @@ export default function AvisModal({ isOpen, onClose, onSubmit, submitError }: Av
     setNote(0)
     setTypeSeance(TYPES_SEANCE[0])
     setAvis('')
+    setPrivacyAccepted(false)
     onClose()
   }
 
@@ -123,11 +127,29 @@ export default function AvisModal({ isOpen, onClose, onSubmit, submitError }: Av
               required
             />
           </div>
+          <div className="avis-form-row avis-form-row--privacy">
+            <label className="avis-form-privacy-label" htmlFor="avis-privacy">
+              <input
+                id="avis-privacy"
+                type="checkbox"
+                checked={privacyAccepted}
+                onChange={(e) => setPrivacyAccepted(e.target.checked)}
+              />
+              <span>
+                J’accepte que mon prénom, mon nom et mon témoignage puissent être affichés sur le site
+                après modération, conformément à la{' '}
+                <Link to="/confidentialite" className="avis-privacy-link">
+                  politique de confidentialité
+                </Link>
+                . Je peux retirer mon consentement en contactant le responsable du site.
+              </span>
+            </label>
+          </div>
           <div className="avis-form-actions">
             <button type="button" className="btn-avis-secondary" onClick={handleClose}>
               Annuler
             </button>
-            <button type="submit" className="btn-avis-primary">
+            <button type="submit" className="btn-avis-primary" disabled={!privacyAccepted}>
               Envoyer
             </button>
           </div>

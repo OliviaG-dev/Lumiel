@@ -11,7 +11,8 @@ export function normalizePhone(value: string | null | undefined): string {
   return value.replace(/\D/g, '')
 }
 
-const MIN_PHONE_LEN = 8
+/** Longueur min. du numéro (chiffres) pour qu’un portable soit considéré comme fiable. */
+export const MIN_PHONE_LEN = 8
 
 /**
  * Associe un rendez-vous du calendrier à une fiche client (même e-mail ou même n° portable).
