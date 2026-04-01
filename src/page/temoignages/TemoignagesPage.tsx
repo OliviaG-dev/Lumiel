@@ -1,11 +1,14 @@
 import { useState, useEffect, useMemo } from 'react'
 import type { CSSProperties } from 'react'
+import Pagination, { getTotalPages } from '../../components/pagination/Pagination'
 import AvisModal from '../../components/avis/AvisModal'
 import { addAvis, loadAvisValidés } from '../../lib/avis'
 import { loadPrestations } from '../../lib/prestations'
 import type { Avis } from '../../types/avis'
 import type { Prestation } from '../../types/prestation'
 import './TemoignagesPage.css'
+
+const AVIS_PAGE_SIZE = 2
 
 function couleurPrestationPourTypeSeance(typeSeance: string, byNom: Map<string, string>): string | null {
   const t = typeSeance.trim()
@@ -26,6 +29,21 @@ export default function TemoignagesPage() {
   const [loading, setLoading] = useState(true)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [submitSuccess, setSubmitSuccess] = useState(false)
+  const [page, setPage] = useState(1)
+
+  const totalPages = useMemo(
+    () => getTotalPages(avis.length, AVIS_PAGE_SIZE),
+    [avis.length],
+  )
+
+  useEffect(() => {
+    setPage((p) => Math.min(p, totalPages))
+  }, [totalPages])
+
+  const avisPage = useMemo(
+    () => avis.slice((page - 1) * AVIS_PAGE_SIZE, page * AVIS_PAGE_SIZE),
+    [avis, page],
+  )
 
   const prestationCouleurByNom = useMemo(() => {
     const m = new Map<string, string>()
@@ -116,38 +134,47 @@ export default function TemoignagesPage() {
             Aucun témoignage publié pour le moment.
           </p>
         ) : (
-          <ul className="temoignages-list">
-            {avis.map((a) => {
-              const typeAccent = a.typeSeance
-                ? couleurPrestationPourTypeSeance(a.typeSeance, prestationCouleurByNom)
-                : null
-              const typeStyle: CSSProperties | undefined = typeAccent
-                ? ({ '--prestation-accent': typeAccent } as CSSProperties)
-                : undefined
-              return (
-                <li key={a.id} className="temoignages-item">
-                  <p className="temoignages-item-author">
-                    <span className="temoignages-item-author-name">
-                      {a.prenom} {a.nom}
-                    </span>
-                    {a.typeSeance && (
-                      <span className="temoignages-item-type" style={typeStyle}>
-                        {a.typeSeance}
+          <>
+            <ul className="temoignages-list">
+              {avisPage.map((a) => {
+                const typeAccent = a.typeSeance
+                  ? couleurPrestationPourTypeSeance(a.typeSeance, prestationCouleurByNom)
+                  : null
+                const typeStyle: CSSProperties | undefined = typeAccent
+                  ? ({ '--prestation-accent': typeAccent } as CSSProperties)
+                  : undefined
+                return (
+                  <li key={a.id} className="temoignages-item">
+                    <p className="temoignages-item-author">
+                      <span className="temoignages-item-author-name">
+                        {a.prenom} {a.nom}
                       </span>
-                    )}
-                  </p>
-                  <p className="temoignages-item-text">« {a.avis} »</p>
-                  <div className="temoignages-item-stars" aria-label={`Note : ${a.note} sur 5`}>
-                    {[1, 2, 3, 4, 5].map((n) => (
-                      <span key={n} className={a.note >= n ? 'temoignages-star temoignages-star--filled' : 'temoignages-star'}>
-                        ★
-                      </span>
-                    ))}
-                  </div>
-                </li>
-              )
-            })}
-          </ul>
+                      {a.typeSeance && (
+                        <span className="temoignages-item-type" style={typeStyle}>
+                          {a.typeSeance}
+                        </span>
+                      )}
+                    </p>
+                    <p className="temoignages-item-text">« {a.avis} »</p>
+                    <div className="temoignages-item-stars" aria-label={`Note : ${a.note} sur 5`}>
+                      {[1, 2, 3, 4, 5].map((n) => (
+                        <span key={n} className={a.note >= n ? 'temoignages-star temoignages-star--filled' : 'temoignages-star'}>
+                          ★
+                        </span>
+                      ))}
+                    </div>
+                  </li>
+                )
+              })}
+            </ul>
+            <Pagination
+              currentPage={page}
+              totalPages={totalPages}
+              onPageChange={setPage}
+              className="temoignages-pagination"
+              ariaLabel="Pagination des témoignages"
+            />
+          </>
         )}
       </section>
 
