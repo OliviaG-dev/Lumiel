@@ -1,7 +1,7 @@
 import { format } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import type { EventProps } from 'react-big-calendar'
-import type { Reservation } from '../../../../types/reservation'
+import type { Reservation } from '@/types/reservation'
 import CalendrierDispoIcon from './CalendrierDispoIcon'
 
 export default function CalendrierEvent({ event, title }: EventProps<Reservation>) {

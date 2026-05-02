@@ -1,5 +1,5 @@
-import { supabase } from './supabase'
-import type { BlogPost } from '../types/blogPost'
+import { supabase } from '@/lib/supabase'
+import type { BlogPost } from '@/types/blogPost'
 
 function mapRow(r: Record<string, unknown>): BlogPost {
   return {

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import { loadPrestations, addPrestation, updatePrestation, deletePrestation } from '../../../../lib/prestations'
-import type { Prestation } from '../../../../types/prestation'
-import PrestationFormModal from '../../../../components/prestation/PrestationFormModal'
-import ConfirmModal from '../../../../components/confirm/ConfirmModal'
-import { Button } from '../../../../components/button/Button'
+import { loadPrestations, addPrestation, updatePrestation, deletePrestation } from '@/lib/prestations'
+import type { Prestation } from '@/types/prestation'
+import PrestationFormModal from '@/components/prestation/PrestationFormModal'
+import ConfirmModal from '@/components/confirm/ConfirmModal'
+import { Button } from '@/components/button/Button'
 import './PrestationsTab.css'
 
 export default function PrestationsTab() {

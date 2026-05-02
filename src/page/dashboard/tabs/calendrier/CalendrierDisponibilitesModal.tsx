@@ -15,9 +15,9 @@ import {
   startOfWeek,
 } from 'date-fns'
 import { fr } from 'date-fns/locale'
-import { addDisponibilitesBatch } from '../../../../lib/reservations'
-import type { Reservation } from '../../../../types/reservation'
-import { Button } from '../../../../components/button/Button'
+import { addDisponibilitesBatch } from '@/lib/reservations'
+import type { Reservation } from '@/types/reservation'
+import { Button } from '@/components/button/Button'
 import './CalendrierDisponibilitesModal.css'
 
 type TimeSlot = { start: string; end: string }

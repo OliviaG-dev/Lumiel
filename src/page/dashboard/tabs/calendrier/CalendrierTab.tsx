@@ -3,32 +3,32 @@ import { Calendar, dateFnsLocalizer } from 'react-big-calendar'
 import { format, parse, startOfWeek, setHours, setMinutes, isSameDay, addMinutes, startOfDay } from 'date-fns'
 import { fr } from 'date-fns/locale'
 import type { Event, DateHeaderProps } from 'react-big-calendar'
-import type { Reservation } from '../../../../types/reservation'
+import type { Reservation } from '@/types/reservation'
 import {
   loadReservations,
   addDisponibilite,
   addRendezVous,
   updateRendezVous,
   deleteReservation,
-} from '../../../../lib/reservations'
+} from '@/lib/reservations'
 import CalendrierDisponibilitesModal from './CalendrierDisponibilitesModal'
-import { loadPrestations } from '../../../../lib/prestations'
+import { loadPrestations } from '@/lib/prestations'
 import {
   rdvEventStylesFromCouleur,
   DEFAULT_PRESTATION_COLOR,
   prestationModalItemStyles,
-} from '../../../../lib/prestationColors'
-import type { Prestation } from '../../../../types/prestation'
+} from '@/lib/prestationColors'
+import type { Prestation } from '@/types/prestation'
 import ReservationForm, {
   getDefaultFormData,
   getFormDataFromReservation,
   type ReservationFormData,
-} from '../../../../components/booking/ReservationForm'
-import ConfirmModal from '../../../../components/confirm/ConfirmModal'
+} from '@/components/booking/ReservationForm'
+import ConfirmModal from '@/components/confirm/ConfirmModal'
 import CalendrierToolbar from './CalendrierToolbar'
 import CalendrierEvent from './CalendrierEvent'
 import CalendrierDispoIcon from './CalendrierDispoIcon'
-import { Button } from '../../../../components/button/Button'
+import { Button } from '@/components/button/Button'
 
 /** Bandeau RDV vue mois : même hauteur que les inline-row. RBC met une height inline (slot plein) si on ne la remplace pas. */
 const MONTH_VIEW_RDV_ROW_STYLE: CSSProperties = {

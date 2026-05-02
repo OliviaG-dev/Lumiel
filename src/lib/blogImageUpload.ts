@@ -1,4 +1,4 @@
-import { supabase } from './supabase'
+import { supabase } from '@/lib/supabase'
 
 const BUCKET = 'blog-images'
 const MAX_BYTES = 5 * 1024 * 1024

@@ -7,15 +7,15 @@ import {
   loadSeanceNotes,
   addSeanceNote,
   deleteSeanceNote,
-} from '../../../../lib/clients'
-import { loadReservations } from '../../../../lib/reservations'
-import { reservationMatchesClient } from '../../../../lib/clientRendezVousMatch'
-import type { Client } from '../../../../types/client'
-import type { Reservation } from '../../../../types/reservation'
-import ClientFormModal from '../../../../components/client/ClientFormModal'
-import ConfirmModal from '../../../../components/confirm/ConfirmModal'
-import Pagination, { getTotalPages } from '../../../../components/pagination/Pagination'
-import { Button } from '../../../../components/button/Button'
+} from '@/lib/clients'
+import { loadReservations } from '@/lib/reservations'
+import { reservationMatchesClient } from '@/lib/clientRendezVousMatch'
+import type { Client } from '@/types/client'
+import type { Reservation } from '@/types/reservation'
+import ClientFormModal from '@/components/client/ClientFormModal'
+import ConfirmModal from '@/components/confirm/ConfirmModal'
+import Pagination, { getTotalPages } from '@/components/pagination/Pagination'
+import { Button } from '@/components/button/Button'
 import './ClientsTab.css'
 
 const CLIENTS_LIST_PAGE_SIZE = 12

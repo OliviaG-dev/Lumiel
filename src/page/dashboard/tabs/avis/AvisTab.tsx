@@ -4,11 +4,11 @@ import {
   validateAvis,
   invalidateAvis,
   deleteAvis,
-} from "../../../../lib/avis";
-import type { Avis } from "../../../../types/avis";
-import ConfirmModal from "../../../../components/confirm/ConfirmModal";
-import Pagination, { getTotalPages } from "../../../../components/pagination/Pagination";
-import { Button } from "../../../../components/button/Button";
+} from '@/lib/avis'
+import type { Avis } from '@/types/avis'
+import ConfirmModal from '@/components/confirm/ConfirmModal'
+import Pagination, { getTotalPages } from '@/components/pagination/Pagination'
+import { Button } from '@/components/button/Button'
 import "./AvisTab.css";
 
 const AVIS_PAGE_SIZE = 8;

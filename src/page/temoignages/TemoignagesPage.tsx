@@ -1,11 +1,11 @@
 import { useState, useEffect, useMemo } from 'react'
 import type { CSSProperties } from 'react'
-import Pagination, { getTotalPages } from '../../components/pagination/Pagination'
-import AvisModal from '../../components/avis/AvisModal'
-import { addAvis, loadAvisValidés } from '../../lib/avis'
-import { loadPrestations } from '../../lib/prestations'
-import type { Avis } from '../../types/avis'
-import type { Prestation } from '../../types/prestation'
+import Pagination, { getTotalPages } from '@/components/pagination/Pagination'
+import AvisModal from '@/components/avis/AvisModal'
+import { addAvis, loadAvisValidés } from '@/lib/avis'
+import { loadPrestations } from '@/lib/prestations'
+import type { Avis } from '@/types/avis'
+import type { Prestation } from '@/types/prestation'
 import './TemoignagesPage.css'
 
 const AVIS_PAGE_SIZE = 2

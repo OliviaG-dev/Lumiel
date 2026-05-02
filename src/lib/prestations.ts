@@ -1,6 +1,6 @@
-import { supabase } from './supabase'
-import type { Prestation } from '../types/prestation'
-import { normalizePrestationCouleur } from './prestationColors'
+import { supabase } from '@/lib/supabase'
+import type { Prestation } from '@/types/prestation'
+import { normalizePrestationCouleur } from '@/lib/prestationColors'
 
 /** Charge toutes les prestations */
 export async function loadPrestations(): Promise<Prestation[]> {

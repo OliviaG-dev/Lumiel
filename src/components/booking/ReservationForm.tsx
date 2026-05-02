@@ -1,6 +1,6 @@
-import type { Reservation } from "../../types/reservation";
+import type { Reservation } from '@/types/reservation'
 import { Link } from "react-router-dom";
-import { Button } from "../button/Button";
+import { Button } from '@/components/button/Button'
 
 const PRESTATIONS_FALLBACK = [
   "Massage bien-être",

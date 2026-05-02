@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import Pagination, { getTotalPages } from '../../components/pagination/Pagination'
-import { loadPublishedBlogPosts } from '../../lib/blogPosts'
-import type { BlogPost } from '../../types/blogPost'
+import Pagination, { getTotalPages } from '@/components/pagination/Pagination'
+import { loadPublishedBlogPosts } from '@/lib/blogPosts'
+import type { BlogPost } from '@/types/blogPost'
 import './BlogPage.css'
 
 const PAGE_SIZE = 4

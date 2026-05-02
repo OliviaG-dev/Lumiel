@@ -1,6 +1,6 @@
 import { useId, useMemo } from 'react'
-import type { Prestation } from '../../../../types/prestation'
-import { PRESTATION_COLOR_OPTIONS } from '../../../../lib/prestationColors'
+import type { Prestation } from '@/types/prestation'
+import { PRESTATION_COLOR_OPTIONS } from '@/lib/prestationColors'
 
 type CountRow = { nom: string; count: number }
 

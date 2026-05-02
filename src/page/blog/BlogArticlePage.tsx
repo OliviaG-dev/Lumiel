@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { loadPublishedBlogPostBySlug } from '../../lib/blogPosts'
-import type { BlogPost } from '../../types/blogPost'
+import { loadPublishedBlogPostBySlug } from '@/lib/blogPosts'
+import type { BlogPost } from '@/types/blogPost'
 import './BlogPage.css'
 
 function ArticleBody({ body }: { body: string }) {

@@ -1,8 +1,8 @@
-import { Outlet, useLocation } from "react-router-dom";
-import Menu from "../menu/Menu";
-import SiteFooter from "../siteFooter/SiteFooter";
-import CookieConsent from "../cookieConsent/CookieConsent";
-import "./Layout.css";
+import { Outlet, useLocation } from 'react-router-dom'
+import Menu from '@/components/menu/Menu'
+import SiteFooter from '@/components/siteFooter/SiteFooter'
+import CookieConsent from '@/components/cookieConsent/CookieConsent'
+import './Layout.css'
 
 export default function Layout() {
   const { pathname } = useLocation();

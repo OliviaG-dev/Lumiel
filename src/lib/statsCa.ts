@@ -1,5 +1,5 @@
-import type { Prestation } from '../types/prestation'
-import type { Reservation } from '../types/reservation'
+import type { Prestation } from '@/types/prestation'
+import type { Reservation } from '@/types/reservation'
 
 function normPrestationLabel(s: string): string {
   return s.trim().toLowerCase().replace(/\s+/g, ' ')

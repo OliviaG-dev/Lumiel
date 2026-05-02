@@ -5,11 +5,11 @@ import {
   addBlogPost,
   updateBlogPost,
   deleteBlogPost,
-} from '../../../../lib/blogPosts'
-import type { BlogPost } from '../../../../types/blogPost'
-import ConfirmModal from '../../../../components/confirm/ConfirmModal'
-import Pagination, { getTotalPages } from '../../../../components/pagination/Pagination'
-import { Button } from '../../../../components/button/Button'
+} from '@/lib/blogPosts'
+import type { BlogPost } from '@/types/blogPost'
+import ConfirmModal from '@/components/confirm/ConfirmModal'
+import Pagination, { getTotalPages } from '@/components/pagination/Pagination'
+import { Button } from '@/components/button/Button'
 import BlogPostFormModal from './BlogPostFormModal'
 import './BlogTab.css'
 

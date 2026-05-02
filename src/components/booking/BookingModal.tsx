@@ -1,10 +1,10 @@
 import { useState, useCallback, useEffect } from 'react'
 import { format, addMinutes } from 'date-fns'
 import { fr } from 'date-fns/locale'
-import { loadReservations, addRendezVous, getAvailableSlots, getDatesWithAvailability } from '../../lib/reservations'
-import { loadPrestations } from '../../lib/prestations'
-import type { Prestation } from '../../types/prestation'
-import type { Reservation } from '../../types/reservation'
+import { loadReservations, addRendezVous, getAvailableSlots, getDatesWithAvailability } from '@/lib/reservations'
+import { loadPrestations } from '@/lib/prestations'
+import type { Prestation } from '@/types/prestation'
+import type { Reservation } from '@/types/reservation'
 import ReservationForm, {
   defaultFormData,
   type ReservationFormData,

@@ -1,7 +1,7 @@
 import { addDays, addMinutes, startOfDay } from "date-fns";
-import { upsertClientFromRendezVous } from "./clients";
-import { supabase } from "./supabase";
-import type { Reservation } from "../types/reservation";
+import { upsertClientFromRendezVous } from '@/lib/clients'
+import { supabase } from '@/lib/supabase'
+import type { Reservation } from '@/types/reservation'
 
 /**
  * Supprime les disponibilités dont le début est strictement avant aujourd’hui (minuit, heure locale).

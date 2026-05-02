@@ -1,6 +1,6 @@
-import { supabase } from './supabase'
-import type { Client, ClientSeanceNote } from '../types/client'
-import { MIN_PHONE_LEN, normalizeEmail, normalizePhone } from './clientRendezVousMatch'
+import { supabase } from '@/lib/supabase'
+import type { Client, ClientSeanceNote } from '@/types/client'
+import { MIN_PHONE_LEN, normalizeEmail, normalizePhone } from '@/lib/clientRendezVousMatch'
 
 const NOTES_AUTO_FICHE =
   'Fiche créée automatiquement suite à une réservation (site ou calendrier).'

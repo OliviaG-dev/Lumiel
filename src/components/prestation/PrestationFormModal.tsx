@@ -1,13 +1,13 @@
 import { useState, useEffect, type CSSProperties } from 'react'
 import { createPortal } from 'react-dom'
-import type { Prestation } from '../../types/prestation'
+import type { Prestation } from '@/types/prestation'
 import {
   PRESTATION_COLOR_OPTIONS,
   DEFAULT_PRESTATION_COLOR,
   normalizePrestationCouleur,
   type PrestationHex,
-} from '../../lib/prestationColors'
-import { Button } from '../button/Button'
+} from '@/lib/prestationColors'
+import { Button } from '@/components/button/Button'
 import './PrestationFormModal.css'
 
 interface PrestationFormModalProps {

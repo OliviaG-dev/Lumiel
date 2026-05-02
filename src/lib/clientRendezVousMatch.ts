@@ -1,5 +1,5 @@
-import type { Client } from '../types/client'
-import type { Reservation } from '../types/reservation'
+import type { Client } from '@/types/client'
+import type { Reservation } from '@/types/reservation'
 
 export function normalizeEmail(value: string): string {
   return value.trim().toLowerCase()

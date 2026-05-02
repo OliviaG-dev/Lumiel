@@ -1,5 +1,5 @@
-import { supabase } from "./supabase";
-import type { Avis } from "../types/avis";
+import { supabase } from '@/lib/supabase'
+import type { Avis } from '@/types/avis'
 
 /** Charge tous les avis (pour le dashboard admin) */
 export async function loadAvis(): Promise<Avis[]> {

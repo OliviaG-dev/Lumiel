@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
-import { Button } from '../../components/button/Button'
+import { Button } from '@/components/button/Button'
 import './ContactFaqPage.css'
 
 /** Boîte qui reçoit les messages (relai via formSubmit.co — activation par e-mail au premier envoi). */

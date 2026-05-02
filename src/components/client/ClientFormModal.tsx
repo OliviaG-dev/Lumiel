@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import type { Client } from '../../types/client'
-import { Button } from '../button/Button'
+import type { Client } from '@/types/client'
+import { Button } from '@/components/button/Button'
 import './ClientFormModal.css'
 
 export interface ClientFormFields {

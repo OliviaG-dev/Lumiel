@@ -1,7 +1,7 @@
 import { useState, useEffect, type CSSProperties } from 'react'
-import BookingModal from '../../components/booking/BookingModal'
-import { loadPrestations } from '../../lib/prestations'
-import type { Prestation } from '../../types/prestation'
+import BookingModal from '@/components/booking/BookingModal'
+import { loadPrestations } from '@/lib/prestations'
+import type { Prestation } from '@/types/prestation'
 import './PrestationsPage.css'
 
 export default function PrestationsPage() {

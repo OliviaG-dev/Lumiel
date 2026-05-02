@@ -1,5 +1,5 @@
 import { createPortal } from 'react-dom'
-import { Button } from '../button/Button'
+import { Button } from '@/components/button/Button'
 import './ConfirmModal.css'
 
 interface ConfirmModalProps {

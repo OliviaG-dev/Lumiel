@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase, isAdmin } from "../../lib/supabase";
+import { supabase, isAdmin } from '@/lib/supabase'
 import type { User } from "@supabase/supabase-js";
 import {
   type TabId,
@@ -12,7 +12,7 @@ import {
   ClientsTab,
 } from "./tabs";
 import "./DashboardPage.css";
-import { Button, ButtonLink } from "../../components/button/Button";
+import { Button, ButtonLink } from '@/components/button/Button'
 
 export default function DashboardPage() {
   const [user, setUser] = useState<User | null>(null);

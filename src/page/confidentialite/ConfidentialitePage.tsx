@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { LEGAL_CONTROLLER } from '../../config/legal'
+import { LEGAL_CONTROLLER } from '@/config/legal'
 import './ConfidentialitePage.css'
 
 export default function ConfidentialitePage() {

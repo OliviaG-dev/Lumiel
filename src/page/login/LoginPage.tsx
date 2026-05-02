@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { supabase, isAdmin } from '../../lib/supabase'
+import { supabase, isAdmin } from '@/lib/supabase'
 import './LoginPage.css'
 
 export default function LoginPage() {

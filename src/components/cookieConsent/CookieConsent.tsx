@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
-import { hasCookieInfoAck, setCookieInfoAck } from "../../lib/rgpdStorage"
+import { hasCookieInfoAck, setCookieInfoAck } from '@/lib/rgpdStorage'
 import "./CookieConsent.css"
 
 export default function CookieConsent() {

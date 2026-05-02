@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef, type FormEvent, type DragEvent } from 'react'
 import { createPortal } from 'react-dom'
-import type { BlogPost } from '../../../../types/blogPost'
-import { slugifyTitle } from '../../../../lib/blogPosts'
-import { uploadBlogCoverImage } from '../../../../lib/blogImageUpload'
-import { Button } from '../../../../components/button/Button'
+import type { BlogPost } from '@/types/blogPost'
+import { slugifyTitle } from '@/lib/blogPosts'
+import { uploadBlogCoverImage } from '@/lib/blogImageUpload'
+import { Button } from '@/components/button/Button'
 import './BlogPostFormModal.css'
 
 const IMAGE_ACCEPT = 'image/jpeg,image/png,image/gif,image/webp'
